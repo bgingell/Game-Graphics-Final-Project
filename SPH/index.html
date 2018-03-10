@@ -23,15 +23,14 @@
         uniform mat4 viewMatrix;
         uniform mat4 projectionMatrix;
         attribute vec3 position;
-        attribute vec2 uv;
-        attribute vec3 normal;
+
+        
         void main() {
             gl_Position = projectionMatrix  * viewMatrix * modelMatrix  * vec4( position, 1.0 );
         }
         </script>
         <script id="sph-fs" type="x-shader/x-fragment">
         precision mediump float;
-
         void main(){
             gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
         }
