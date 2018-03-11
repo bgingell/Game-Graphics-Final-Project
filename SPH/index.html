@@ -22,10 +22,30 @@
         uniform mat4 modelMatrix;
         uniform mat4 viewMatrix;
         uniform mat4 projectionMatrix;
-        attribute vec3 position;
 
-        
+        attribute vec3 position;
+        attribute vec3 velocity;
+
+        uniform sampler2D u_pos_tex;
+        uniform sampler2D u_vel_tex;
+        uniform sampler2D u_density_tex;
+        uniform sampler2D u_neighbor_tex;
+
+        uniform int u_step;
+        uniform float u_restDensity;
+        uniform float u_grid_vol;
+        uniform float u_grid_tex_size;
+
+        vec2 index2D(float indexPosition, bool obj){
+            vec2 index;
+            index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
+            index.y = (floor(indexPosition/u_grid_tex_size)+0.5)/u_grid_tex_size;
+            if(obj) index = 2.0 * index.xy - 1.0;
+            return index;
+        }
+
         void main() {
+            gl_PointSize = 2.0;
             gl_Position = projectionMatrix  * viewMatrix * modelMatrix  * vec4( position, 1.0 );
         }
         </script>
