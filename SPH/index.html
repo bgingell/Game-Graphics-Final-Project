@@ -19,12 +19,16 @@
 			}
 		</style>
         <script id="sph-vs" type="x-shader/x-vertex">
+        precision mediump float;
+        precision mediump int;
+
         uniform mat4 modelMatrix;
         uniform mat4 viewMatrix;
         uniform mat4 projectionMatrix;
 
         attribute vec3 position;
         attribute vec3 velocity;
+        attribute float the_index;
 
         uniform sampler2D u_pos_tex;
         uniform sampler2D u_vel_tex;
@@ -36,6 +40,9 @@
         uniform float u_grid_vol;
         uniform float u_grid_tex_size;
 
+        varying vec4 v_color;
+        varying float v_index;
+
         vec2 index2D(float indexPosition, bool obj){
             vec2 index;
             index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
@@ -46,13 +53,190 @@
 
         void main() {
             gl_PointSize = 2.0;
-            gl_Position = projectionMatrix  * viewMatrix * modelMatrix  * vec4( position, 1.0 );
+            if(u_step == 1){
+                vec3 pos = texture2D(u_pos_tex, index2D(the_index, false)).rgb;
+                vec3 pos_in_grid = floor(pos * u_grid_vol);
+                float grid_index = pos_in_grid.x + u_grid_vol * pos_in_grid.y + u_grid_vol * pos_in_grid.z;
+                gl_Position = vec4(index2D(grid_index, true), the_index/(u_grid_tex_size * u_grid_tex_size), 1.0);
+                v_color = vec4(the_index);
+            } else if (u_step == 2 || u_step == 3 || u_step == 4){
+                v_index = the_index;
+                gl_Position = vec4(index2D(the_index, true), 0.0, 1.0);
+            } else {
+               vec3 center = vec3(0.5);
+                vec3 box = vec3(0.48);
+
+                vec3 pos = texture2D(u_pos_tex, index2D(the_index, false)).rgb;
+                vec3 x_loc = pos - center;
+                vec3 ctp_loc = min(box, max(-box, x_loc));
+                vec3 contractpt = ctp_loc + center;
+                float dist = length(contractpt - pos);
+                float density = texture2D(u_density_tex, index2D(the_index, false)).r;
+
+                if(dist > 0.0) pos = contractpt;
+                if(density == 0.0) pos = vec3(0.0);
+                v_color = vec4(1.0, 0.0, 0.0, 1.0);
+                v_index = the_index;
+                gl_Position = modelMatrix * viewMatrix * projectionMatrix * (vec4(pos, 1.0));
+            }
         }
+
         </script>
         <script id="sph-fs" type="x-shader/x-fragment">
         precision mediump float;
+        precision mediump int;
+
+        uniform sampler2D u_pos_tex;
+        uniform sampler2D u_vel_tex;
+        uniform sampler2D u_density_tex;
+        uniform sampler2D u_neighbor_tex;
+
+        uniform int u_step;
+        uniform float u_restDensity;
+        uniform float u_grid_vol;
+        uniform float u_grid_tex_size;
+        uniform vec3 u_neighbors[27];
+        uniform float u_mass;
+        uniform float u_maxSearchRatio;
+        uniform float u_weightDefaultConstant;
+        uniform float u_kConstant;
+        uniform float u_weightPressureConstant;
+        uniform float u_weightViscosityConstant;
+        uniform float u_restitution;
+        uniform float u_viscosity;
+        uniform float u_dt;
+
+        varying vec4 v_color;
+        varying float v_index;
+
+        vec2 index2D(float indexPosition){
+            vec2 index;
+            index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
+            index.y = (floor(indexPosition/u_grid_tex_size)+0.5)/u_grid_tex_size;
+            return index;
+        }
+        vec3 wPressure(vec3 distance){
+            vec3 answ = vec3(0.0);
+            float ratio = length(distance);
+            if(ratio < u_maxSearchRatio && ratio > 0.0){
+                float diff = u_maxSearchRatio - ratio;
+                answ = u_weightPressureConstant * normalize(distance) * diff * diff;
+            }
+            return answ;
+        }
+
+        float wViscosity(vec3 dist){
+            float answ = 0.0;
+            float ratio = length(dist);
+            if(ratio < u_maxSearchRatio){
+                answ = u_weightViscosityConstant * (u_maxSearchRatio - ratio);
+            }
+            return answ;
+        }
+
+        vec3 sumPressure(float n_index, vec3 pos, vec3 vel, float pressure){
+            vec2 n_i = index2D(n_index);
+            vec3 n_pos = texture2D(u_pos_tex, n_i).rgb;
+            vec3 n_vel = texture2D(u_vel_tex, n_i).rgb;
+            float n_density = texture2D(u_density_tex, n_i).r;
+
+            if(n_density > 0.0){
+                return vec3((u_kConstant * (n_density - u_restDensity) + pressure) * u_mass * wPressure(n_pos-pos) / u_restDensity);
+            }
+        }
+
+        vec3 sumVisc(float n_index, vec3 pos, vec3 vel, float pressure){
+            vec2 n_i = index2D(n_index);
+            vec3 n_pos = texture2D(u_pos_tex, n_i).rgb;
+            vec3 n_vel = texture2D(u_vel_tex, n_i).rgb;
+            float n_density = texture2D(u_density_tex, n_i).r;
+
+            if(n_density > 0.0){
+                return vec3((n_vel - vel) * u_mass * wViscosity(pos - n_pos) / u_restDensity);
+            }
+        }
+
+        float wDefault(vec3 distance){
+            float answ = 0.0;
+            float ratio = length(distance);
+            if(ratio < u_maxSearchRatio){
+                float r2 = ratio * ratio;
+                float max = u_maxSearchRatio * u_maxSearchRatio;
+                float diff = max - r2;
+                answ = u_weightDefaultConstant * diff *  diff * diff;
+            }
+            return answ;
+        }
         void main(){
-            gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+            if(u_step == 1){
+                gl_FragColor = v_color;
+            } else if (u_step == 2){
+                vec3 pos = texture2D(u_pos_tex, index2D(v_index)).rgb;
+                vec3 vel = texture2D(u_vel_tex, index2D(v_index)).rgb;
+                vec3 gridpos = floor(pos * u_grid_vol);
+                float density = 0.0;
+
+                for(int i = 0; i < 27; i++){
+                    vec3 n_gridpos = gridpos + u_neighbors[i];
+                    float n_index = n_gridpos.x + u_grid_vol * n_gridpos.y + (u_grid_vol * u_grid_vol) * n_gridpos.z;
+                    if(n_index >= 0.0 && n_index < (u_grid_tex_size * u_grid_tex_size)){
+                        vec4 v_indices = texture2D(u_neighbor_tex, index2D(n_index));
+                        density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.r)).rgb);
+                        density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.g)).rgb);
+                        density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.b)).rgb);
+                        density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.a)).rgb);
+                    }
+                }
+                gl_FragColor = vec4(density, 0.0, 0.0, 1.0);
+            } else if (u_step == 3){
+                vec2 tex_ind = index2D(v_index);
+                vec3 pos = texture2D(u_pos_tex, tex_ind).rgb;
+                vec3 vel = texture2D(u_vel_tex, tex_ind).rgb;
+                float density = texture2D(u_density_tex, tex_ind).r;
+                vec3 gridpos = floor(pos * u_grid_vol);
+                float pressure = u_kConstant * (density - u_restDensity);
+                vec3 pressureForce = vec3(0.0);
+                vec3 viscosityForce = vec3(0.0);
+                vec3 internalForces = vec3(0.0);
+
+                if(density > 0.0){
+                    for(int i = 0; i < 27; i++){
+                        vec3 n_gridpos = gridpos + u_neighbors[i];
+                        float n_index = n_gridpos.x + u_grid_vol * n_gridpos.y + u_grid_vol* u_grid_vol * n_gridpos.z;
+                        vec4 vert_ind = texture2D(u_neighbor_tex, index2D(n_index));
+                        pressureForce += sumPressure(vert_ind.r, pos, vel, pressure);
+                        viscosityForce += sumVisc(vert_ind.r, pos, vel, pressure);
+                        pressureForce += sumPressure(vert_ind.b, pos, vel, pressure);
+                        viscosityForce += sumVisc(vert_ind.b, pos, vel, pressure);
+                        pressureForce += sumPressure(vert_ind.g, pos, vel, pressure);
+                        viscosityForce += sumVisc(vert_ind.g, pos, vel, pressure);
+                    }
+                    internalForces = (0.5 * pressureForce + u_viscosity * viscosityForce);
+                    internalForces /= density;
+                }
+                vec3 x_loc = pos - vec3(0.5);
+                vec3 contractpt = min(vec3(0.48), max(vec3(-0.48), x_loc));
+                float dist = length((contractpt+0.5) - pos);
+
+                if(dist > 0.0 && length(vel) > 0.0){
+                    vec3 norm = normalize(sign(contractpt - x_loc));
+                    float rest = u_restitution * dist / (u_dt * length(vel));
+                    vel -= (1.0 + u_restitution) * dot(vel, norm) * norm;
+                }
+                vec3 acc = vec3(0.0, -9.8, 0.0) + internalForces;
+                vel += u_dt * acc;
+                gl_FragColor = vec4(vel, 1.0);
+            } else if (u_step == 4){
+                vec2 tex_ind = index2D(v_index);
+                vec3 pos = texture2D(u_pos_tex, tex_ind).rgb;
+                vec3 vel = texture2D(u_vel_tex, tex_ind).rgb;
+                pos += u_dt * vel;
+                gl_FragColor = vec4(pos, 1.0);
+            } else {
+                gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+            }
+
+
         }
         </script>
         <script src="../utils/three.js"></script>
