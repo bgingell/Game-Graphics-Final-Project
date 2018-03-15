@@ -47,14 +47,16 @@
         }
         </script>
         <script id="neigh-fs" type="x-shader/x-fragment">
-        varying vec4 v_color;
         precision mediump float;
+        varying vec4 v_color;
         void main(){
             gl_FragColor = v_color;
         }
         </script>
         <script id="density-vel-pos-vs" type="x-shader/x-vertex">
-        uniform u_grid_tex_size;
+        precision mediump float;
+
+        uniform float u_grid_tex_size;
         attribute float the_index;
         varying float v_index;
         vec2 index2D(float indexPosition, bool obj){
@@ -69,7 +71,10 @@
             gl_Position = vec4(index2D(the_index, true), 0.0, 1.0);
         }
         </script>
+
         <script id="density-fs" type="x-shader/x-fragment">
+        precision mediump float;
+
         uniform sampler2D u_pos_tex;
         uniform sampler2D u_vel_tex;
         uniform sampler2D u_neighbor_tex;
@@ -121,7 +126,10 @@
             gl_FragColor = vec4(density, 0.0, 0.0, 1.0);
         }
         </script>
+
         <script id="vel-fs" type="x-shader/x-fragment">
+        precision mediump float;
+
         uniform sampler2D u_pos_tex;
         uniform sampler2D u_vel_tex;
         uniform sampler2D u_density_tex;
@@ -286,7 +294,6 @@
             v_index = the_index;
             gl_Position = modelMatrix * viewMatrix * projectionMatrix * (vec4(pos, 1.0));
         }
-
         </script>
         <script id="sph-fs" type="x-shader/x-fragment">
         precision mediump float;
@@ -295,9 +302,6 @@
         varying vec4 v_color;
         void main(){
             gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-        }
-
-
         }
         </script>
         <script src="../utils/three.js"></script>

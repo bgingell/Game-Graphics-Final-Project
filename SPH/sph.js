@@ -5,6 +5,7 @@ let pos_tex, vel_tex, density_tex, neighbor_tex;
 let tex_size = 1024;
 let grid_vol = 40;
 let uni = [];
+
 function main(){
     var neigh_vs = document.getElementById( 'neigh-vs' ).textContent;
     var neigh_fs = document.getElementById( 'neigh-fs' ).textContent;
@@ -22,6 +23,8 @@ function main(){
     scene.add(sph_points);
 
     renderer = new THREE.WebGLRenderer();
+    let gl = renderer.getContext();
+    gl
     renderer.setClearColor(0xFFFFFF);
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
@@ -56,38 +59,40 @@ function main(){
        neighbor_tex.needsUpdate = true;
        sph_points.material.uniforms = uni[1];
        sph_points.material.vertexShader =  document.getElementById( 'density-vel-pos-vs' ).textContent;
-       sph_points.material.vertexShader =  document.getElementById( 'density-fs' ).textContent;
+       sph_points.material.fragmentShader =  document.getElementById( 'density-fs' ).textContent;
        // density
        renderer.render(scene, camera, density_buff);
         density_tex = density_buff.texture;
         density_tex.needsUpdate = true;
         sph_points.material.uniforms = uni[2];
         sph_points.material.vertexShader =  document.getElementById( 'density-vel-pos-vs' ).textContent;
-        sph_points.material.vertexShader =  document.getElementById( 'vel-fs' ).textContent;
+        sph_points.material.fragmentShader =  document.getElementById( 'vel-fs' ).textContent;
         //velocity
         renderer.render(scene, camera, vel_buff);
         vel_tex = vel_buff.texture;
         vel_tex.needsUpdate = true;
+
         sph_points.material.uniforms = uni[3];
         sph_points.material.vertexShader =  document.getElementById( 'density-vel-pos-vs' ).textContent;
-        sph_points.material.vertexShader =  document.getElementById( 'pos-fs' ).textContent;
-
+        sph_points.material.fragmentShader =  document.getElementById( 'pos-fs' ).textContent;
         // position
         renderer.render(scene, camera, pos_buff);
         pos_tex = pos_buff.texture;
-        pos_tex.needsUpdate = true;
+        pos_tex.needsUpdate = true; /*
         sph_points.material.uniforms = uni[4];
         sph_points.material.vertexShader =  document.getElementById( 'sph-vs' ).textContent;
-        sph_points.material.vertexShader =  document.getElementById( 'sph-fs' ).textContent;
+        sph_points.material.fragmentShader =  document.getElementById( 'sph-fs' ).textContent;
         // actual scene
         renderer.render(scene, camera);
         sph_points.material.uniforms = uni[0];
         sph_points.material.vertexShader =  neigh_vs;
-        sph_points.material.vertexShader = neigh_fs;
+        sph_points.material.fragmentShader = neigh_fs; */
     }
     animate();
 }
+
 function initUniforms(totalParticles, neighbors){
+    console.log(neighbors);
     let maxSearchRatio = 2.5;
     let volume = 1.0;
     let k_constant = 5.0; // nRT ideal gas
@@ -111,7 +116,7 @@ function initUniforms(totalParticles, neighbors){
         u_mass: {type: "f", value: particleMass},
         u_maxSearchRatio: {type: "f", value: maxSearchRatio},
         u_weightDefaultConstant: {type: "f", value: weightDefaultConstant},
-        u_neighbors: {type: "v3", value: neighbors}
+        u_neighbors: {type: "v3v", value: neighbors}
     };
     uni[2] = {
         u_pos_tex: {type: "t", value: pos_tex},
@@ -129,7 +134,7 @@ function initUniforms(totalParticles, neighbors){
         u_viscosity: {type: "f", value: 10.0},
         u_dt: {type: "f", value: 0.0},
         u_restitution: {type: "f", value: 0.1},
-        u_neighbors: {type: "v3", value: neighbors}
+        u_neighbors: {type: "v3v", value: neighbors}
     };
     uni[3] = {
         u_pos_tex: {type: "t", value: pos_tex},
@@ -171,7 +176,7 @@ function initPoints(neigh_vs, neigh_fs){
 	for (i = -1; i < 2; i++) {
 		for (j = -1; j < 2; j++) {
 			for (k = -1; k < 2; k++) {
-				neighbors.push(i, j, k);
+				neighbors.push(new THREE.Vector3(i, j, k));
 			}
 		}
 	}
