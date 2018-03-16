@@ -23,8 +23,6 @@ function main(){
     scene.add(sph_points);
 
     renderer = new THREE.WebGLRenderer();
-    let gl = renderer.getContext();
-    gl
     renderer.setClearColor(0xFFFFFF);
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
@@ -32,7 +30,6 @@ function main(){
     if ( ! renderer.extensions.get( "OES_texture_float" ) ) {
         return "No OES_texture_float support for float textures.";
     }
-    let uni_array = initUniforms();
 
     let tex_size = 1024;
     let density_buff = new THREE.WebGLRenderTarget(tex_size, tex_size,{
@@ -78,7 +75,7 @@ function main(){
         // position
         renderer.render(scene, camera, pos_buff);
         pos_tex = pos_buff.texture;
-        pos_tex.needsUpdate = true; /*
+        pos_tex.needsUpdate = true;
         sph_points.material.uniforms = uni[4];
         sph_points.material.vertexShader =  document.getElementById( 'sph-vs' ).textContent;
         sph_points.material.fragmentShader =  document.getElementById( 'sph-fs' ).textContent;
@@ -86,13 +83,12 @@ function main(){
         renderer.render(scene, camera);
         sph_points.material.uniforms = uni[0];
         sph_points.material.vertexShader =  neigh_vs;
-        sph_points.material.fragmentShader = neigh_fs; */
+        sph_points.material.fragmentShader = neigh_fs;
     }
     animate();
 }
 
 function initUniforms(totalParticles, neighbors){
-    console.log(neighbors);
     let maxSearchRatio = 2.5;
     let volume = 1.0;
     let k_constant = 5.0; // nRT ideal gas
@@ -149,10 +145,10 @@ function initUniforms(totalParticles, neighbors){
     };
 }
 
+
+
 function initPoints(neigh_vs, neigh_fs){
-
     let totalParticles = 0;
-
 
     let velocity = [];
     let position = [];
@@ -161,17 +157,22 @@ function initPoints(neigh_vs, neigh_fs){
     let counter = 0;
     let center = 0.5;
 
-    for(let i = 1; i < grid_vol - 1; i++){
-        for(let j = 1; j < grid_vol - 1; j++){
-            for(let k = 1; k < grid_vol - 1; k++){
+    for(let i = 0; i < grid_vol; i++){
+        for(let j = 0; j < grid_vol; j++){
+            for(let k = 0; k < grid_vol; k++){
                 //position.push((k+center)/grid_vol,(j+center)/grid_vol, (i+center)/grid_vol );
-                position.push((k+center),(j+center), (i+center) );
-                velocity.push(0, 0, 0);
+                position.push((k+center),(j+center), (i+center),0 );
+                velocity.push(0, 0, 0, 0);
                 totalParticles++;
                 index.push(totalParticles);
             }
         }
     }
+
+/*    for( let i = position.length; i < tex_size * tex_size * 4; i++){
+        position.push(0);
+        velocity.push(0);
+    } */
     let neighbors = [];
 	for (i = -1; i < 2; i++) {
 		for (j = -1; j < 2; j++) {
@@ -180,25 +181,27 @@ function initPoints(neigh_vs, neigh_fs){
 			}
 		}
 	}
-    pos_tex = new THREE.DataTexture(position, tex_size, tex_size, THREE.RGBAFormat, THREE.FloatType);
-    pos_tex.needsUpdate = true;
-    vel_tex = new THREE.DataTexture(velocity, tex_size, tex_size, THREE.RGBAFormat, THREE.FloatType);
-    vel_tex.needsUpdate = true;
     a = tex_size * tex_size * 4;
+    let points = new Float32Array(position);
+    let vellies = new Float32Array(velocity);
+    pos_tex = new THREE.DataTexture(points, tex_size, tex_size, THREE.RGBAFormat, THREE.FloatType);
+    pos_tex.needsUpdate = true;
+    vel_tex = new THREE.DataTexture(vellies, tex_size, tex_size, THREE.RGBAFormat, THREE.FloatType);
+    vel_tex.needsUpdate = true;
     density_tex = new THREE.DataTexture(new Float32Array(a), tex_size, tex_size, THREE.RGBAFormat, THREE.FloatType);
     density_tex.needsUpdate = true;
     neighbor_tex = new THREE.DataTexture(new Float32Array(a), tex_size, tex_size, THREE.RGBAFormat, THREE.FloatType);
     neighbor_tex.needsUpdate = true;
+
     initUniforms(totalParticles, neighbors);
     let sph_material = new THREE.RawShaderMaterial({
         uniforms: uni[0],
         vertexShader: neigh_vs,
         fragmentShader: neigh_fs,
     });
-    let points = new Float32Array(position);
     let geo = new THREE.BufferGeometry();
-    geo.addAttribute('position', new THREE.BufferAttribute(points, 3));
-    geo.addAttribute('velocity', new THREE.BufferAttribute(new Float32Array(velocity), 3));
+    geo.addAttribute('position', new THREE.BufferAttribute(points, 4));
+    geo.addAttribute('velocity', new THREE.BufferAttribute(new Float32Array(velocity), 4));
     geo.addAttribute('the_index', new THREE.BufferAttribute(new Float32Array(index), 1));
     let sph_points = new THREE.Points(geo, sph_material);
     return sph_points;
