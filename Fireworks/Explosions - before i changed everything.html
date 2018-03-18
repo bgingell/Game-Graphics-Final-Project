@@ -1,0 +1,86 @@
+<html>
+<head>
+  <title>My first Three.js app</title>
+  <style>canvas { width: 100%; height: 100% }</style>
+</head>
+<body>
+	<script src="./js/three.js"></script>
+	<script src="./js/dat.gui.min.js"></script>
+	<script src="./js/TrackballControls.js"></script>
+	<script src="./js/GPUParticleSystem.js"></script>
+  <script>
+  var _w = window,
+        _s = window.screen,
+        _b = document.body,
+        _d = document.documentElement;
+    
+    window.Utils = {
+    
+        // screen info 
+        screen: function() 
+        {
+            var width  = Math.max( 0, _w.innerWidth || _d.clientWidth || _b.clientWidth || 0 );
+            var height = Math.max( 0, _w.innerHeight || _d.clientHeight || _b.clientHeight || 0 );
+            
+            return {
+                width   : width, 
+                height  : height, 
+                centerx : width / 2, 
+                centery : height / 2, 
+                ratio   : width / height, 
+            };
+        }, 
+        // mouse info 
+        mouse: function( e ) 
+        {
+            var x = Math.max( 0, e.pageX || e.clientX || 0 ); 
+            var y = Math.max( 0, e.pageY || e.clientY || 0 );
+            var s = this.screen(); 
+            
+            return {
+                x : x, 
+                y : y, 
+                centerx : ( x - s.centerx ), 
+                centery : ( y - s.centery ), 
+            }; 
+        }, 
+    }; 
+	
+	
+    var scene = new THREE.Scene();
+	
+    var camera = new THREE.PerspectiveCamera( 28, window.innerWidth / window.innerHeight, 1, 10000 );
+	camera.position.z = 100;
+	
+    var renderer = new THREE.WebGLRenderer();
+    
+	renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+	
+	var sparks = {
+		radius: 5,
+		color: 0xff0000,
+		position: new THREE.Vector3(),
+		lifetime: 3
+	}
+    
+	var geometry = new THREE.BoxGeometry(1,1,1);
+    
+	var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    
+	var cube = new THREE.Mesh(geometry, material);
+    
+	scene.add(cube);
+    
+	camera.position.z = 5;
+    
+	var render = function () {
+      requestAnimationFrame(render);
+      cube.rotation.x += 0.03;
+      cube.rotation.y += 0.03;
+      renderer.render(scene, camera);
+    };
+    render();
+  </script>
+</body>
+</html>
