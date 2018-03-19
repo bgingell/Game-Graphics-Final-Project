@@ -76,7 +76,7 @@
 			void main() {
 
 				//gl_FragColor = vec4( color * vColor, 1.0 );
-				gl_FragColor =  texture2D( texture, gl_PointCoord );
+				gl_FragColor =   texture2D( texture, gl_PointCoord );
 
 			}
 
@@ -85,8 +85,7 @@
 	<script>
 		var camera, tick = 0, scene, renderer, clock = new THREE.Clock(),
 			controls, container,options, spawnerOptions, particleSystem, 
-			firework_obj, width, boxOfPoints, bool = true, prev_total = 0,
-			num_exploded = 0;
+			firework_obj, width, boxOfPoints, bool = true, prev_total = 0;
 			
 		var tex1 = new THREE.TextureLoader().load( "particle2.png" );
 		
@@ -94,7 +93,7 @@
 		var radius = 500;
 		
 		var vertex = new THREE.Vector3();
-		var color = new THREE.Color(0xff0000 );
+		var color = new THREE.Vector4(255,0,0,0 );
 		var to = new THREE.Vector3();
 			
 		var range = 25; //how far the particles move from the explosion 
@@ -128,14 +127,15 @@
 					
 					vertex.toArray( positions, (i*300)+(j*3) );
 					to.toArray(dests, (i*300)+(j*3));
+					
+					//color.setHSL( 0.5 + 0.1 * ( i / amount ), 0.7, 0.5 );
 					color.toArray( colors, (i*300)+(j*3) );
 						
 					//size of each individual spark after explosion
 					sizes[ i ] = 10;
 				}
-				
 			}
-			fireworks
+			
 				//console.log(positions);
 				//console.log(dests);
 			
@@ -189,7 +189,7 @@
 			
 			//constructor
 			function firework(num_fireworks, fireworks){
-				var total = fireworks.length;
+				prev_total = fireworks.length;
 				var inc = (width/num_fireworks);
 				var dest = 15
 				//THREE.Math.randFloat(10,20);
@@ -206,11 +206,12 @@
 						turbulence: .5,
 						lifetime: 1, 
 						size: 4,
-						sizeRandomness: 1,
+						num_fireworks: num_fireworks,
+						num_sparks: num_fireworks*amount,
 						dest: dest,
 						bool: true,
-						group: total,
-						group_end: total+num_fireworks,
+						group_start: prev_total,
+						group_end: prev_total+num_fireworks,
 						start: true
 					});
 					x += inc;
@@ -218,8 +219,6 @@
 				return fireworks; 
 			}
 			
-   
-
 			//creating 20 firework objects that are stored in fireworks array
 			var num_fireworks = 20;
 			
@@ -279,7 +278,7 @@
 				
 				if(fireworks[fireworks.length-1].position.y <= 15 ){
 					for(var i = 0; i < fireworks.length; i++){
-						fireworks[i].position.y = fireworks[i].position.y +0.1;
+						fireworks[i].position.y = fireworks[i].position.y +0.3;
 					}
 					
 					for ( var x = 0; x < spawnerOptions.spawnRate * delta; x++ ) {
@@ -288,13 +287,13 @@
 						}
 					}
 					
-				} else {
+				} else if(fireworks[fireworks.length-1].position.y > 15 && fireworks[fireworks.length-1].position.y < 300) { //15 is y explosion prob gonna make this a var later
 					
-					var group_start = fireworks[prev_total-1].group;
+					var group_start = fireworks[prev_total-1].group_start;
 					var group_end = fireworks[prev_total-1].group_end;
-					console.log(group_end);
+					//console.log(group_end);
 					for(var i = group_start; i < group_end; i++){
-						fireworks[i].position.y = fireworks[i].position.y +100;
+						fireworks[i].position.y = fireworks[i].position.y +300;
 					}
 
 				}
@@ -311,7 +310,7 @@
 						fireworks[prev_total-1].bool = false;
 					}
 					//for(var i = fireworks[prev_total-1].group; i < fireworks[prev_total-1].group_end; i++ ) 
-						explode(boxOfPoints);
+						explode(boxOfPoints, fireworks);
 				}
 					//console.log(fireworks[fireworks.length-1].position.y);
 					//console.log(fireworks[fireworks.length-1].dest);
@@ -320,7 +319,7 @@
 			render();
 		}
 		
-		function explode(boxOfPoints){
+		function explode(boxOfPoints, fireworks){
 				
 				scene.add( boxOfPoints );
 				var time = Date.now() * 0.005;
@@ -334,22 +333,27 @@
 				attributes.size.needsUpdate = true;
 				attributes.position.needsUpdate = true;	
 				//if(fireworks[prev_total-1].start = true){
-				for ( var i = 0; i <= attributes.size.array.length; i++ ) {
+				
+				num_sparks = fireworks[prev_total-1].num_sparks*3;
+				var start_position = (fireworks.length - prev_total) * amount * 3;
+				//console.log(fireworks[prev_total-1]);
+								
+				for ( var i = prev_total; i <= attributes.size.array.length; i++ ) {
 					//only want this to run once...but it's pretty either way
 					attributes.size.array[ i ] += 1.5 * Math.sin(i + time );
-					
 				}
 					//fireworks[prev_total-1] = false;}
 				
-				for (var i = 0; i <= position.length; i++){
+				for (var i = start_position; i <= start_position + num_sparks; i++){
 					position[i] += ((dest[i] - position[i])/100)-.05;
+					
 				}
+				//console.log(start_position);
+				//console.log(start_position + num_sparks);
 				
 				//this leaves tiny tiny tiny little dots still
 				for ( var i = 0; i <= attributes.size.array.length; i++ ) {
-
 					attributes.size.array[ i ] -= .15;
-
 				}
 		}
 		
