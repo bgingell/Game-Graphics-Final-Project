@@ -208,6 +208,8 @@
             var gui = new dat.GUI( { width: 500 } );
             var options;
 
+            var moon;
+
             init();
             animate();
 
@@ -228,7 +230,7 @@
                 // ------------ skybox ---------------
 
                 var cubeMap = new THREE.CubeTextureLoader()
-                .setPath("./Skybox/")
+                .setPath("./skybox/")
                 .load( [
                     'posx.jpg',
                     'negx.jpg',
@@ -279,13 +281,13 @@
                     }
                  } );
         
-                var s = 5;
+                var s = 3;
                 object.scale.set( s, s, s );
                 object.position.x += 1.0;
                 object.position.y -= 0.5;
 
-                model = object;
-                 scene.add( model );
+                moon = object;
+                 scene.add( moon );
                  } );
 
                 allMeshes = [];
@@ -450,7 +452,17 @@
 
             function render() {
 
-                var time = Date.now() / 4000;
+                var time = Date.now() / 2000;
+
+                moon.rotation.y += time * 0.00000000005;
+                // moon.rotation.x += time * 0.00000000005;
+                // moon.rotation.z += time * 0.00000000001;
+
+                moon.position.set(
+  				Math.cos(time) * orbitRadius,
+  				0,
+  				Math.sin(time) * orbitRadius
+				);
 
                 postprocessing.godrayCombineUniforms.fGodRayIntensity.value = options.GodRayIntensity;
 
@@ -549,7 +561,7 @@
 
                     // Samples taken by filter
 
-                    var TAPS_PER_PASS = 6.0;
+                    var TAPS_PER_PASS = 10.0;
 
                     // Pass order could equivalently be 3,2,1 (instead of 1,2,3), which
                     // would start with a small filter support and grow to large. however
