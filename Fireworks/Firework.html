@@ -84,9 +84,9 @@
 
 	<script>
 		var camera, tick = 0, scene, renderer, clock = new THREE.Clock(),
-			controls, container, gui = new dat.GUI( { width: 350 } ),
-			options, spawnerOptions, particleSystem,firework_obj, width, boxOfPoints,
-			bool = true;
+			controls, container,options, spawnerOptions, particleSystem, 
+			firework_obj, width, boxOfPoints, bool = true, prev_total = 0,
+			num_exploded = 0;
 			
 		var tex1 = new THREE.TextureLoader().load( "particle2.png" );
 		
@@ -133,8 +133,9 @@
 					//size of each individual spark after explosion
 					sizes[ i ] = 10;
 				}
-			}
 				
+			}
+			fireworks
 				//console.log(positions);
 				//console.log(dests);
 			
@@ -143,6 +144,7 @@
 			geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
 			geometry.addAttribute( 'dest', new THREE.BufferAttribute( dests ) );
 			geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+			//geometry.addAttribute('group', new THREE.BufferAttribute( )
 			
 			var material = new THREE.ShaderMaterial( {
 
@@ -164,7 +166,6 @@
 			
 			return boxOfPoints;
 		}
-		
 		
 		init();
 		animate();
@@ -188,14 +189,15 @@
 			
 			//constructor
 			function firework(num_fireworks, fireworks){
-				var total = num_fireworks;
-				var inc = (width/total);
-				var dest = THREE.Math.randFloat(19,21);
+				var total = fireworks.length;
+				var inc = (width/num_fireworks);
+				var dest = 15
+				//THREE.Math.randFloat(10,20);
 				var x  = -(width/2);
 				
 				for (var i = 0; i < num_fireworks; i++) {
 					fireworks.push({
-						position: new THREE.Vector3(x, -20, 0),
+						position: new THREE.Vector3(x, -20, 0), //need to set my y to just off screen
 						positionRandomness: .3,
 						velocity: new THREE.Vector3(),
 						velocityRandomness: .5,
@@ -205,24 +207,36 @@
 						lifetime: 1, 
 						size: 4,
 						sizeRandomness: 1,
-						dest: dest
+						dest: dest,
+						bool: true,
+						group: total,
+						group_end: total+num_fireworks,
+						start: true
 					});
 					x += inc;
 				}
 				return fireworks; 
 			}
 			
-			//creating 2 firework objects that are stored in fireworks array
+   
+
+			//creating 20 firework objects that are stored in fireworks array
 			var num_fireworks = 20;
 			
 			this.fireworks = firework(num_fireworks, fireworks);
+			document.addEventListener("click", function(){
+				this.fireworks = firework(num_fireworks, fireworks);
+				prev_total = fireworks.length;
+			});
+			prev_total = fireworks.length;
+			
 			//light
 			moonlight = new THREE.PointLight( 0xffffff, 1, 100 );
 			moonlight.position.set(0, 10, 5);
 			scene.add( moonlight );
 			
 			spawnerOptions = {
-				spawnRate: 3000,
+				spawnRate: 5000,
 				horizontalSpeed: 1.5,
 				verticalSpeed: 1.5,
 				timeScale: 1.2
@@ -231,35 +245,27 @@
 			renderer = new THREE.WebGLRenderer();
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( WIDTH, HEIGHT );
-
 			window.addEventListener( 'resize', onWindowResize, false );
-			
 			renderer = new THREE.WebGLRenderer();
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			container.appendChild( renderer.domElement );
-
 			controls = new THREE.TrackballControls( camera, renderer.domElement );
 			controls.rotateSpeed = 5.0;
 			controls.zoomSpeed = 2.2;
 			controls.panSpeed = 1;
 			controls.dynamicDampingFactor = 0.3;
-
 			window.addEventListener( 'resize', onWindowResize, false );
 
 		}
 
 		function onWindowResize() {
-
 			camera.aspect = window.innerWidth / window.innerHeight;
 			camera.updateProjectionMatrix();
-
 			renderer.setSize( window.innerWidth, window.innerHeight );
-
 		}
 
 		function animate() {
-			//var boxOfPoints;
 			requestAnimationFrame( animate );
 			controls.update();
 
@@ -267,32 +273,45 @@
 			//try to incoporate a sin function here for the actual trail
 			var delta = clock.getDelta() * spawnerOptions.timeScale;
 			tick += delta;
-
+			
 			if ( tick < 0 ) tick = 0;
 			if ( delta > 0 ) {
-				if(fireworks[fireworks.length-1].position.y <= 25){
-					spawnerOptions.spawnRate = 5000;
+				
+				if(fireworks[fireworks.length-1].position.y <= 15 ){
 					for(var i = 0; i < fireworks.length; i++){
-						fireworks[i].position.y = fireworks[i].position.y +0.3;
+						fireworks[i].position.y = fireworks[i].position.y +0.1;
 					}
+					
 					for ( var x = 0; x < spawnerOptions.spawnRate * delta; x++ ) {
 						for(var i = 0; i < fireworks.length; i++){
 							particleSystem.spawnParticle( this.fireworks[i] );
 						}
 					}
-				}
-				if(fireworks[fireworks.length-1].position.y >= fireworks[1].dest){
-					spawnerOptions.spawnRate = 0;
-					//move spark trail origin off screen
-					for(var i = 0; i < fireworks.length; i++){
-						fireworks[i].position.y = fireworks[i].position.y +1;
+					
+				} else {
+					
+					var group_start = fireworks[prev_total-1].group;
+					var group_end = fireworks[prev_total-1].group_end;
+					console.log(group_end);
+					for(var i = group_start; i < group_end; i++){
+						fireworks[i].position.y = fireworks[i].position.y +100;
 					}
-					if(bool == true){
+
+				}
+				
+				//this if statement checks the position of the lowest fireworks NOT RIGHT
+				if(fireworks[fireworks.length-1].position.y >= fireworks[1].dest){
+					//spawnerOptions.spawnRate = 0;
+					//move spark trail origin off screen
+					
+					
+					if(fireworks[prev_total-1].bool == true){
 						console.log('hit');
 						boxOfPoints = initExplode(fireworks);
-						bool = false;
+						fireworks[prev_total-1].bool = false;
 					}
-					explode(boxOfPoints);
+					//for(var i = fireworks[prev_total-1].group; i < fireworks[prev_total-1].group_end; i++ ) 
+						explode(boxOfPoints);
 				}
 					//console.log(fireworks[fireworks.length-1].position.y);
 					//console.log(fireworks[fireworks.length-1].dest);
@@ -314,14 +333,16 @@
 				//console.log(position.length);
 				attributes.size.needsUpdate = true;
 				attributes.position.needsUpdate = true;	
-				
+				//if(fireworks[prev_total-1].start = true){
 				for ( var i = 0; i <= attributes.size.array.length; i++ ) {
 					//only want this to run once...but it's pretty either way
-					attributes.size.array[ i ] += 1.5* Math.sin(i + time );
+					attributes.size.array[ i ] += 1.5 * Math.sin(i + time );
+					
 				}
+					//fireworks[prev_total-1] = false;}
 				
 				for (var i = 0; i <= position.length; i++){
-					position[i] += (dest[i] - position[i])/100;
+					position[i] += ((dest[i] - position[i])/100)-.05;
 				}
 				
 				//this leaves tiny tiny tiny little dots still
