@@ -7,25 +7,21 @@ let grid_vol = 40;
 let uni = [];
 
 function main(){
-    var neigh_vs = document.getElementById( 'neigh-vs' ).textContent;
-    var neigh_fs = document.getElementById( 'neigh-fs' ).textContent;
-
     let container = document.getElementById('container');
     let camera, scene, renderer;
 
     camera = new THREE.PerspectiveCamera(45.0,
                     window.innerWidth/window.innerHeight, .1, 1000);
     camera.position.z = 80;
+    camera.position.x = 40;
+    camera.position.y = 20;
     let controls = new THREE.OrbitControls( camera );
     controls.update();
 
     scene = new THREE.Scene();
 
-    let sph_points = initPoints(neigh_vs, neigh_fs);
+    let sph_points = initPoints();
     scene.add(sph_points);
-
-    let cirmesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({color: "red"}));
-    scene.add(cirmesh);
 
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0xFFFFFF);
@@ -36,7 +32,7 @@ function main(){
         return "No OES_texture_float support for float textures.";
     }
 
-/*    let tex_size = 1024;
+    let tex_size = 1024;
     let density_buff = new THREE.WebGLRenderTarget(tex_size, tex_size,{
          minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter,
          format: THREE.RGBAFormat, type: THREE.FloatType
@@ -52,50 +48,70 @@ function main(){
     let pos_buff = new THREE.WebGLRenderTarget(tex_size, tex_size,{
          minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter,
          format: THREE.RGBAFormat, type: THREE.FloatType
-     }); */
+     });
     function animate(){
         requestAnimationFrame(animate);
-        // neighbors
-    /*   renderer.render(scene, camera, neighbor_buff);
-       neighbor_tex = neighbor_buff.texture;
-       neighbor_tex.needsUpdate = true;
-       sph_points.material.uniforms = uni[1];
-       sph_points.material.vertexShader =  document.getElementById( 'density-vel-pos-vs' ).textContent;
-       sph_points.material.fragmentShader =  document.getElementById( 'density-fs' ).textContent;
-       // density
-       renderer.render(scene, camera, density_buff);
-        density_tex = density_buff.texture;
-        density_tex.needsUpdate = true;
-        sph_points.material.uniforms = uni[2];
-        sph_points.material.vertexShader =  document.getElementById( 'density-vel-pos-vs' ).textContent;
-        sph_points.material.fragmentShader =  document.getElementById( 'vel-fs' ).textContent;
-        //velocity
-        renderer.render(scene, camera, vel_buff);
-        vel_tex = vel_buff.texture;
-        vel_tex.needsUpdate = true;
 
-        sph_points.material.uniforms = uni[3];
-        sph_points.material.vertexShader =  document.getElementById( 'density-vel-pos-vs' ).textContent;
-        sph_points.material.fragmentShader =  document.getElementById( 'pos-fs' ).textContent;
-        // position
-        renderer.render(scene, camera, pos_buff);
-        pos_tex = pos_buff.texture;
-        pos_tex.needsUpdate = true;
-        sph_points.material.uniforms = uni[4];
-        sph_points.material.vertexShader =  document.getElementById( 'sph-vs' ).textContent;
-        sph_points.material.fragmentShader =  document.getElementById( 'sph-fs' ).textContent;
-        sph_points.material.needsUpdate = true;
-        // actual scene */
-        renderer.render(scene, camera);
-    //    sph_points.material.uniforms = uni[0];
-    //    sph_points.material.vertexShader =  neigh_vs;
-    //    sph_points.material.fragmentShader = neigh_fs;
+        renderSPH(renderer, scene, camera, neighbor_buff, density_buff, vel_buff, pos_buff);
     }
     animate();
 }
 
+function renderSPH(renderer, scene, camera, neighbor_buff, density_buff, vel_buff, pos_buff){
+    renderNeighbors(renderer, scene, camera, neighbor_buff);
+    renderDensity(renderer, scene, camera, density_buff);
+    renderVelocity(renderer, scene, camera, vel_buff);
+    renderPositions(renderer, scene, camera, pos_buff);
+
+    scene.children[0].material.uniforms = uni[4];
+    scene.children[0].material.vertexShader =  document.getElementById( 'sph-vs' ).textContent;
+    scene.children[0].material.fragmentShader =  document.getElementById( 'sph-fs' ).textContent;
+    scene.children[0].material.needsUpdate = true;
+    renderer.render(scene, camera);
+}
+
+function renderNeighbors(renderer, scene, camera, neighbor_buff){
+    scene.children[0].material.uniforms = uni[0];
+    scene.children[0].material.vertexShader = document.getElementById( 'neigh-vs' ).textContent;
+    scene.children[0].material.fragmentShader = document.getElementById( 'neigh-fs' ).textContent;
+    scene.children[0].material.needsUpdate = true;
+    renderer.render(scene, camera, neighbor_buff, true);
+    renderer.readRenderTargetPixels(neighbor_buff, 0, 0, tex_size, tex_size, neighbor_tex.image.data)
+    neighbor_tex.needsUpdate = true;
+}
+
+function renderDensity(renderer, scene, camera, density_buff){
+    scene.children[0].material.uniforms = uni[1];
+    scene.children[0].material.vertexShader =  document.getElementById( 'density-vel-pos-vs' ).textContent;
+    scene.children[0].material.fragmentShader =  document.getElementById( 'density-fs' ).textContent;
+    scene.children[0].material.needsUpdate = true;
+    renderer.render(scene, camera, density_buff, true);
+    renderer.readRenderTargetPixels(density_buff, 0, 0, tex_size, tex_size, density_tex.image.data)
+     density_tex.needsUpdate = true;
+}
+
+function renderVelocity(renderer, scene, camera, vel_buff){
+    scene.children[0].material.uniforms = uni[2];
+    scene.children[0].material.vertexShader =  document.getElementById( 'density-vel-pos-vs' ).textContent;
+    scene.children[0].material.fragmentShader =  document.getElementById( 'vel-fs' ).textContent;
+    scene.children[0].material.needsUpdate = true;
+    renderer.render(scene, camera, vel_buff);
+    renderer.readRenderTargetPixels(vel_buff, 0, 0, tex_size, tex_size, vel_tex.image.data)
+    vel_tex.needsUpdate = true;
+}
+
+function renderPositions(renderer, scene, camera, pos_buff){
+    scene.children[0].material.uniforms = uni[3];
+    scene.children[0].material.vertexShader =  document.getElementById( 'density-vel-pos-vs' ).textContent;
+    scene.children[0].material.fragmentShader =  document.getElementById( 'pos-fs' ).textContent;
+    scene.children[0].material.needsUpdate = true;
+    renderer.render(scene, camera, pos_buff, true);
+    renderer.readRenderTargetPixels(pos_buff, 0, 0, tex_size, tex_size, pos_tex.image.data)
+    pos_tex.needsUpdate = true;
+}
+
 function initUniforms(totalParticles, neighbors){
-    let maxSearchRatio = 2.5;
+    let maxSearchRatio = 12.5;
     let volume = 1.0;
     let k_constant = 5.0; // nRT ideal gas
     maxSearchRatio = maxSearchRatio / grid_vol;
@@ -134,7 +150,7 @@ function initUniforms(totalParticles, neighbors){
         u_restDensity: {type: "f", value: restDensity},
         u_kConstant: {type: "f", value: k_constant},
         u_viscosity: {type: "f", value: 10.0},
-        u_dt: {type: "f", value: 0.0},
+        u_dt: {type: "f", value: 0.1},
         u_restitution: {type: "f", value: 0.1},
         u_neighbors: {type: "v3v", value: neighbors}
     };
@@ -142,6 +158,7 @@ function initUniforms(totalParticles, neighbors){
         u_pos_tex: {type: "t", value: pos_tex},
         u_vel_tex: {type: "t", value: vel_tex},
         u_grid_tex_size: {type: "f", value: tex_size},
+        u_dt: {type: "f", value: 0.1}
     };
     uni[4] = {
         u_pos_tex: {type: "t", value: pos_tex},
@@ -165,10 +182,10 @@ function initPoints(neigh_vs, neigh_fs){
 
     for(let i = 0; i < grid_vol; i++){
         for(let j = 0; j < grid_vol; j++){
-            for(let k = 0; k < grid_vol; k++){
-                //position.push((k+center)/grid_vol,(j+center)/grid_vol, (i+center)/grid_vol );
-                position.push((k+center),(j+center), (i+center),0 );
-                velocity.push(0, 0, 0, 0);
+            for(let k = -20; k < grid_vol; k++){
+            //    position.push((k+center)/grid_vol,(j+center)/grid_vol, (i+center)/grid_vol );
+                position.push((k+center),(j+center), (i+center),1.0 );
+                velocity.push(0.0, 0.0, 0.0,1.0);
                 totalParticles++;
                 index.push(totalParticles);
             }
@@ -176,8 +193,9 @@ function initPoints(neigh_vs, neigh_fs){
     }
 
     for( let i = position.length; i < tex_size * tex_size * 4; i++){
-        position.push(0);
-        velocity.push(0);
+        position.push(0.0);
+        velocity.push(0.0);
+        index.push(++totalParticles);
     }
     let neighbors = [];
 	for (i = -1; i < 2; i++) {
@@ -201,12 +219,12 @@ function initPoints(neigh_vs, neigh_fs){
 
     initUniforms(totalParticles, neighbors);
     let sph_material = new THREE.ShaderMaterial({
-        vertexShader: document.getElementById( 'sph-vs' ).textContent,
-        fragmentShader: document.getElementById( 'sph-fs' ).textContent,
+        uniforms: uni[4],
+        vertexShader: document.getElementById( 'neigh-vs' ).textContent,
+        fragmentShader: document.getElementById( 'neigh-fs' ).textContent,
         depthTest: true,
         blending: THREE.AdditiveBlending
     });
-
     let geo = new THREE.BufferGeometry();
     geo.addAttribute('position', new THREE.BufferAttribute(points, 4));
     geo.addAttribute('velocity', new THREE.BufferAttribute(vellies, 4));

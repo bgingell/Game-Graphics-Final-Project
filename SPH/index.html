@@ -109,7 +109,7 @@
         void main(){
             vec3 pos = texture2D(u_pos_tex, index2D(v_index)).rgb;
             vec3 vel = texture2D(u_vel_tex, index2D(v_index)).rgb;
-            vec3 gridpos = floor(pos * u_grid_vol);
+            vec3 gridpos = floor(pos.xyz * u_grid_vol);
             float density = 0.0;
 
             for(int i = 0; i < 27; i++){
@@ -117,10 +117,10 @@
                 float n_index = n_gridpos.x + u_grid_vol * n_gridpos.y + (u_grid_vol * u_grid_vol) * n_gridpos.z;
                 if(n_index >= 0.0 && n_index < (u_grid_tex_size * u_grid_tex_size)){
                     vec4 v_indices = texture2D(u_neighbor_tex, index2D(n_index));
-                    density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.r)).rgb);
-                    density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.g)).rgb);
-                    density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.b)).rgb);
-                    density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.a)).rgb);
+                    if(v_indices.r != 0.0) density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.r)).rgb);
+                    if(v_indices.g != 0.0) density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.g)).rgb);
+                    if(v_indices.b != 0.0) density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.b)).rgb);
+                    if(v_indices.a != 0.0) density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.a)).rgb);
                 }
             }
             gl_FragColor = vec4(density, 0.0, 0.0, 1.0);
@@ -235,31 +235,75 @@
         }
         </script>
         <script id="pos-fs" type="x-shader/x-vertex">
+        precision mediump float;
+
         uniform sampler2D u_pos_tex;
         uniform sampler2D u_vel_tex;
-
+        uniform float u_dt;
+        uniform float u_grid_tex_size;
         varying float v_index;
+        vec2 index2D(float indexPosition){
+            vec2 index;
+            index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
+            index.y = (floor(indexPosition/u_grid_tex_size)+0.5)/u_grid_tex_size;
+            return index;
+        }
+
         void main(){
             vec2 tex_ind = index2D(v_index);
             vec3 pos = texture2D(u_pos_tex, tex_ind).rgb;
             vec3 vel = texture2D(u_vel_tex, tex_ind).rgb;
-            pos += u_dt * vel;
+            pos = pos.xyz + vel.xyz * u_dt;
             gl_FragColor = vec4(pos, 1.0);
         }
         </script>
         <script id="sph-vs" type="x-shader/x-vertex">
+        attribute float the_index;
+
+        uniform sampler2D u_pos_tex;
+       uniform sampler2D u_vel_tex;
+       uniform sampler2D u_density_tex;
+
+       uniform float u_grid_tex_size;
+
+       varying vec4 v_color;
+       varying float v_index;
+
+       vec2 index2D(float indexPosition, bool obj){
+           vec2 index = vec2(0.0);
+           index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
+           index.y = (floor(indexPosition/u_grid_tex_size)+0.5)/u_grid_tex_size;
+           if(obj) index = 2.0 * index.xy - 1.0;
+           return index;
+       }
+
         void main() {
             gl_PointSize = 5.0;
-            gl_Position = projectionMatrix * modelMatrix * viewMatrix * vec4(position, 1.0);
+            vec3 center = vec3(20.0);
+            vec3 box = vec3(19.0);
+
+            vec3 pos = texture2D(u_pos_tex, index2D(the_index, false)).rgb;
+            vec3 x_loc = pos - center;
+            vec3 ctp_loc = min(box, max(-box, x_loc));
+            vec3 contractpt = ctp_loc + center;
+            float dist = length(contractpt - pos);
+            float density = texture2D(u_density_tex, index2D(the_index, false)).r;
+
+            if(dist > 0.0) pos = contractpt;
+            if(density == 0.0) pos = vec3(0.0);
+            v_color = vec4(0.0, 0.0, 1.0, 1.0);
+            v_index = the_index;
+            gl_Position = projectionMatrix * modelMatrix * viewMatrix * vec4(pos, 1.0);
         }
         </script>
         <script id="sph-fs" type="x-shader/x-fragment">
         precision mediump float;
+        varying vec4 v_color;
         void main(){
-            gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+            gl_FragColor = v_color;
         }
         </script>
-        <script src="../utils/three.js"></script>
+        <script src="../utils/three.min.js"></script>
         <script src="../utils/OrbitControls.js"></script>
         <script src="../utils/dat.gui.min.js"></script>
     </head>
