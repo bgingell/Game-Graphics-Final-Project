@@ -2,8 +2,8 @@
 // bgingell@ucsc.edu
 // smoothed particle hydrodynamics
 let pos_tex, vel_tex, density_tex, neighbor_tex;
-let tex_size = 1024;
-let grid_vol = 40;
+let tex_size = 256;
+let grid_vol = 45;
 let uni = [];
 
 function main(){
@@ -12,16 +12,13 @@ function main(){
 
     camera = new THREE.PerspectiveCamera(45.0,
                     window.innerWidth/window.innerHeight, .1, 1000);
-    camera.position.z = 100;
-    camera.position.x = 50;
-    camera.position.y = 40;
+    camera.position.z = 150;
+    camera.position.x = 70;
+    camera.position.y = 60;
     let controls = new THREE.OrbitControls( camera );
     controls.update();
 
     scene = new THREE.Scene();
-
-    let sph_points = initPoints();
-    scene.add(sph_points);
 
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0xFFFFFF);
@@ -31,37 +28,34 @@ function main(){
     if ( ! renderer.extensions.get( "OES_texture_float" ) ) {
         return "No OES_texture_float support for float textures.";
     }
+    let sph_points = initPoints();
+    scene.add(sph_points);
 
-    let tex_size = 1024;
-    let density_buff = new THREE.WebGLRenderTarget(tex_size, tex_size,{
-         minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter,
-         format: THREE.RGBAFormat, type: THREE.FloatType
-     });
-    let vel_buff = new THREE.WebGLRenderTarget(tex_size, tex_size, {
-         minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter,
-         format: THREE.RGBAFormat, type: THREE.FloatType
-     });
-    let neighbor_buff = new THREE.WebGLRenderTarget(tex_size, tex_size,{
-         minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter,
-         format: THREE.RGBAFormat, type: THREE.FloatType
-     });
-    let pos_buff = new THREE.WebGLRenderTarget(tex_size, tex_size,{
-         minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter,
-         format: THREE.RGBAFormat, type: THREE.FloatType
-     });
+    let sph_buffers = initSPHBuffers();
+
     function animate(){
         requestAnimationFrame(animate);
 
-        renderSPH(renderer, scene, camera, neighbor_buff, density_buff, vel_buff, pos_buff);
+        renderSPH(renderer, scene, camera,sph_buffers);
     }
     animate();
 }
 
-function renderSPH(renderer, scene, camera, neighbor_buff, density_buff, vel_buff, pos_buff){
-    renderNeighbors(renderer, scene, camera, neighbor_buff);
-    renderDensity(renderer, scene, camera, density_buff);
-    renderVelocity(renderer, scene, camera, vel_buff);
-    renderPositions(renderer, scene, camera, pos_buff);
+function initSPHBuffers(){
+    let buffers = [4];
+    for(let i = 0; i < 4; i++){
+        buffers[i] = new THREE.WebGLRenderTarget(tex_size, tex_size,{
+             minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter,
+             format: THREE.RGBAFormat, type: THREE.FloatType
+         });
+    }
+     return buffers;
+}
+function renderSPH(renderer, scene, camera,buffers){
+    renderNeighbors(renderer, scene, camera, buffers[0]);
+    renderDensity(renderer, scene, camera, buffers[1]);
+    renderVelocity(renderer, scene, camera, buffers[2]);
+    renderPositions(renderer, scene, camera, buffers[3]);
 
     scene.children[0].material.uniforms = uni[4];
     scene.children[0].material.vertexShader =  document.getElementById( 'sph-vs' ).textContent;
@@ -88,7 +82,6 @@ function renderDensity(renderer, scene, camera, density_buff){
     renderer.render(scene, camera, density_buff, true);
     renderer.readRenderTargetPixels(density_buff, 0, 0, tex_size, tex_size, density_tex.image.data)
      density_tex.needsUpdate = true;
-     console.log(density_tex.image.data);
 }
 
 function renderVelocity(renderer, scene, camera, vel_buff){
@@ -114,11 +107,11 @@ function renderPositions(renderer, scene, camera, pos_buff){
 function initUniforms(totalParticles, neighbors){
     let maxSearchRatio = 80.0;
     let volume = 1.0;
-    let k_constant = 120.0; // nRT ideal gas
+    let k_constant = 150.0; // nRT ideal gas
     let weightDefaultConstant = 315 / (64 * Math.PI * Math.pow(maxSearchRatio, 9));
     let weightPressureConstant = -45 / (Math.PI * Math.pow(maxSearchRatio, 6));
     let weightViscosityConstant = 45 / (Math.PI * Math.pow(maxSearchRatio, 6));
-    let restDensity = 998.29; // Kg/m3
+    let restDensity = 1000.0; // Kg/m3
     let particleMass = restDensity * volume / totalParticles;
 
     uni[0] = {
@@ -151,7 +144,7 @@ function initUniforms(totalParticles, neighbors){
         u_kConstant: {type: "f", value: k_constant},
         u_viscosity: {type: "f", value: 10.0},
         u_dt: {type: "f", value: 0.1},
-        u_restitution: {type: "f", value: 0.2},
+        u_restitution: {type: "f", value: 1.0},
         u_neighbors: {type: "v3v", value: neighbors}
     };
     uni[3] = {
@@ -191,7 +184,6 @@ function initPoints(neigh_vs, neigh_fs){
             }
         }
     }
-
     for( let i = position.length; i < tex_size * tex_size * 4; i++){
         position.push(0.0);
         velocity.push(0.0);
@@ -219,7 +211,7 @@ function initPoints(neigh_vs, neigh_fs){
 
     initUniforms(totalParticles, neighbors);
     let sph_material = new THREE.ShaderMaterial({
-        uniforms: uni[4],
+        uniforms: uni[0],
         vertexShader: document.getElementById( 'neigh-vs' ).textContent,
         fragmentShader: document.getElementById( 'neigh-fs' ).textContent,
         depthTest: true,
