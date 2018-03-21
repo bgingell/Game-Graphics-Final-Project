@@ -40,7 +40,7 @@
 
         void main() {
             vec3 pos = texture2D(u_pos_tex, index2D(the_index, false)).rgb;
-            vec3 pos_in_grid = floor(pos * u_grid_vol);
+            vec3 pos_in_grid = floor(pos);
             float grid_index = pos_in_grid.x + u_grid_vol * pos_in_grid.y + u_grid_vol * pos_in_grid.z;
             gl_Position = vec4(index2D(grid_index, true), the_index/(u_grid_tex_size * u_grid_tex_size), 1.0);
             v_color = vec4(the_index);
@@ -109,7 +109,7 @@
         void main(){
             vec3 pos = texture2D(u_pos_tex, index2D(v_index)).rgb;
             vec3 vel = texture2D(u_vel_tex, index2D(v_index)).rgb;
-            vec3 gridpos = floor(pos.xyz * u_grid_vol);
+            vec3 gridpos = floor(pos.xyz);
             float density = 0.0;
 
             for(int i = 0; i < 27; i++){
@@ -199,7 +199,7 @@
             vec3 pos = texture2D(u_pos_tex, tex_ind).rgb;
             vec3 vel = texture2D(u_vel_tex, tex_ind).rgb;
             float density = texture2D(u_density_tex, tex_ind).r;
-            vec3 gridpos = floor(pos * u_grid_vol);
+            vec3 gridpos = floor(pos);
             float pressure = u_kConstant * (density - u_restDensity);
             vec3 pressureForce = vec3(0.0);
             vec3 viscosityForce = vec3(0.0);
@@ -278,7 +278,7 @@
        }
 
         void main() {
-            gl_PointSize = 5.0;
+            gl_PointSize = 10.0;
             vec3 center = vec3(20.0);
             vec3 box = vec3(19.0);
 

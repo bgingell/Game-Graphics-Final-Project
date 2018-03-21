@@ -12,9 +12,9 @@ function main(){
 
     camera = new THREE.PerspectiveCamera(45.0,
                     window.innerWidth/window.innerHeight, .1, 1000);
-    camera.position.z = 80;
-    camera.position.x = 40;
-    camera.position.y = 20;
+    camera.position.z = 100;
+    camera.position.x = 50;
+    camera.position.y = 40;
     let controls = new THREE.OrbitControls( camera );
     controls.update();
 
@@ -88,6 +88,7 @@ function renderDensity(renderer, scene, camera, density_buff){
     renderer.render(scene, camera, density_buff, true);
     renderer.readRenderTargetPixels(density_buff, 0, 0, tex_size, tex_size, density_tex.image.data)
      density_tex.needsUpdate = true;
+     console.log(density_tex.image.data);
 }
 
 function renderVelocity(renderer, scene, camera, vel_buff){
@@ -111,10 +112,9 @@ function renderPositions(renderer, scene, camera, pos_buff){
 }
 
 function initUniforms(totalParticles, neighbors){
-    let maxSearchRatio = 12.5;
+    let maxSearchRatio = 80.0;
     let volume = 1.0;
-    let k_constant = 5.0; // nRT ideal gas
-    maxSearchRatio = maxSearchRatio / grid_vol;
+    let k_constant = 120.0; // nRT ideal gas
     let weightDefaultConstant = 315 / (64 * Math.PI * Math.pow(maxSearchRatio, 9));
     let weightPressureConstant = -45 / (Math.PI * Math.pow(maxSearchRatio, 6));
     let weightViscosityConstant = 45 / (Math.PI * Math.pow(maxSearchRatio, 6));
@@ -151,7 +151,7 @@ function initUniforms(totalParticles, neighbors){
         u_kConstant: {type: "f", value: k_constant},
         u_viscosity: {type: "f", value: 10.0},
         u_dt: {type: "f", value: 0.1},
-        u_restitution: {type: "f", value: 0.1},
+        u_restitution: {type: "f", value: 0.2},
         u_neighbors: {type: "v3v", value: neighbors}
     };
     uni[3] = {
@@ -182,7 +182,7 @@ function initPoints(neigh_vs, neigh_fs){
 
     for(let i = 0; i < grid_vol; i++){
         for(let j = 0; j < grid_vol; j++){
-            for(let k = -20; k < grid_vol; k++){
+            for(let k = 0; k < grid_vol; k++){
             //    position.push((k+center)/grid_vol,(j+center)/grid_vol, (i+center)/grid_vol );
                 position.push((k+center),(j+center), (i+center),1.0 );
                 velocity.push(0.0, 0.0, 0.0,1.0);
