@@ -64,7 +64,7 @@ function renderFireworks(scene, fireworks) {
 	if ( tick < 0 ) tick = 0;
 	if ( delta > 0 ) {
 
-		if(fireworks[fireworks.length-1].position.y <= 50 ){ //15 IS WHERE FIREWORK WILL EXPLODE
+		if(fireworks[fireworks.length-1].position.y <= 35 ){ //15 IS WHERE FIREWORK WILL EXPLODE
 			for(let i = 0; i < fireworks.length; i++){
 				fireworks[i].position.y = fireworks[i].position.y +0.3;
 				fireworks[i].position.z = fireworks[i].position.z +0.003;
@@ -77,7 +77,7 @@ function renderFireworks(scene, fireworks) {
 				}
 			}
 
-		} else if(fireworks[fireworks.length-1].position.y >= 35 && fireworks[fireworks.length-1].position.y < 300) { //15 is y explosion prob gonna make this a let later
+		} else if(fireworks[fireworks.length-1].position.y >= 40 && fireworks[fireworks.length-1].position.y < 300) { //15 is y explosion prob gonna make this a let later
 
 			let group_start = fireworks[prev_total].group_start;
 			//console.log(group_start);

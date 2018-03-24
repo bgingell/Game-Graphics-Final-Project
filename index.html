@@ -352,7 +352,6 @@
    uniform float u_grid_tex_size;
 
    varying vec4 v_color;
-   varying float v_index;
 
    vec2 index2D(float indexPosition, bool obj){
        vec2 index = vec2(0.0);
@@ -377,7 +376,6 @@
         if(dist > 0.0) pos = contractpt;
         if(density == 0.0) pos = vec3(0.0);
         v_color = vec4(0.0, 0.0, 1.0 * pos.y * 0.035 + 0.2, 1.0);
-        v_index = the_index;
         gl_Position = projectionMatrix * modelMatrix * viewMatrix * vec4(pos, 1.0);
     }
     </script>
