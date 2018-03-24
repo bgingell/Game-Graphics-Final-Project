@@ -172,10 +172,10 @@ THREE.GPUParticleSystem = function ( options ) {
 
 	var textureLoader = new THREE.TextureLoader();
 
-	//this.particleNoiseTex = this.PARTICLE_NOISE_TEXTURE || textureLoader.load( './utils/perlin-512.png' );
-	//this.particleNoiseTex.wrapS = this.particleNoiseTex.wrapT = THREE.RepeatWrapping;
+	this.particleNoiseTex = this.PARTICLE_NOISE_TEXTURE || textureLoader.load( 'perlin-512.png' );
+	this.particleNoiseTex.wrapS = this.particleNoiseTex.wrapT = THREE.RepeatWrapping;
 
-	this.particleSpriteTex = this.PARTICLE_SPRITE_TEXTURE || textureLoader.load( './utils/particle2.png' );
+	this.particleSpriteTex = this.PARTICLE_SPRITE_TEXTURE || textureLoader.load( 'particle2.png' );
 	this.particleSpriteTex.wrapS = this.particleSpriteTex.wrapT = THREE.RepeatWrapping;
 
 	this.particleShaderMat = new THREE.ShaderMaterial( {
@@ -284,7 +284,7 @@ THREE.GPUParticleContainer = function ( maxParticles, particleSystem ) {
 
 	this.particleShaderGeo = new THREE.BufferGeometry();
 
-
+	
 	this.particleShaderGeo.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array( this.PARTICLE_COUNT * 3 ), 3 ).setDynamic( true ) );
 	this.particleShaderGeo.addAttribute( 'positionStart', new THREE.BufferAttribute( new Float32Array( this.PARTICLE_COUNT * 3 ), 3 ).setDynamic( true ) );
 	this.particleShaderGeo.addAttribute( 'startTime', new THREE.BufferAttribute( new Float32Array( this.PARTICLE_COUNT ), 1 ).setDynamic( true ) );
@@ -293,7 +293,7 @@ THREE.GPUParticleContainer = function ( maxParticles, particleSystem ) {
 	this.particleShaderGeo.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array( this.PARTICLE_COUNT * 3 ), 3 ).setDynamic( true ) );
 	this.particleShaderGeo.addAttribute( 'size', new THREE.BufferAttribute( new Float32Array( this.PARTICLE_COUNT ), 1 ).setDynamic( true ) );
 	this.particleShaderGeo.addAttribute( 'lifeTime', new THREE.BufferAttribute( new Float32Array( this.PARTICLE_COUNT ), 1 ).setDynamic( true ) );
-
+	
 	// material
 
 	this.particleShaderMat = this.GPUParticleSystem.particleShaderMat;

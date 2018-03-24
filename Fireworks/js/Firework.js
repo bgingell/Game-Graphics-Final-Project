@@ -1,4 +1,4 @@
-let tick = 0, clock = new THREE.Clock(), controls, spawnerOptions, prev_total = 0, particleSystem;
+let tick = 0, clock = new THREE.Clock(), controls, spawnerOptions, prev_total = 0;
 
 let tex1 = new THREE.TextureLoader().load( "./Fireworks/particle2.png" );
 let boxOfPoints;
@@ -8,7 +8,7 @@ let amount = 100;
 ///I DIVIDE WIDTH BY 10 TO BETTER REPRESENT THE XYZ COORDINATES FOR FIREWORK POSITION
 function firework_main(scene, num_fireworks) {
 	//launch
-	particleSystem = new THREE.GPUParticleSystem( {
+	let particleSystem = new THREE.GPUParticleSystem( {
 		maxParticles: 250000
 	} );
 
@@ -37,7 +37,7 @@ function initFireworks(num_fireworks){
             position: new THREE.Vector3(x, -20, 0), //need to set my y to just off screen
             positionRandomness: .3,
             velocity: new THREE.Vector3(),
-            turbulence: .1,
+            turbulence: 0,
             lifetime: 1,
             size: 4,
             color,
@@ -72,7 +72,7 @@ function renderFireworks(scene, fireworks) {
 			for ( let x = 0; x < spawnerOptions.spawnRate * delta; x++ ) {
 				//console.log("hit delta");
 				for(let i = 0; i < fireworks.length; i++){
-			         particleSystem.spawnParticle( fireworks[i] );
+					scene.children[1].spawnParticle( fireworks[i] );
 				}
 			}
 
@@ -106,7 +106,7 @@ function renderFireworks(scene, fireworks) {
 			//console.log(fireworks[fireworks.length-1].dest);
 	}
 
-	particleSystem.update( tick );
+	scene.children[1].update( tick );
 }
 
 function explode(scene, fireworks){
