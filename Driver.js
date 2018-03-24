@@ -27,6 +27,9 @@ function main() {
     scene.add(sph_points);
     let sph_buffers = initSPHBuffers();
 
+    let num_fireworks = 10;
+    let fireworks = firework_main(scene, num_fireworks);
+
     initGodRayObjects( scene );
 
     allMeshes = [];
@@ -57,7 +60,7 @@ function main() {
         requestAnimationFrame( animate );
 
         renderSPH(renderer, scene, camera, sph_buffers);
-
+        renderFireworks(scene, fireworks);
         renderGodRays( postprocessing, camera, scene, renderer );
 
         stats.update();
