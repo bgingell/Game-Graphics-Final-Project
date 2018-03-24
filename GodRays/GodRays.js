@@ -12,7 +12,7 @@ var options;
     var tex_vs = document.getElementById( 'texVS' ).textContent;
     var tex_fs = document.getElementById( 'texFS' ).textContent;
 
-    var objTex = new THREE.TextureLoader().load( '/GodRays/Moon.png' );
+    var objTex = new THREE.TextureLoader().load( './GodRays/Moon.png' );
     var uniforms2 = {
     tex: { type: "t", value: objTex  },
     };
@@ -26,7 +26,7 @@ var options;
 
     var loader = new THREE.OBJLoader(  );
 
-    loader.load( '/GodRays/Moon.obj', function ( object ) {
+    loader.load( './GodRays/Moon.obj', function ( object ) {
 
     object.traverse( function ( child ) {
         if ( child instanceof THREE.Mesh ) {
