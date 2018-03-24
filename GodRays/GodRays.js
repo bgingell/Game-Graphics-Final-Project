@@ -215,7 +215,7 @@ function renderGodRays( postprocessing, camera, scene, renderer  ) {
         postprocessing.godraysFakeSunUniforms[ "fAspect" ].value = window.innerWidth / height;
 
         postprocessing.scene.overrideMaterial = postprocessing.materialGodraysFakeSun;
-        renderer.render( postprocessing.scene, postprocessing.camera, postprocessing.rtTextureColors );
+        renderer.render( postprocessing.scene, postprocessing.camera, postprocessing.rtTextureColors, true);
 
         renderer.setScissorTest( false );
 
@@ -224,7 +224,7 @@ function renderGodRays( postprocessing, camera, scene, renderer  ) {
         // Colors
 
         scene.overrideMaterial = null;
-        renderer.render( scene, camera, postprocessing.rtTextureColors );
+        renderer.render( scene, camera, postprocessing.rtTextureColors, true );
 
         // Depth
 
