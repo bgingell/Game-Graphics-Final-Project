@@ -105,9 +105,9 @@ function renderPositions(renderer, scene, camera, pos_buff){
 }
 
 function initUniforms(totalParticles, neighbors){
-    let maxSearchRatio = 80.0;
+    let maxSearchRatio = 120.0;
     let volume = 1.0;
-    let k_constant = 150.0; // nRT ideal gas
+    let k_constant = 10.0; // nRT ideal gas
     let weightDefaultConstant = 315 / (64 * Math.PI * Math.pow(maxSearchRatio, 9));
     let weightPressureConstant = -45 / (Math.PI * Math.pow(maxSearchRatio, 6));
     let weightViscosityConstant = 45 / (Math.PI * Math.pow(maxSearchRatio, 6));
