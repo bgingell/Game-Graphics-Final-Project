@@ -2,8 +2,8 @@
 // bgingell@ucsc.edu
 // smoothed particle hydrodynamics
 let pos_tex, vel_tex, density_tex, neighbor_tex;
-let tex_size = 256;
-let grid_vol = 45;
+let tex_size = 128;
+let grid_vol = 24;
 let uni = [];
 
 /*function main(){

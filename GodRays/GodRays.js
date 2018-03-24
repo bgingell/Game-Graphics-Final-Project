@@ -38,6 +38,7 @@ var options;
     object.scale.set( s, s, s );
     object.position.x += 1.0;
     object.position.y -= 0.5;
+    object.position.z -= 500;
 
     moon = object;
      scene.add( moon );
@@ -165,7 +166,7 @@ function renderGodRays( postprocessing, camera, scene, renderer  ) {
     scene.children[2].position.set(
     Math.cos(time) * orbitRadius,
     100,
-    Math.sin(time) * orbitRadius
+    Math.sin(time) * orbitRadius - 500
     );
 
     postprocessing.godrayCombineUniforms.fGodRayIntensity.value = options.GodRayIntensity;

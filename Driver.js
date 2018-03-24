@@ -15,8 +15,8 @@ function main() {
     document.body.appendChild( container );
 
     camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 3000 );
-    camera.position.z = 500;
-    camera.position.y = 0;
+    camera.position.z = 100;
+    camera.position.y = 20;
 
     var controls = new THREE.OrbitControls( camera );
     controls.update();
@@ -39,6 +39,7 @@ function main() {
     });
     renderer.setSize( window.innerWidth, height );
     container.appendChild( renderer.domElement );
+
     if ( ! renderer.extensions.get( "OES_texture_float" ) ) {
         return "No OES_texture_float support for float textures.";
     }
