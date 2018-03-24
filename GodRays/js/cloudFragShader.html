@@ -1,0 +1,147 @@
+<script id="cloudFragShader" type="x-fragment/shader">
+
+
+uniform float time;
+
+uniform float depth;
+uniform float sharp;  // 1 = dull ( more clouds), 0 = fuzzy ( less clouds)
+uniform float cover; // 0 = no clouds, 1 = full clouds
+uniform float clouds; // 
+uniform sampler2D texture;
+uniform vec2 resolution;
+varying vec2 vUv;
+
+// multi-chanel noise lookup
+vec3 noise3(vec2 p) {
+    return texture2D(texture, p).xyz;
+}
+
+vec3 fNoise(vec2 uv) {
+    vec3 f = vec3(0.);
+    float scale = 1.;
+    for (int i=0; i<5; i++) {
+        scale *= 2.;
+        f += noise3(uv * scale) / scale;
+    }
+    return f;
+}
+
+float noise(vec2 p) {
+    return texture2D(texture,p).x; 
+}
+
+float fnoise(vec2 uv) {
+    float f = 0.;
+    float scale = 1.;
+    for (int i=0; i<5; i++) {
+        scale *= 2.;
+        f += noise(uv * scale) / scale;
+    }
+    return f;
+}
+
+void main(void)
+{
+    vec2 uv = vUv;
+    
+
+    // Formula: varience (smaller -> bigger cover) + speed (time) * direction
+
+    // normal thick clouds
+    vec3 ff1 = fNoise(uv * 0.01 + time * 0.0005 * vec2(-1., 1.));
+
+    // vec3 ff1 = fNoise(uv * time * 0.01);
+    // vec3 ff1 = fNoise((uv + time * 0.001) * 0.01 + time * 0.0005 * vec2(0.35, 0.5));
+
+    // fast small clouds
+    vec3 ff2 = fNoise(uv * 0.1 + time * 0.002 * vec2(1., 1.));
+
+    float t;
+    
+    // Different combinations of mixing
+    t = ff1.x * 0.9 + ff1.y * 0.15;
+
+    t = t * 0.99 + ff2.x * 0.01;
+    // t = f1 * 0.5 + f2 * 0.5;
+    
+    // t += f3 * 0.1;
+    // t = f1 * 0.5 + f3 * 0.5;
+    // t = f1 * 0.5 + f2 * 0.3 + f3 * 0.2;
+    // t = f1 * 0.1 + f2 * .9;
+    // t = f1 * 0.9 + f2 * .1;
+
+    
+    
+    float o = clamp ( length(uv * 2.0 - vec2(1., 1.)), 0., 1. );
+    
+    // applies more transparency to horizon for 
+    // to create illusion of distant clouds
+    o =  1. - o * o * o * o * clouds;
+
+    // multiply by more cloud transparency
+    // o *= clouds;
+
+    // depending on where this is placed, it will affect darkness / opacity of clouds
+    o = o - (1. - t) * .9; // adjust opacity base on clouds
+
+
+    t = max(t - (1. - cover), 0.); // low cut off point
+
+
+    // maginfy or add layers!
+
+    // cloud power magnifer
+    t = 1. - pow(1. - sharp, t); // . 0.999999 (response curve from linear to exponiential brigtness)
+    //    /---
+    //    |
+    // --/
+
+    t = min(t * 1.9, 1.0); // clamp to 1.0
+
+    // t = 0 - black, 1 = white. 0 - alpha, 1 - opacy.
+
+
+    // o = o * (0.5 *t + 0.5);
+    // o = o * t;
+    
+    // more whitenening
+    // t = 1. - (1. - t) * (1.- t); // incrase t limit to 1. // make clouds a little whiter, remain some blacks, to make more white clouds
+    // t = 0.4 + t;
+    // t = t * o;
+
+    
+    // t = clamp(t * 2., 0., 1.);
+    // t = t * o;
+    
+    
+    // t = clamp(t, 0.5, 0.8) * (sin(time * 0.2) * 0.5 + 0.5);
+
+
+    // gl_FragColor = vec4(t, t, t, o);
+
+    
+
+    // t *= 0.5;
+
+    if (depth > 0.) {
+        // discard;
+        // if (o < 0.5) discard;
+        // if (t < 0.8) discard;
+
+        // tweak thresholds
+        if (o < 0.4 && t < 0.8) discard;
+
+        gl_FragData[ 0 ] = vec4(gl_FragCoord.z, 1., 1., 1.);
+        // gl_FragData[ 0 ] = vec4(1.);
+    }
+    else {
+
+        // gl_FragColor = vec4(t, t, t, t);
+        // gl_FragData[ 0 ] = vec4(1., 1., 1., o); 
+        gl_FragData[ 0 ] = vec4(t, t, t, o );
+
+    }
+
+    
+}
+        </script>
