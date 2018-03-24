@@ -318,7 +318,7 @@ THREE.GPUParticleContainer = function ( maxParticles, particleSystem ) {
 
 		position = options.position !== undefined ? position.copy( options.position ) : position.set( 0, 0, 0 );
 		velocity = options.velocity !== undefined ? velocity.copy( options.velocity ) : velocity.set( 0, 0, 0 );
-		color = options.color !== undefined ? color.set( options.color ) : color.set( 0xffffff );
+		color = options.color !== undefined ? color.set( options.color ) : color.set( 0xffcc66 );
 
 		var positionRandomness = options.positionRandomness !== undefined ? options.positionRandomness : 0;
 		var velocityRandomness = options.velocityRandomness !== undefined ? options.velocityRandomness : 0;
