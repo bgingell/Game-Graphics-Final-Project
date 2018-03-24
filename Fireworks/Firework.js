@@ -20,7 +20,7 @@ function firework_main(scene, num_fireworks) {
 		spawnRate: 5000,
 		horizontalSpeed: 1.5,
 		verticalSpeed: 1.5,
-		timeScale: 1
+		timeScale: 1.5
 	};
     return fireworks;
 }

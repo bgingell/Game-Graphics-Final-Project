@@ -172,8 +172,8 @@ THREE.GPUParticleSystem = function ( options ) {
 
 	var textureLoader = new THREE.TextureLoader();
 
-	//this.particleNoiseTex = this.PARTICLE_NOISE_TEXTURE || textureLoader.load( './utils/perlin-512.png' );
-	//this.particleNoiseTex.wrapS = this.particleNoiseTex.wrapT = THREE.RepeatWrapping;
+	this.particleNoiseTex = this.PARTICLE_NOISE_TEXTURE || textureLoader.load( './utils/perlin-512.png' );
+	this.particleNoiseTex.wrapS = this.particleNoiseTex.wrapT = THREE.RepeatWrapping;
 
 	this.particleSpriteTex = this.PARTICLE_SPRITE_TEXTURE || textureLoader.load( './utils/particle2.png' );
 	this.particleSpriteTex.wrapS = this.particleSpriteTex.wrapT = THREE.RepeatWrapping;

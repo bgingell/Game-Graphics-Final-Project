@@ -58,7 +58,7 @@ function main() {
 
         requestAnimationFrame( animate );
 
-        renderSPH(renderer, scene, camera, sph_buffers);
+        //renderSPH(renderer, scene, camera, sph_buffers);
         renderFireworks(scene, fireworks);
         renderGodRays( postprocessing, camera, scene, renderer );
         stats.update();
