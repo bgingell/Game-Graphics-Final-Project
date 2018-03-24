@@ -34,7 +34,7 @@ var options;
         }
      } );
 
-    var s = 3;
+    var s = 2;
     object.scale.set( s, s, s );
     object.position.x += 1.0;
     object.position.y -= 0.5;
