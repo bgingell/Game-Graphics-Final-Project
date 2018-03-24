@@ -6,7 +6,7 @@ let tex_size = 256;
 let grid_vol = 45;
 let uni = [];
 
-function main(){
+/*function main(){
     let container = document.getElementById('container');
     let camera, scene, renderer;
 
@@ -39,7 +39,7 @@ function main(){
         renderSPH(renderer, scene, camera,sph_buffers);
     }
     animate();
-}
+} */
 
 function initSPHBuffers(){
     let buffers = [4];
@@ -56,7 +56,6 @@ function renderSPH(renderer, scene, camera,buffers){
     renderDensity(renderer, scene, camera, buffers[1]);
     renderVelocity(renderer, scene, camera, buffers[2]);
     renderPositions(renderer, scene, camera, buffers[3]);
-
     scene.children[0].material.uniforms = uni[4];
     scene.children[0].material.vertexShader =  document.getElementById( 'sph-vs' ).textContent;
     scene.children[0].material.fragmentShader =  document.getElementById( 'sph-fs' ).textContent;
@@ -165,7 +164,6 @@ function initUniforms(totalParticles, neighbors){
 
 function initPoints(neigh_vs, neigh_fs){
     let totalParticles = 0;
-
     let velocity = [];
     let position = [];
     let index = [];
