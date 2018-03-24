@@ -220,7 +220,7 @@
                 internalForces /= density;
             }
             vec3 x_loc = pos - vec3(50.0);
-            vec3 contractpt = min(vec3(48.0), max(vec3(-48.0), x_loc));
+            vec3 contractpt = min(vec3(20.0), max(vec3(-20.0), x_loc));
             float dist = length((contractpt+0.5) - pos);
 
             if(dist > 0.0 && length(vel) > 0.0){

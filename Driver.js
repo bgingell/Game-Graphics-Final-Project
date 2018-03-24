@@ -11,7 +11,6 @@ function main() {
     var sunColor = 0xffee00;
     var height = window.innerHeight;
 
-
     container = document.createElement( 'container' );
     document.body.appendChild( container );
 
@@ -40,7 +39,9 @@ function main() {
     });
     renderer.setSize( window.innerWidth, height );
     container.appendChild( renderer.domElement );
-
+    if ( ! renderer.extensions.get( "OES_texture_float" ) ) {
+        return "No OES_texture_float support for float textures.";
+    }
     renderer.sortObjects = false;
 
     renderer.autoClear = false;

@@ -164,7 +164,7 @@ function renderGodRays( postprocessing, camera, scene, renderer  ) {
 
     scene.children[2].position.set(
     Math.cos(time) * orbitRadius,
-    0,
+    100,
     Math.sin(time) * orbitRadius
     );
 
