@@ -58,8 +58,7 @@ function main() {
     function animate() {
 
         requestAnimationFrame( animate );
-
-        renderSPH(renderer, scene, camera, sph_buffers);
+        if(options.SmoothedParticleHydrodynamics) renderSPH(renderer, scene, camera, sph_buffers);
         renderFireworks(scene, fireworks);
         renderGodRays( postprocessing, camera, scene, renderer );
         stats.update();

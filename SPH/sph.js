@@ -51,7 +51,7 @@ function initSPHBuffers(){
     }
      return buffers;
 }
-function renderSPH(renderer, scene, camera,buffers){
+function renderSPH(renderer, scene,camera,buffers){
     renderNeighbors(renderer, scene, camera, buffers[0]);
     renderDensity(renderer, scene, camera, buffers[1]);
     renderVelocity(renderer, scene, camera, buffers[2]);

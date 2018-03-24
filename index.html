@@ -298,12 +298,8 @@
                 vec3 n_gridpos = gridpos + u_neighbors[i];
                 float n_index = n_gridpos.x + n_gridpos.y +  u_grid_vol * n_gridpos.z;
                 vec4 vert_ind = texture2D(u_neighbor_tex, index2D(n_index));
-                pressureForce += sumPressure(vert_ind.r, pos, pressure);
-                viscosityForce += sumVisc(vert_ind.r, pos, vel, pressure);
-                pressureForce += sumPressure(vert_ind.b, pos, pressure);
-                viscosityForce += sumVisc(vert_ind.b, pos, vel, pressure);
-                pressureForce += sumPressure(vert_ind.g, pos, pressure);
-                viscosityForce += sumVisc(vert_ind.g, pos, vel, pressure);
+                pressureForce += sumPressure(vert_ind.r, pos, pressure) * 4.0;
+                viscosityForce += sumVisc(vert_ind.r, pos, vel, pressure) * 4.0;
             }
             internalForces = (0.5 * pressureForce + u_viscosity * viscosityForce);
             internalForces /= density;

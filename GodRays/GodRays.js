@@ -164,8 +164,8 @@ function renderGodRays( postprocessing, camera, scene, renderer  ) {
 
     scene.children[3].position.set(
     Math.cos(time) * orbitRadius,
-    100,
-    Math.sin(time) * orbitRadius - 500
+    150,
+    Math.sin(time) * orbitRadius - 600
     );
 
     postprocessing.godrayCombineUniforms.fGodRayIntensity.value = options.GodRayIntensity;
@@ -309,10 +309,11 @@ function GUI(){
         GodRayIntensity: .5,
         SunPositiony: 3000,
         SunPositionx: -1000,
-
+        SmoothedParticleHydrodynamics: 0,
     };
 
     gui.add( options, "GodRayIntensity", 0, 1 );
     gui.add( options, "SunPositiony", -10000, 10000 );
     gui.add( options, "SunPositionx", -10000, 10000 );
+    gui.add(options, "SmoothedParticleHydrodynamics", 0, 1);
 }
