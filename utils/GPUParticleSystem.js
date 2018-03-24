@@ -23,7 +23,7 @@ THREE.GPUParticleSystem = function ( options ) {
 
 	// parse options and use defaults
 
-	this.PARTICLE_COUNT = options.maxParticles || 99;
+	this.PARTICLE_COUNT = options.maxParticles || 1000000;
 	this.PARTICLE_CONTAINERS = options.containerCount || 1;
 
 	this.PARTICLE_NOISE_TEXTURE = options.particleNoiseTex || null;
@@ -135,13 +135,13 @@ THREE.GPUParticleSystem = function ( options ) {
 
 			'	float alpha = 0.;',
 
-			'	if( lifeLeft > 0.40 ) {',
+			'	if( lifeLeft > 0.995 ) {',
 
 			'		alpha = scaleLinear( lifeLeft, vec2( 1.0, 0.995 ), vec2( 0.0, 1.0 ) );',
 
 			'	} else {',
 
-			'		alpha = lifeLeft * 40.75;',
+			'		alpha = lifeLeft * 0.75;',
 
 			'	}',
 
@@ -172,15 +172,15 @@ THREE.GPUParticleSystem = function ( options ) {
 
 	var textureLoader = new THREE.TextureLoader();
 
-	this.particleNoiseTex = this.PARTICLE_NOISE_TEXTURE || textureLoader.load( 'noise.jpg' );
+	this.particleNoiseTex = this.PARTICLE_NOISE_TEXTURE || textureLoader.load( './utils/perlin-512.png' );
 	this.particleNoiseTex.wrapS = this.particleNoiseTex.wrapT = THREE.RepeatWrapping;
 
-	this.particleSpriteTex = this.PARTICLE_SPRITE_TEXTURE || textureLoader.load( 'galaxy2.jpg' );
+	this.particleSpriteTex = this.PARTICLE_SPRITE_TEXTURE || textureLoader.load( './utils/particle2.png' );
 	this.particleSpriteTex.wrapS = this.particleSpriteTex.wrapT = THREE.RepeatWrapping;
 
 	this.particleShaderMat = new THREE.ShaderMaterial( {
-		transparent: false,
-		depthWrite: true,
+		transparent: true,
+		depthWrite: false,
 		uniforms: {
 			'uTime': {
 				value: 0.0
@@ -271,7 +271,7 @@ THREE.GPUParticleContainer = function ( maxParticles, particleSystem ) {
 
 	THREE.Object3D.apply( this, arguments );
 
-	this.PARTICLE_COUNT = maxParticles || 99;
+	this.PARTICLE_COUNT = maxParticles || 100000;
 	this.PARTICLE_CURSOR = 0;
 	this.time = 0;
 	this.offset = 0;
@@ -283,6 +283,7 @@ THREE.GPUParticleContainer = function ( maxParticles, particleSystem ) {
 	// geometry
 
 	this.particleShaderGeo = new THREE.BufferGeometry();
+
 
 	this.particleShaderGeo.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array( this.PARTICLE_COUNT * 3 ), 3 ).setDynamic( true ) );
 	this.particleShaderGeo.addAttribute( 'positionStart', new THREE.BufferAttribute( new Float32Array( this.PARTICLE_COUNT * 3 ), 3 ).setDynamic( true ) );
@@ -317,7 +318,7 @@ THREE.GPUParticleContainer = function ( maxParticles, particleSystem ) {
 
 		position = options.position !== undefined ? position.copy( options.position ) : position.set( 0, 0, 0 );
 		velocity = options.velocity !== undefined ? velocity.copy( options.velocity ) : velocity.set( 0, 0, 0 );
-		color = options.color !== undefined ? color.set( options.color ) : color.set( 0xffffff );
+		color = options.color !== undefined ? color.set( options.color ) : color.set( 0xffcc66 );
 
 		var positionRandomness = options.positionRandomness !== undefined ? options.positionRandomness : 0;
 		var velocityRandomness = options.velocityRandomness !== undefined ? options.velocityRandomness : 0;
@@ -365,8 +366,8 @@ THREE.GPUParticleContainer = function ( maxParticles, particleSystem ) {
 		// color
 
 		color.r = THREE.Math.clamp( color.r + particleSystem.random() * colorRandomness, 0, 1 );
-		color.g = THREE.Math.clamp( color.g + particleSystem.random() * colorRandomness, 0, 1 );
-		color.b = THREE.Math.clamp( color.b + particleSystem.random() * colorRandomness, 0, 1 );
+		color.g = 1.0; THREE.Math.clamp( color.g + particleSystem.random() * colorRandomness, 0, 1 );
+		color.b = 0.0; THREE.Math.clamp( color.b + particleSystem.random() * colorRandomness, 0, 1 );
 
 		colorAttribute.array[ i * 3 + 0 ] = color.r;
 		colorAttribute.array[ i * 3 + 1 ] = color.g;

@@ -422,8 +422,6 @@
         varying vec3 vColor;
 
         void main() {
-
-
             vec4 c = texture2D( texture, gl_PointCoord );
 
             vec4 color = vec4(1.0, 0.0, 0.0, 0.0); //make these values random
@@ -444,8 +442,8 @@
     <body>
         <div id="container"></div>
         <script src="./SPH/sph.js"></script>
-        <script src="./GodRays/GodRays.js"></script>
         <script src="./Fireworks/Firework.js"></script>
+        <script src="./GodRays/GodRays.js"></script>
         <script src="Driver.js"></script>
         <script>main()</script>
     <body>
