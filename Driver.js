@@ -28,6 +28,7 @@ function main() {
 
     let num_fireworks = 10;
     let fireworks = firework_main(scene, num_fireworks);
+	//fireworks = firework_main(scene, 20);
 
     initGodRayObjects( scene );
 
@@ -58,7 +59,7 @@ function main() {
 
         requestAnimationFrame( animate );
 
-        //renderSPH(renderer, scene, camera, sph_buffers);
+        renderSPH(renderer, scene, camera, sph_buffers);
         renderFireworks(scene, fireworks);
         renderGodRays( postprocessing, camera, scene, renderer );
         stats.update();

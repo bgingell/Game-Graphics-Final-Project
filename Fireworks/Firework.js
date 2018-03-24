@@ -26,15 +26,15 @@ function firework_main(scene, num_fireworks) {
 }
 
 function initFireworks(num_fireworks){
-    let width = window.innerWidth/10;
+    let width = window.innerWidth/5;
     let inc = (width/num_fireworks);
     let dest = 15; //need to change this to appropiate y
-    let x  = -(width/2);
+    let x  = -(width/2)+inc-5;
     let color = new THREE.Vector3();
     let fireworks = [];
     for (let i = 0; i < num_fireworks; i++) {
         fireworks.push({
-            position: new THREE.Vector3(x, -20, 0), //need to set my y to just off screen
+            position: new THREE.Vector3(x, -40, 0), //need to set my y to just off screen
             positionRandomness: .3,
             velocity: new THREE.Vector3(),
             turbulence: .1,
@@ -58,12 +58,13 @@ function renderFireworks(scene, fireworks) {
 	//Particles
 	//try to incoporate a sin function here for the actual trail
 	let delta = clock.getDelta() * spawnerOptions.timeScale;
+	
 	tick += delta;
 	//console.log(delta);
 	if ( tick < 0 ) tick = 0;
 	if ( delta > 0 ) {
 
-		if(fireworks[fireworks.length-1].position.y <= 15 ){ //15 IS WHERE FIREWORK WILL EXPLODE
+		if(fireworks[fireworks.length-1].position.y <= 20 ){ //15 IS WHERE FIREWORK WILL EXPLODE
 			for(let i = 0; i < fireworks.length; i++){
 				fireworks[i].position.y = fireworks[i].position.y +0.3;
 				fireworks[i].position.z = fireworks[i].position.y +0.003;
@@ -134,7 +135,7 @@ function explode(scene, fireworks){
 			if(attributes.size.array[ i ] >= -100){
 				attributes.size.array[ i ] += 1.5 * Math.sin(i + time );
 			}else{
-				attributes.size.array[ i ] = -1000;
+				//attributes.size.array[ i ] = -1000;
 			}//console.log(attributes.size.array[ i ]);
 		}
 			//console.log(attributes.size.array.length);
@@ -144,16 +145,10 @@ function explode(scene, fireworks){
 			position[i] += ((dest[i] - position[i])/100)-.1;
 
 		}
-		//console.log(start_position/3);
-		//console.log(start_position + (num_sparks*3));
-
-
-		//console.log(start_position);
-		//console.log(start_position + num_sparks);
-
+	
 		//this leaves tiny tiny tiny little dots still
 		for ( let i = 0; i <= attributes.size.array.length; i++ ) {
-				attributes.size.array[ i ] -= .15;
+				attributes.size.array[ i ] -= .2;
 		}
 }
 function initExplode(fireworks){
