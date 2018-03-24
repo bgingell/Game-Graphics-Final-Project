@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Fireworks</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+	body {
+		font-family: Monospace;
+		background-color: #f0f0f0;
+		margin: 0px;
+		overflow: hidden;
+	}
+
+	#info {
+		position: absolute;
+		top: 0px;
+		width: 100%;
+		padding: 5px;
+		font-family:Monospace;
+		font-size:13px;
+		text-align:center;
+		color: #ffffff;
+	}
+
+	a {
+		color: #ffffff;
+	}
+	</style>
+</head>
+
+<body>
+
+	<div id="container"></div>
+
+	<script src="./js/three.js"></script>
+	<script src="./js/dat.gui.min.js"></script>
+	<script src="./js/TrackballControls.js"></script>
+	<script src="./js/GPUParticleSystem.js"></script>
+	
+		<script type="x-shader/x-vertex" id="vertexshader">
+
+			uniform float amplitude;
+			attribute float size;
+			attribute vec3 customColor;
+
+			varying vec3 vColor;
+
+			void main() {
+
+				vColor = customColor;
+
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+				gl_PointSize = size * ( 300.0 / -mvPosition.z );
+
+				gl_Position = projectionMatrix * mvPosition;
+
+			}
+
+		</script>
+
+		<script type="x-shader/x-fragment" id="fragmentshader">
+
+			uniform vec3 color;
+			uniform sampler2D texture;
+
+			varying vec3 vColor;
+
+			void main() {
+
+				//gl_FragColor = vec4( color * vColor, 1.0 );
+				gl_FragColor =  texture2D( texture, gl_PointCoord );
+
+			}
+
+		</script>
+
+	<script>
+		var camera, tick = 0, scene, renderer, clock = new THREE.Clock(),
+			controls, container, gui = new dat.GUI( { width: 350 } ),
+			options, spawnerOptions, particleSystem,firework_obj, width, boxOfPoints,
+			bool = true;
+			
+		var tex1 = new THREE.TextureLoader().load( "particle2.png" );
+		
+		var amount = 100;
+		var radius = 500;
+		
+		var vertex = new THREE.Vector3();
+		var color = new THREE.Color(0xff0000 );
+		var to = new THREE.Vector3();
+			
+		var range = 25; //how far the particles move from the explosion 
+		//printing width of screen 
+		//width = window.innerwidth;
+		width = 104;
+		var WIDTH = window.innerWidth;
+		var HEIGHT = window.innerHeight;
+		
+		function initExplode(fireworks){
+			var positions = new Float32Array( amount * 3 * (fireworks.length));
+				var dests = new Float32Array( amount * 3 * (fireworks.length));
+				var colors = new Float32Array( amount * 3 * (fireworks.length));
+				var sizes = new Float32Array( amount * (fireworks.length) );
+				var time = Date.now() * 0.005;
+				var to = new THREE.Vector3();
+				var range = 25;
+				var vertex = new THREE.Vector3();
+				
+				for(var i = 0; i < fireworks.length; i++){
+					
+					for ( var j = 0; j < amount; j++ ) {
+				
+						vertex.x = fireworks[i].position.x;
+						vertex.y = fireworks[i].dest;
+						vertex.z = fireworks[i].position.z;
+				
+						to.x = THREE.Math.randFloat( vertex.x - range, vertex.x + range );
+						to.y = THREE.Math.randFloat( vertex.y - range, vertex.y + range );
+						to.z = THREE.Math.randFloat( vertex.z - range, vertex.z + range );
+						
+						vertex.toArray( positions, (i*300)+(j*3) );
+						to.toArray(dests, (i*300)+(j*3));
+						color.toArray( colors, (i*300)+(j*3) );
+						
+						sizes[ i ] = 20;
+					}
+				}
+				
+				//console.log(positions);
+				console.log(dests);
+			
+			var geometry = new THREE.BufferGeometry();
+			geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+			geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+			geometry.addAttribute( 'dest', new THREE.BufferAttribute( dests ) );
+			geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+			
+			var material = new THREE.ShaderMaterial( {
+
+				uniforms: {
+					amplitude: { value: 1.0 },
+					color:     { value: new THREE.Color( 0xff0000 ) },
+					texture:   { value: tex1 }
+				},
+				vertexShader:   document.getElementById( 'vertexshader' ).textContent,
+				fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+
+				blending:       THREE.AdditiveBlending,
+				depthTest:      false,
+				transparent:    true
+
+			});
+			
+			var boxOfPoints = new THREE.Points( geometry, material );
+			
+			return boxOfPoints;
+		}
+		
+		
+		init();
+		animate();
+
+		function init() {
+		
+			container = document.getElementById( 'container' );
+			camera = new THREE.PerspectiveCamera( 28, window.innerWidth / window.innerHeight, 1, 10000 );
+			camera.position.z = 200;
+
+			scene = new THREE.Scene();
+			
+			//launch
+			particleSystem = new THREE.GPUParticleSystem( {
+				maxParticles: 250000
+			} );
+	
+			
+			scene.add( particleSystem );
+			
+			var fireworks = [];
+			
+			//constructor
+			function firework(num_fireworks, fireworks){
+				var total = num_fireworks;
+				var inc = (width/total);
+				var dest;
+				var x  = -40;
+				
+				for (var i = 0; i < num_fireworks; i++) {
+					fireworks.push({
+						position: new THREE.Vector3(x, -20, 0),
+						positionRandomness: .3,
+						velocity: new THREE.Vector3(),
+						velocityRandomness: .5,
+						color: 0xff0000,
+						colorRandomness: .2,
+						turbulence: .5,
+						lifetime: 1.2,
+						size: 5,
+						sizeRandomness: 1,
+						dest: 20
+					});
+					x += inc;
+				}
+				return fireworks; 
+			}
+			
+			//creating 2 firework objects that are stored in fireworks array
+			var num_fireworks = 5;
+			this.fireworks = firework(num_fireworks, fireworks);
+			
+			//light
+			moonlight = new THREE.PointLight( 0xffffff, 1, 100 );
+			moonlight.position.set(0, 10, 5);
+			scene.add( moonlight );
+			
+			spawnerOptions = {
+				spawnRate: 5000,
+				horizontalSpeed: 1.5,
+				verticalSpeed: 1.33,
+				timeScale: 1
+			};
+
+			renderer = new THREE.WebGLRenderer();
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( WIDTH, HEIGHT );
+
+			window.addEventListener( 'resize', onWindowResize, false );
+			
+			renderer = new THREE.WebGLRenderer();
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			container.appendChild( renderer.domElement );
+
+			controls = new THREE.TrackballControls( camera, renderer.domElement );
+			controls.rotateSpeed = 5.0;
+			controls.zoomSpeed = 2.2;
+			controls.panSpeed = 1;
+			controls.dynamicDampingFactor = 0.3;
+
+			window.addEventListener( 'resize', onWindowResize, false );
+
+		}
+
+		function onWindowResize() {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+
+		}
+
+		function animate() {
+			//var boxOfPoints;
+			requestAnimationFrame( animate );
+			controls.update();
+
+			//Particles
+			//try to incoporate a sin function here for the actual trail
+			var delta = clock.getDelta() * spawnerOptions.timeScale;
+			tick += delta;
+
+			if ( tick < 0 ) tick = 0;
+			if ( delta > 0 ) {
+				if(fireworks[fireworks.length-1].position.y <= 25){
+					for(var i = 0; i < fireworks.length; i++){
+						fireworks[i].position.y = fireworks[i].position.y +0.3;
+					}
+					for ( var x = 0; x < spawnerOptions.spawnRate * delta; x++ ) {
+					
+						for(var i = 0; i < fireworks.length; i++){
+							particleSystem.spawnParticle( this.fireworks[i] );
+						}
+					}
+				}
+					if(fireworks[fireworks.length-1].position.y >= fireworks[fireworks.length-1].dest){
+							spawnerOptions.spawnRate = 0;
+							if(bool == true){
+								console.log('hit');
+								boxOfPoints = initExplode(fireworks);
+								bool = false;
+								
+							}
+							explode(boxOfPoints);
+
+						}
+					//console.log(fireworks[fireworks.length-1].position.y);
+					//console.log(fireworks[fireworks.length-1].dest);
+				}
+		
+				
+			particleSystem.update( tick );
+			
+			
+		render();
+		}
+		function explode(boxOfPoints){
+						
+				
+				scene.add( boxOfPoints );
+				var time = Date.now() * 0.005;
+
+				var attributes = boxOfPoints.geometry.attributes;
+			
+				var position = boxOfPoints.geometry.attributes.position.array;
+				var dest = boxOfPoints.geometry.attributes.dest.array;
+				
+				//console.log(position.length);
+				attributes.size.needsUpdate = true;
+				attributes.position.needsUpdate = true;	
+				
+				for ( var i = 0; i < attributes.size.array.length; i++ ) {
+					//only want this to run once
+					attributes.size.array[ i ] += 2 * Math.sin(10.01 * i + time/1.25 );
+				}
+					
+				
+				for (var i = 0; i < position.length; i++){
+						
+					position[i] += (dest[i] - position[i])/100;
+					
+				}
+				
+				for ( var i = 0; i < attributes.size.array.length; i++ ) {
+
+					attributes.size.array[ i ] -= .2;
+				}
+			
+		}
+		function render() {
+
+			
+			renderer.render( scene, camera );
+			
+
+
+		}
+
+	</script>
+</body>
+
+</html>
+
