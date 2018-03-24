@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - custom attributes [particles]</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				color: #ffffff;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+				font-weight: bold;
+
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				color: #fff;
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+				z-index:100;
+			}
+			a { color: #ff0000 }
+		</style>
+	</head>
+
+	<body>
+		<div id="container"></div>
+
+		<script src="js/three.js"></script>
+		<script src="js/OrbitControls.js"></script>
+
+
+		<script type="x-shader/x-vertex" id="vertexshader">
+
+			uniform float amplitude;
+			attribute float size;
+			attribute vec3 customColor;
+
+			varying vec3 vColor;
+
+			void main() {
+
+				vColor = customColor;
+
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+				gl_PointSize = size * ( 300.0 / -mvPosition.z );
+
+				gl_Position = projectionMatrix * mvPosition;
+
+			}
+
+		</script>
+
+		<script type="x-shader/x-fragment" id="fragmentshader">
+
+			uniform vec3 color;
+			uniform sampler2D texture;
+
+			varying vec3 vColor;
+
+			void main() {
+
+				//gl_FragColor = vec4( color * vColor, 1.0 );
+				gl_FragColor = texture2D( texture, gl_PointCoord );
+
+			}
+
+		</script>
+
+
+		<script>
+
+		var renderer, scene, camera;
+
+		var boxOfPoints;
+
+		var WIDTH = window.innerWidth;
+		var HEIGHT = window.innerHeight;
+
+		var tex1 = new THREE.TextureLoader().load( "particle2.png" );
+
+		init();
+		animate();
+
+	
+		function init() {
+
+			camera = new THREE.PerspectiveCamera( 40, WIDTH / HEIGHT, 1, 10000 );
+			camera.position.z = 300;
+			var controls = new THREE.OrbitControls( camera );
+			
+			scene = new THREE.Scene();
+
+			//initialize point attributes
+
+			//var amount = 10000;
+			//var radius = 25;
+			var amount = 100;
+			var radius = 500;
+
+			var positions = new Float32Array( amount * 3 );
+			var colors = new Float32Array( amount * 3 );
+			var dests = new Float32Array( amount * 3);
+			var sizes = new Float32Array( amount );
+
+			var vertex = new THREE.Vector3();
+			var color = new THREE.Color(0xff0000 );
+			var to = new THREE.Vector3();
+			
+			var range = 50; //how far the particles move from the explosion 
+
+			for ( var i = 0; i < amount; i ++ ) {
+				
+				vertex.x = 0;
+				vertex.y = 0;
+				vertex.z = 0;
+				
+				to.x = THREE.Math.randFloat( vertex.x - range, vertex.x + range );
+				to.y = THREE.Math.randFloat( vertex.y - range, vertex.y + range );
+				to.z = THREE.Math.randFloat( vertex.z - range, vertex.z + range );
+				
+				vertex.toArray( positions, i * 3 );
+				to.toArray(dests, i*3);
+				color.toArray( colors, i * 3 );
+
+				sizes[ i ] = 20;
+
+			}
+
+			var geometry = new THREE.BufferGeometry();
+			geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+			geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+			geometry.addAttribute( 'dest', new THREE.BufferAttribute( dests, 3 ) );
+			geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+
+
+			//
+
+			var material = new THREE.ShaderMaterial( {
+
+				uniforms: {
+					amplitude: { value: 1.0 },
+					color:     { value: new THREE.Color( 0xff0000 ) },
+					texture:   { value: tex1 }
+				},
+				vertexShader:   document.getElementById( 'vertexshader' ).textContent,
+				fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+
+				blending:       THREE.AdditiveBlending,
+				depthTest:      false,
+				transparent:    true
+
+			});
+
+			//
+
+			boxOfPoints = new THREE.Points( geometry, material );
+			scene.add( boxOfPoints );
+
+			//
+
+			renderer = new THREE.WebGLRenderer();
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( WIDTH, HEIGHT );
+
+			var container = document.getElementById( 'container' );
+			container.appendChild( renderer.domElement );
+
+			//
+
+			window.addEventListener( 'resize', onWindowResize, false );
+			
+			var attributes = boxOfPoints.geometry.attributes;
+			
+			//THIS CANT BE IN INIT() FOR OTHER FILE
+			//THIS CANT BE IN INIT() FOR OTHER FILE
+			//THIS CANT BE IN INIT() FOR OTHER FILE
+			//THIS CANT BE IN INIT() FOR OTHER FILE
+			//makes it look like an actual explosion
+			for ( var i = 0; i < attributes.size.array.length; i++ ) {
+
+				attributes.size.array[ i ] += 4 * Math.sin( 0.01 * i + 7606727268/3 );
+			}
+			
+		}
+
+		function onWindowResize() {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+
+		}
+
+		function animate() {
+
+			requestAnimationFrame( animate );
+			
+			render();
+
+		}
+
+		function render() {
+
+			var time = Date.now() * 0.005;
+
+			boxOfPoints.rotation.z = 0.01 * time;
+
+			var geometry = boxOfPoints.geometry;
+			var attributes = geometry.attributes;
+			
+			var position = boxOfPoints.geometry.attributes.position.array;
+			var dest = boxOfPoints.geometry.attributes.dest.array;
+			
+			var index = 0,x,y,z;
+			
+			for (var i = 0; i <= position.length; i++){
+			
+				position[ index ] += (dest[index] - position[index]) / 75;
+				index++;
+			}
+			
+			for ( var i = 0; i < attributes.size.array.length; i++ ) {
+
+				attributes.size.array[ i ] -= .1;
+			}
+			
+			attributes.size.needsUpdate = true;
+			attributes.position.needsUpdate = true;
+			
+
+			renderer.render( scene, camera );
+
+		}
+
+	</script>
+
+</body>
+
+</html>
