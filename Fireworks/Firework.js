@@ -1,7 +1,7 @@
 let tick = 0, clock = new THREE.Clock(), controls, spawnerOptions, prev_total = 0;
 
 let tex1 = new THREE.TextureLoader().load( "./Fireworks/particle2.png" );
-
+let boxOfPoints;
 let amount = 100;
 
 //width = window.innerwidth;
@@ -56,7 +56,6 @@ function initFireworks(num_fireworks){
 
 function renderFireworks(scene, fireworks) {
 	//Particles
-    console.log(scene);
 	//try to incoporate a sin function here for the actual trail
 	let delta = clock.getDelta() * spawnerOptions.timeScale;
 	tick += delta;
@@ -90,7 +89,6 @@ function renderFireworks(scene, fireworks) {
 			}
 
 		}
-
 		//this if statement checks the position of the lowest fireworks NOT RIGHT
 		if(fireworks[fireworks.length-1].position.y >= fireworks[1].dest){
 			//spawnerOptions.spawnRate = 0;
@@ -98,11 +96,11 @@ function renderFireworks(scene, fireworks) {
 
 
 			if(fireworks[prev_total].bool == true){
-				let boxOfPoints = initExplode(fireworks);
+				boxOfPoints = initExplode(fireworks);
 				fireworks[prev_total].bool = false;
 			}
 			//for(let i = fireworks[prev_total-1].group; i < fireworks[prev_total-1].group_end; i++ )
-			explode(boxOfPoints, fireworks);
+			explode(scene, fireworks);
 		}
 			//console.log(fireworks[fireworks.length-1].position.y);
 			//console.log(fireworks[fireworks.length-1].dest);
@@ -111,7 +109,7 @@ function renderFireworks(scene, fireworks) {
 	scene.children[1].update( tick );
 }
 
-function explode(boxOfPoints, fireworks){
+function explode(scene, fireworks){
 		scene.add( boxOfPoints );
 		let time = Date.now() * 0.005;
 

@@ -1,5 +1,4 @@
 function main() {
-
     var camera, scene, renderer;
     var postprocessing = { enabled : true };
     var container;
@@ -62,7 +61,6 @@ function main() {
         renderSPH(renderer, scene, camera, sph_buffers);
         renderFireworks(scene, fireworks);
         renderGodRays( postprocessing, camera, scene, renderer );
-
         stats.update();
 
      }

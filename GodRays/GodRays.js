@@ -159,11 +159,10 @@ function renderGodRays( postprocessing, camera, scene, renderer  ) {
     var sunPosition = new THREE.Vector3( 0, 1000, -1000 );
     var orbitRadius = 200;
     var height = window.innerHeight;
+    scene.children[3].rotation.y += time * 0.00000000005;
 
-    scene.children[2].rotation.y += time * 0.00000000005;
 
-
-    scene.children[2].position.set(
+    scene.children[3].position.set(
     Math.cos(time) * orbitRadius,
     100,
     Math.sin(time) * orbitRadius - 500

@@ -392,6 +392,46 @@
         gl_FragColor = v_color;
     }
     </script>
+    <script type="x-shader/x-vertex" id="firework-vs">
+
+        uniform float amplitude;
+        attribute float size;
+        attribute vec3 customColor;
+
+        varying vec3 vColor;
+
+        void main() {
+
+            vColor = customColor;
+
+            vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+            gl_PointSize = size * ( 300.0 / -mvPosition.z );
+
+            gl_Position = projectionMatrix * mvPosition;
+
+        }
+
+    </script>
+
+    <script type="x-shader/x-fragment" id="firework-fs">
+
+        uniform vec3 color;
+        uniform sampler2D texture;
+
+        varying vec3 vColor;
+
+        void main() {
+
+
+            vec4 c = texture2D( texture, gl_PointCoord );
+
+            vec4 color = vec4(1.0, 0.0, 0.0, 0.0); //make these values random
+
+            gl_FragColor = mix(c, color, 0.5);
+
+        }
+    </script>
     <script src="./utils/stats.min.js"></script>
     <script src="./utils/three.min.js"></script>
     <script src="./utils/ShaderGodRays.js"></script>
