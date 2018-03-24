@@ -60,7 +60,6 @@ function renderSPH(renderer, scene, camera,buffers){
     scene.children[0].material.vertexShader =  document.getElementById( 'sph-vs' ).textContent;
     scene.children[0].material.fragmentShader =  document.getElementById( 'sph-fs' ).textContent;
     scene.children[0].material.needsUpdate = true;
-    renderer.render(scene, camera);
 }
 
 function renderNeighbors(renderer, scene, camera, neighbor_buff){

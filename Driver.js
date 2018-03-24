@@ -1,6 +1,3 @@
-var stats;
-var options;
-
 function main() {
 
     var camera, scene, renderer;
@@ -57,8 +54,9 @@ function main() {
 
         requestAnimationFrame( animate );
 
-        renderGodRays( postprocessing, camera, scene, renderer  );
-        renderSPH(renderer, scene, camera,sph_buffers);
+        renderSPH(renderer, scene, camera, sph_buffers);
+
+        renderGodRays( postprocessing, camera, scene, renderer );
 
         stats.update();
 

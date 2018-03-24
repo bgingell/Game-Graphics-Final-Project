@@ -1,3 +1,6 @@
+var stats;
+var options;
+
  function initGodRayObjects( scene ){
     moon( scene );
     skyBox( scene );
