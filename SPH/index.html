@@ -1,0 +1,314 @@
+<DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>sph</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				background:#777;
+				padding:0;
+				margin:0;
+				overflow:hidden;
+			}
+			#info {
+				position: absolute;
+				top: 0px;
+				width: 100%;
+				color: #ffffff;
+			}
+		</style>
+        <script id="neigh-vs" type="x-shader/x-vertex">
+        precision mediump float;
+        precision mediump int;
+
+        attribute float the_index;
+
+        uniform sampler2D u_pos_tex;
+        uniform float u_grid_vol;
+        uniform float u_grid_tex_size;
+
+        varying vec4 v_color;
+        varying float v_index;
+        vec2 index2D(float indexPosition, bool obj){
+            vec2 index;
+            index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
+            index.y = (floor(indexPosition/u_grid_tex_size)+0.5)/u_grid_tex_size;
+            if(obj) index = 2.0 * index.xy - 1.0;
+            return index;
+        }
+
+        void main() {
+            vec3 pos = texture2D(u_pos_tex, index2D(the_index, false)).rgb;
+            vec3 pos_in_grid = floor(pos);
+            float grid_index = pos_in_grid.x + u_grid_vol * pos_in_grid.y + u_grid_vol * pos_in_grid.z;
+            gl_Position = vec4(index2D(grid_index, true), the_index/(u_grid_tex_size * u_grid_tex_size), 1.0);
+            v_color = vec4(the_index);
+        }
+        </script>
+        <script id="neigh-fs" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec4 v_color;
+        void main(){
+            gl_FragColor = v_color;
+        }
+        </script>
+        <script id="density-vel-pos-vs" type="x-shader/x-vertex">
+        precision mediump float;
+
+        uniform float u_grid_tex_size;
+        attribute float the_index;
+        varying float v_index;
+        vec2 index2D(float indexPosition, bool obj){
+            vec2 index;
+            index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
+            index.y = (floor(indexPosition/u_grid_tex_size)+0.5)/u_grid_tex_size;
+            if(obj) index = 2.0 * index.xy - 1.0;
+            return index;
+        }
+        void main(){
+            v_index = the_index;
+            gl_Position = vec4(index2D(the_index, true), 0.0, 1.0);
+        }
+        </script>
+
+        <script id="density-fs" type="x-shader/x-fragment">
+        precision mediump float;
+
+        uniform sampler2D u_pos_tex;
+        uniform sampler2D u_vel_tex;
+        uniform sampler2D u_neighbor_tex;
+        uniform float u_restDensity;
+        uniform float u_grid_vol;
+        uniform float u_grid_tex_size;
+        uniform vec3 u_neighbors[27];
+        uniform float u_mass;
+        uniform float u_maxSearchRatio;
+        uniform float u_weightDefaultConstant;
+
+        varying float v_index;
+        float wDefault(vec3 distance){
+            float answ = 0.0;
+            float ratio = length(distance);
+            if(ratio < u_maxSearchRatio){
+                float r2 = ratio * ratio;
+                float max = u_maxSearchRatio * u_maxSearchRatio;
+                float diff = max - r2;
+                answ = u_weightDefaultConstant * diff *  diff * diff;
+            }
+            return answ;
+        }
+
+        vec2 index2D(float indexPosition){
+            vec2 index;
+            index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
+            index.y = (floor(indexPosition/u_grid_tex_size)+0.5)/u_grid_tex_size;
+            return index;
+        }
+
+        void main(){
+            vec3 pos = texture2D(u_pos_tex, index2D(v_index)).rgb;
+            vec3 vel = texture2D(u_vel_tex, index2D(v_index)).rgb;
+            vec3 gridpos = floor(pos.xyz);
+            float density = 0.0;
+
+            for(int i = 0; i < 27; i++){
+                vec3 n_gridpos = gridpos + u_neighbors[i];
+                float n_index = n_gridpos.x +  n_gridpos.y + ( u_grid_vol) * n_gridpos.z;
+                if(n_index >= 0.0 && n_index < (u_grid_tex_size * u_grid_tex_size)){
+                    vec4 v_indices = texture2D(u_neighbor_tex, index2D(n_index));
+                    if(v_indices.r != 0.0) density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.r)).rgb);
+                    if(v_indices.g != 0.0) density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.g)).rgb);
+                    if(v_indices.b != 0.0) density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.b)).rgb);
+                    if(v_indices.a != 0.0) density += u_mass * wDefault(pos - texture2D(u_pos_tex, index2D(v_indices.a)).rgb);
+                }
+            }
+            gl_FragColor = vec4(density, 0.0, 0.0, 1.0);
+        }
+        </script>
+
+        <script id="vel-fs" type="x-shader/x-fragment">
+        precision mediump float;
+
+        uniform sampler2D u_pos_tex;
+        uniform sampler2D u_vel_tex;
+        uniform sampler2D u_density_tex;
+        uniform sampler2D u_neighbor_tex;
+        uniform float u_grid_vol;
+        uniform float u_grid_tex_size;
+        uniform vec3 u_neighbors[27];
+        uniform float u_mass;
+        uniform float u_maxSearchRatio;
+        uniform float u_kConstant;
+        uniform float u_weightPressureConstant;
+        uniform float u_weightViscosityConstant;
+        uniform float u_restitution;
+        uniform float u_viscosity;
+        uniform float u_restDensity;
+        uniform float u_dt;
+
+        varying float v_index;
+        vec2 index2D(float indexPosition){
+            vec2 index;
+            index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
+            index.y = (floor(indexPosition/u_grid_tex_size)+0.5)/u_grid_tex_size;
+            return index;
+        }
+        vec3 wPressure(vec3 distance){
+            vec3 answ = vec3(0.0);
+            float ratio = length(distance);
+            if(ratio < u_maxSearchRatio && ratio > 0.0){
+                float diff = u_maxSearchRatio - ratio;
+                answ = u_weightPressureConstant * normalize(distance) * diff * diff;
+            }
+            return answ;
+        }
+
+        float wViscosity(vec3 dist){
+            float answ = 0.0;
+            float ratio = length(dist);
+            if(ratio < u_maxSearchRatio){
+                answ = u_weightViscosityConstant * (u_maxSearchRatio - ratio);
+            }
+            return answ;
+        }
+
+        vec3 sumPressure(float n_index, vec3 pos, float pressure){
+            vec2 n_i = index2D(n_index);
+            vec3 n_pos = texture2D(u_pos_tex, n_i).rgb;
+            float n_density = texture2D(u_density_tex, n_i).r;
+
+            if(n_density > 0.0){
+                return vec3((u_kConstant * (n_density - u_restDensity) + pressure) * u_mass * wPressure(n_pos-pos) / u_restDensity);
+            }
+        }
+
+        vec3 sumVisc(float n_index, vec3 pos, vec3 vel, float pressure){
+            vec2 n_i = index2D(n_index);
+            vec3 n_pos = texture2D(u_pos_tex, n_i).rgb;
+            vec3 n_vel = texture2D(u_vel_tex, n_i).rgb;
+            float n_density = texture2D(u_density_tex, n_i).r;
+
+            if(n_density > 0.0){
+                return vec3((n_vel - vel) * u_mass * wViscosity(pos - n_pos) / u_restDensity);
+            }
+        }
+        void main(){
+            vec2 tex_ind = index2D(v_index);
+            vec3 pos = texture2D(u_pos_tex, tex_ind).rgb;
+            vec3 vel = texture2D(u_vel_tex, tex_ind).rgb;
+            float density = texture2D(u_density_tex, tex_ind).r;
+            vec3 gridpos = floor(pos);
+            float pressure = u_kConstant * (density - u_restDensity);
+            vec3 pressureForce = vec3(0.0);
+            vec3 viscosityForce = vec3(0.0);
+            vec3 internalForces = vec3(0.0);
+
+            if(density > 0.0){
+                for(int i = 0; i < 27; i++){
+                    vec3 n_gridpos = gridpos + u_neighbors[i];
+                    float n_index = n_gridpos.x + n_gridpos.y +  u_grid_vol * n_gridpos.z;
+                    vec4 vert_ind = texture2D(u_neighbor_tex, index2D(n_index));
+                    pressureForce += sumPressure(vert_ind.r, pos, pressure);
+                    viscosityForce += sumVisc(vert_ind.r, pos, vel, pressure);
+                    pressureForce += sumPressure(vert_ind.b, pos, pressure);
+                    viscosityForce += sumVisc(vert_ind.b, pos, vel, pressure);
+                    pressureForce += sumPressure(vert_ind.g, pos, pressure);
+                    viscosityForce += sumVisc(vert_ind.g, pos, vel, pressure);
+                }
+                internalForces = (0.5 * pressureForce + u_viscosity * viscosityForce);
+                internalForces /= density;
+            }
+            vec3 x_loc = pos - vec3(50.0);
+            vec3 contractpt = min(vec3(48.0), max(vec3(-48.0), x_loc));
+            float dist = length((contractpt+0.5) - pos);
+
+            if(dist > 0.0 && length(vel) > 0.0){
+                vec3 norm = normalize(sign(contractpt - x_loc));
+                float rest = u_restitution * dist / (u_dt * length(vel));
+                vel -= (1.0 + u_restitution) * dot(vel, norm) * norm;
+            }
+            vec3 acc = vec3(0.0, -9.8, 0.0) + internalForces;
+            vel += u_dt * acc.xyz;
+            gl_FragColor = vec4(vel, 1.0);
+        }
+        </script>
+        <script id="pos-fs" type="x-shader/x-vertex">
+        precision mediump float;
+
+        uniform sampler2D u_pos_tex;
+        uniform sampler2D u_vel_tex;
+        uniform float u_dt;
+        uniform float u_grid_tex_size;
+        varying float v_index;
+        vec2 index2D(float indexPosition){
+            vec2 index;
+            index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
+            index.y = (floor(indexPosition/u_grid_tex_size)+0.5)/u_grid_tex_size;
+            return index;
+        }
+
+        void main(){
+            vec2 tex_ind = index2D(v_index);
+            vec3 pos = texture2D(u_pos_tex, tex_ind).rgb;
+            vec3 vel = texture2D(u_vel_tex, tex_ind).rgb;
+            pos = pos.xyz + vel.xyz * u_dt;
+            gl_FragColor = vec4(pos, 1.0);
+        }
+        </script>
+        <script id="sph-vs" type="x-shader/x-vertex">
+        attribute float the_index;
+
+        uniform sampler2D u_pos_tex;
+       uniform sampler2D u_vel_tex;
+       uniform sampler2D u_density_tex;
+
+       uniform float u_grid_tex_size;
+
+       varying vec4 v_color;
+       varying float v_index;
+
+       vec2 index2D(float indexPosition, bool obj){
+           vec2 index = vec2(0.0);
+           index.x = (mod(indexPosition, u_grid_tex_size)+0.5)/u_grid_tex_size;
+           index.y = (floor(indexPosition/u_grid_tex_size)+0.5)/u_grid_tex_size;
+           if(obj) index = 2.0 * index.xy - 1.0;
+           return index;
+       }
+
+        void main() {
+            gl_PointSize = 3.0;
+            vec3 center = vec3(100.0);
+            vec3 box = vec3(96.0);
+
+            vec3 pos = texture2D(u_pos_tex, index2D(the_index, false)).rgb;
+            vec3 x_loc = pos - center;
+            vec3 ctp_loc = min(box, max(-box, x_loc));
+            vec3 contractpt = ctp_loc + center;
+            float dist = length(contractpt - pos);
+            float density = texture2D(u_density_tex, index2D(the_index, false)).r;
+
+            if(dist > 0.0) pos = contractpt;
+            if(density == 0.0) pos = vec3(0.0);
+            v_color = vec4(0.0, 0.0, 1.0 * pos.y * 0.035 + 0.2, 1.0);
+            v_index = the_index;
+            gl_Position = projectionMatrix * modelMatrix * viewMatrix * vec4(pos, 1.0);
+        }
+        </script>
+        <script id="sph-fs" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec4 v_color;
+        void main(){
+            gl_FragColor = v_color;
+        }
+        </script>
+        <script src="../utils/three.min.js"></script>
+        <script src="../utils/OrbitControls.js"></script>
+        <script src="../utils/dat.gui.min.js"></script>
+    </head>
+    <body>
+        <div id="container"></div>
+        <script src="sph.js"></script>
+        <script>main()</script>
+    </body>
+</html>
