@@ -300,7 +300,7 @@ THREE.GPUParticleContainer = function ( maxParticles, particleSystem ) {
 
 	var position = new THREE.Vector3();
 	var velocity = new THREE.Vector3();
-	var color = new THREE.Color();
+	var color = new THREE.Color(0xff0000);
 
 	this.spawnParticle = function ( options ) {
 
@@ -318,13 +318,13 @@ THREE.GPUParticleContainer = function ( maxParticles, particleSystem ) {
 
 		position = options.position !== undefined ? position.copy( options.position ) : position.set( 0, 0, 0 );
 		velocity = options.velocity !== undefined ? velocity.copy( options.velocity ) : velocity.set( 0, 0, 0 );
-		color = options.color !== undefined ? color.set( options.color ) : color.set( 0xffcc66 );
+		color = options.color !== undefined ? color.set( options.color ) : color.set( 0xff0000 );
 
 		var positionRandomness = options.positionRandomness !== undefined ? options.positionRandomness : 0;
 		var velocityRandomness = options.velocityRandomness !== undefined ? options.velocityRandomness : 0;
 		var colorRandomness = options.colorRandomness !== undefined ? options.colorRandomness : 1;
-		var turbulence = options.turbulence !== undefined ? options.turbulence : 1;
-		var lifetime = options.lifetime !== undefined ? options.lifetime : 5;
+		var turbulence = options.turbulence !== undefined ? options.turbulence : 0;
+		var lifetime = options.lifetime !== undefined ? options.lifetime : 3;
 		var size = options.size !== undefined ? options.size : 10;
 		var sizeRandomness = options.sizeRandomness !== undefined ? options.sizeRandomness : 0;
 		var smoothPosition = options.smoothPosition !== undefined ? options.smoothPosition : false;

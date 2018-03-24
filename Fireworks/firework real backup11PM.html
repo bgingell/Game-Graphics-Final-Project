@@ -100,7 +100,7 @@
 		let HEIGHT = window.innerHeight;
 		
 		function initExplode(fireworks){
-			console.log("initExplode()");
+			console.log()
 			let positions = new Float32Array( amount * 3 * (fireworks.length));
 			let dests = new Float32Array( amount * 3 * (fireworks.length));
 			//let colors = new Float32Array( amount * 3 * (fireworks.length));
@@ -172,7 +172,6 @@
 		animate();
 
 		function init() {
-			console.log("init()");
 		
 			container = document.getElementById( 'container' );
 			camera = new THREE.PerspectiveCamera( 28, window.innerWidth / window.innerHeight, 1, 10000 );
@@ -198,7 +197,6 @@
 			
 			//constructor
 			function firework(num_fireworks, fireworks){
-				console.log("firework()");
 				let inc = (width/num_fireworks);
 				let dest = 15;
 				let x  = -(width/2);
@@ -274,7 +272,6 @@
 		}
 
 		function animate() {
-			console.log("animate()");
 			requestAnimationFrame( animate );
 			controls.update();
 
@@ -308,6 +305,7 @@
 					for(let i = group_start; i < group_end; i++){
 						fireworks[i].position.y = fireworks[i].position.y +300;
 					}
+
 				}
 				
 				//this if statement checks the position of the lowest fireworks NOT RIGHT
@@ -331,7 +329,7 @@
 		}
 		
 		function explode(boxOfPoints, fireworks){
-				console.log("explode()");
+				
 				scene.add( boxOfPoints );
 				let time = Date.now() * 0.005;
 

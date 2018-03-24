@@ -1,106 +1,20 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Fireworks</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<style>
-	body {
-		font-family: Monospace;
-		background-color: #f0f0f0;
-		margin: 0px;
-		overflow: hidden;
-	}
-
-	#info {
-		position: absolute;
-		top: 0px;
-		width: 100%;
-		padding: 5px;
-		font-family:Monospace;
-		font-size:13px;
-		text-align:center;
-		color: #ffffff;
-	}
-
-	a {
-		color: #ffffff;
-	}
-	</style>
-</head>
-
-<body>
-
-	<div id="container"></div>
-	<!--
-	<div id="info">
-		<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - GPU particle system plugin by <a href="http://charliehoey.com">Charlie Hoey</a>.
-	</div>
-	-->
-
-	<script src="./js/three.js"></script>
-	<script src="./js/dat.gui.min.js"></script>
-	<script src="./js/TrackballControls.js"></script>
-	<script src="./js/GPUParticleSystem.js"></script>
-	
-		<script type="x-shader/x-vertex" id="vertexshader">
-
-			uniform float amplitude;
-			attribute float size;
-			attribute vec3 customColor;
-
-			varying vec3 vColor;
-
-			void main() {
-
-				vColor = customColor;
-
-				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-
-				gl_PointSize = size * ( 300.0 / -mvPosition.z );
-
-				gl_Position = projectionMatrix * mvPosition;
-
-			}
-
-		</script>
-
-		<script type="x-shader/x-fragment" id="fragmentshader">
-
-			uniform vec3 color;
-			uniform sampler2D texture;
-
-			varying vec3 vColor;
-
-			void main() {
-
-				//gl_FragColor = vec4( color * vColor, 1.0 );
-				vec4 c = texture2D( texture, gl_PointCoord );
-				vec4 color = vec4(1.0, 0.0, 0.0, 0.0); //make these values random
-				gl_FragColor =   mix(c, color, 0.5);
-
-			}
-
-		</script>
-
-	<script>
-		let camera, tick = 0, scene, renderer, clock = new THREE.Clock(),
-			controls, container, spawnerOptions, particleSystem, 
+		let camera, scene, renderer, tick = 0, clock = new THREE.Clock(), controls, container, spawnerOptions, particleSystem, 
 			width, prev_total = 0;
-			
+		
+		let fireworks = [];
+		let num_fireworks = 10;
+		
 		let tex1 = new THREE.TextureLoader().load( "particle2.png" );
 		
 		let amount = 100;
 		let radius = 500;
-		
+			
 		//width = window.innerwidth;
-		width = window.innerWidth/10;
+		width = window.innerWidth/10; //I DIVIDE WIDTH BY 10 TO BETTER REPRESENT THE XYZ COORDINATES FOR FIREWORK POSITION
 		let WIDTH = window.innerWidth;
 		let HEIGHT = window.innerHeight;
 		
 		function initExplode(fireworks){
-			console.log("initExplode()");
 			let positions = new Float32Array( amount * 3 * (fireworks.length));
 			let dests = new Float32Array( amount * 3 * (fireworks.length));
 			//let colors = new Float32Array( amount * 3 * (fireworks.length));
@@ -146,7 +60,6 @@
 			//geometry.addAttribute('group', new THREE.BufferAttribute( )
 			
 			let material = new THREE.ShaderMaterial( {
-
 				uniforms: {
 					amplitude: { value: 1.0 },
 					//color:     { value: new THREE.Color( 0xff0000 ) },
@@ -168,11 +81,10 @@
 			return boxOfPoints;
 		}
 		
-		init();
-		animate();
-
-		function init() {
-			console.log("init()");
+		firework_main(num_fireworks);
+		render_fireworks();
+		
+		function firework_main(num_fireworks) {
 		
 			container = document.getElementById( 'container' );
 			camera = new THREE.PerspectiveCamera( 28, window.innerWidth / window.innerHeight, 1, 10000 );
@@ -185,22 +97,16 @@
 				maxParticles: 250000
 			} );
 			
-			let pMaterial = new THREE.ParticleBasicMaterial({
-				color: 0xFFFFFF,
-				
-			}); 
-			
 			//var particleSystem = new THREE.ParticleSystem(particleSystem,pMaterial);
 			
 			scene.add( particleSystem );
 			
-			let fireworks = [];
+			//let fireworks = [];
 			
 			//constructor
 			function firework(num_fireworks, fireworks){
-				console.log("firework()");
 				let inc = (width/num_fireworks);
-				let dest = 15;
+				let dest = 15; //need to change this to appropiate y
 				let x  = -(width/2);
 				let color = new THREE.Vector3();
 				
@@ -209,10 +115,10 @@
 						position: new THREE.Vector3(x, -20, 0), //need to set my y to just off screen
 						positionRandomness: .3,
 						velocity: new THREE.Vector3(),
-						color: 0xffcc66,
 						turbulence: .5,
 						lifetime: 1, 
 						size: 4,
+						color,
 						//num_fireworks: num_fireworks,
 						num_sparks: num_fireworks*amount,
 						dest: dest,
@@ -227,33 +133,24 @@
 			}
 			
 			//creating 20 firework objects that are stored in fireworks array
-			let num_fireworks = 20;
+			//let num_fireworks = 20;
+			console.log("hit");
 			
 			this.fireworks = firework(num_fireworks, fireworks);
-			document.addEventListener("click", function(){
-				prev_total = fireworks.length;
-				
-				this.fireworks = firework(num_fireworks, fireworks);
-				
-			});
 			
-			//light
-			moonlight = new THREE.PointLight( 0xffffff, 1, 100 );
-			moonlight.position.set(0, 10, 5);
-			scene.add( moonlight );
-			
+
 			
 			spawnerOptions = {
 				spawnRate: 5000,
 				horizontalSpeed: 1.5,
 				verticalSpeed: 1.5,
-				timeScale: 1.2
+				timeScale: 1
 			};
 
 			renderer = new THREE.WebGLRenderer();
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( WIDTH, HEIGHT );
-			window.addEventListener( 'resize', onWindowResize, false );
+			//window.addEventListener( 'resize', onWindowResize, false );
 			renderer = new THREE.WebGLRenderer();
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( window.innerWidth, window.innerHeight );
@@ -263,35 +160,30 @@
 			controls.zoomSpeed = 2.2;
 			controls.panSpeed = 1;
 			controls.dynamicDampingFactor = 0.3;
-			window.addEventListener( 'resize', onWindowResize, false );
+			//window.addEventListener( 'resize', onWindowResize, false );
 
 		}
 
-		function onWindowResize() {
-			camera.aspect = window.innerWidth / window.innerHeight;
-			camera.updateProjectionMatrix();
-			renderer.setSize( window.innerWidth, window.innerHeight );
-		}
-
-		function animate() {
-			console.log("animate()");
-			requestAnimationFrame( animate );
-			controls.update();
-
+		function render_fireworks() { //might have to pass in fireworks[] array here
+			
+			//controls.update();
+			requestAnimationFrame( render_fireworks );
 			//Particles
 			//try to incoporate a sin function here for the actual trail
 			let delta = clock.getDelta() * spawnerOptions.timeScale;
 			tick += delta;
-			
+			//console.log(delta);
 			if ( tick < 0 ) tick = 0;
 			if ( delta > 0 ) {
 				
-				if(fireworks[fireworks.length-1].position.y <= 15 ){
+				if(fireworks[fireworks.length-1].position.y <= 15 ){ //15 IS WHERE FIREWORK WILL EXPLODE
 					for(let i = 0; i < fireworks.length; i++){
 						fireworks[i].position.y = fireworks[i].position.y +0.3;
+						fireworks[i].position.z = fireworks[i].position.y +0.003;
 					}
 					
 					for ( let x = 0; x < spawnerOptions.spawnRate * delta; x++ ) {
+						//console.log("hit delta");
 						for(let i = 0; i < fireworks.length; i++){
 							particleSystem.spawnParticle( this.fireworks[i] );
 						}
@@ -306,8 +198,9 @@
 					//console.log('hit');	
 					//console.log(group_end);
 					for(let i = group_start; i < group_end; i++){
-						fireworks[i].position.y = fireworks[i].position.y +300;
+						fireworks[i].position.y = fireworks[i].position.y + 300;
 					}
+
 				}
 				
 				//this if statement checks the position of the lowest fireworks NOT RIGHT
@@ -331,7 +224,7 @@
 		}
 		
 		function explode(boxOfPoints, fireworks){
-				console.log("explode()");
+				
 				scene.add( boxOfPoints );
 				let time = Date.now() * 0.005;
 
@@ -384,9 +277,4 @@
 			
 			renderer.render( scene, camera );
 		}
-
-	</script>
-</body>
-
-</html>
 
