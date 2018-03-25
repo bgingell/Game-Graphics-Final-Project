@@ -22,13 +22,14 @@ function firework_main(scene, num_fireworks) {
 		verticalSpeed: 1.5,
 		timeScale: 1.5
 	};
+	
     return fireworks;
 }
 
 function initFireworks(num_fireworks){
     let width = window.innerWidth/5;
     let inc = (width/num_fireworks);
-    let dest = THREE.Math.randFloat(-30, 30); 
+    let dest = THREE.Math.randFloat(-30, 20); 
     let x  = -(width/2)+inc-30;
     let color = new THREE.Vector3();
     let fireworks = [];
@@ -93,8 +94,6 @@ function renderFireworks(scene, fireworks) {
 		if(fireworks[fireworks.length-1].position.y >= fireworks[1].dest){
 			//spawnerOptions.spawnRate = 0;
 			//move spark trail origin off screen
-
-
 			if(fireworks[prev_total].bool == true){
 				boxOfPoints = initExplode(fireworks);
 				fireworks[prev_total].bool = false;
@@ -202,7 +201,8 @@ function initExplode(fireworks){
 		fragmentShader: document.getElementById( 'firework-fs' ).textContent,
 		blending:       THREE.AdditiveBlending,
 		depthTest:      false,
-		transparent:    true
+		transparent:    true,
+		lights: false //attempting to stop godray from affect explosion
 
 	});
 
