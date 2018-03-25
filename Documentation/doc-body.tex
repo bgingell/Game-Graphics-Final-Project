@@ -69,7 +69,7 @@ To make the shader for these god rays, most of the shader work must be done in t
 
 
 
-. Date accessed: \today. \\\subsection{After Creation, Post-Processing}
+.\subsection{After Creation, Post-Processing}
 
 The effect is primarily a post processing effect in where the frame buffer takes the renders the objects on the screen separate from the render of the god rays. One render will be the light source and occluding objects without the shaders, and the other the objects altogether Thus, there are two sets of frame buffers which when combined and switched to orthogonal projection, create a visual and stunning combination. 
 
@@ -82,6 +82,50 @@ The effect is primarily a post processing effect in where the frame buffer takes
 \caption{Meh}
 \end{figure}
 \section{Fireworks}
+The fireworks were made by utilizing both particle systems and point clouds. Since there are two
+stages to the actual firework sequence, I was able to rather accurately recreate both the launch
+and explosion sequences by using the techniques stated above. Using a GPUParticleSystem for
+the thrusters to represent the sparks that fall off and fade away as the thruster continues in its
+direction made for a very pleasing animation. Then lastly for the actual explosion using a point
+cloud with each point having its own x,y, and z position. Having these points be accessible made
+for a convincing explosion by moving all the points outwards in every direction from an original
+center position.
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{eric1}
+\caption{Thruster with no noise}
+\end{figure}
+\subsection{Thrusters}
+Figure 4 is an unadulterated (i.e. no noise) GPUParticleSystem which made for a nice depiction of
+how thrusters shoot off the sparks directly behind it which eventually begin to not only spread
+out more but made further and further away from its original position until it inevitably loses its
+spark.
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{eric2}
+\caption{Thruster with Noise}
+\end{figure}
+Adding Perlin Noise to my GPUParticleSystem pretty much accomplished exactly what I was
+hoping for. I wanted it seem like it was a windy day and these sparks and thrusters were fighting
+through to their final destination. As you can see their trails shift from left to right and other
+directions, while each of their original source spawn stays on course towards its inevitable
+demise. Each of these firework trails were created by having an array of firework objects each
+carrying their own set of unique values, which were then put into a for loop in order to spawn all
+of them and be able to manipulate their position and other variables separately and
+simultaneously.
+
+\subsection{Explosions}
+Let me preface this by saying people assume that recording firework shows are worthless and
+just getting in the way of enjoying the moment. Well they are plain and simply wrong because I
+watched hours’ worth of firework clips in order to try and get a better understanding of the
+physics behind them. A couple main points I concluded from these videos is that there is an
+original burst of white light before the actual colored sparks really show. This is depicted above
+and I am happy with the outcome. The particles from the point cloud spawn from where the
+thrusters stop or ‘explode.’ The size of each is then instantly manipulated by a sin function, since
+the pixels start so close together this make the explosion seem extremely wide. As these particles
+shrink the bright light also begin to made, making for a relatively realistic explosion.
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{eric3}
+\caption{A stunning explosion}
+\end{figure}
 
 \section{Conclusions}
 In all, the plan for this project was ambitious, but much of it was fulfilled. 
@@ -102,6 +146,23 @@ Micky Kelager:Lagrangian Fluid Dynamics
 Using Smoothed Particle Hydrodynamics. \url{http://image.diku.dk/projects/media/kelager.06.pdf} \\
 Julien Moreau-Mathis: \url{https://medium.com/community-play-3d/god-rays-whats-that-5a67f26aeac2} \\
 Fabian Sanglard: \url{http://fabiensanglard.net/lightScattering/}
+Paul Twist: \url{https://aerotwist.com/tutorials/creating-particles-with-three-js/}\\
+
+Des Holmes: \url{https://codepen.io/desholmes/pen/KzRgEE?editors=0010}\\
+
+Ricardo Cabello: \url{Threejs.org}\\
+
+Jerome Etienne: \url{https://jeromeetienne.github.io/fireworks.js/}\\
+
+Steve Jenkins: \url{https://www.gadgetdaily.xyz/code-animated-fireworks-with-three-js/}\\
+
+Rainner Lins: \url{https://codepen.io/rainner/pen/LREdXd}\\
+
+Seb Lee-Delisle: \url{http://creativejs.com/tutorials/creating-fireworks/index.html}\\
+
+Charlie Hoey: url{https://github.com/flimshaw/THREE.GPUParticleSystem}\\
+
+Angus Forbes: \url{week4/w4_5_pointShader}\\
 \begin{acks}
  The authors would like to thank everyone who helped make this project almost a reality.
 We'd like to thank mr.doobs, the guy who made Three.js without whom all of this, while still possible,

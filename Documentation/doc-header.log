@@ -1,14 +1,14 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2018.1.12)  24 MAR 2018 18:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2018.3.24)  25 MAR 2018 00:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **doc-header.tex
 (./doc-header.tex
 LaTeX2e <2017-04-15>
-Babel <3.15> and hyphenation patterns for 84 language(s) loaded.
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
 (/usr/share/texmf-dist/tex/latex/acmart/acmart.cls
-Document Class: acmart 2017/08/31 v1.47 Typesetting articles for Association of
- Computing Machinery
+Document Class: acmart 2018/02/07 v1.50 Typesetting articles for the Associatio
+n for Computing Machinery
 (/usr/share/texmf-dist/tex/latex/xkeyval/xkeyval.sty
 Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 
@@ -31,17 +31,17 @@ Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
 )
 Package acmart Info: Not using screen mode on input line 73.
 Package acmart Info: Requiring acmthm on input line 81.
-Package acmart Info: Not using review mode on input line 89.
-Package acmart Info: Not using authorversion mode on input line 97.
-Package acmart Info: Explicitly selecting natbib mode on input line 105.
-Package acmart Info: Not using anonymous mode on input line 113.
-Package acmart Info: Not using timestamp mode on input line 121.
-Package acmart Info: Not using authordraft mode on input line 131.
-Class acmart Info: Using format sigconf, number 4 on input line 140.
-Class acmart Info: Using fontsize 9pt on input line 198.
+Package acmart Info: Not using review mode on input line 90.
+Package acmart Info: Not using authorversion mode on input line 98.
+Package acmart Info: Explicitly selecting natbib mode on input line 106.
+Package acmart Info: Not using anonymous mode on input line 114.
+Package acmart Info: Not using timestamp mode on input line 122.
+Package acmart Info: Not using authordraft mode on input line 132.
+Class acmart Info: Using format sigconf, number 4 on input line 141.
+Class acmart Info: Using fontsize 9pt on input line 199.
 
 (/usr/share/texmf-dist/tex/latex/amscls/amsart.cls
-Document Class: amsart 2015/03/04 v2.20.2
+Document Class: amsart 2017/10/31 v2.20.4
 \linespacing=\dimen102
 \normalparindent=\dimen103
 \normaltopskip=\skip41
@@ -103,7 +103,7 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 388.
+LaTeX Font Info:    Try loading font information for U+msa on input line 398.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -140,27 +140,28 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 \dth@everypar=\toks26
 )
 (/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
-Package: microtype 2017/07/07 v2.7 Micro-typographical refinements (RS)
+Package: microtype 2018/01/14 v2.7a Micro-typographical refinements (RS)
 \MT@toks=\toks27
 \MT@count=\count102
-LaTeX Info: Redefining \textls on input line 789.
+LaTeX Info: Redefining \textls on input line 793.
 \MT@outer@kern=\dimen114
-LaTeX Info: Redefining \textmicrotypecontext on input line 1334.
+LaTeX Info: Redefining \textmicrotypecontext on input line 1339.
 \MT@listname@count=\count103
 
 (/usr/share/texmf-dist/tex/latex/microtype/microtype-pdftex.def
-File: microtype-pdftex.def 2017/07/07 v2.7 Definitions specific to pdftex (RS)
-LaTeX Info: Redefining \lsstyle on input line 912.
-LaTeX Info: Redefining \lslig on input line 912.
+File: microtype-pdftex.def 2018/01/14 v2.7a Definitions specific to pdftex (RS)
+
+LaTeX Info: Redefining \lsstyle on input line 913.
+LaTeX Info: Redefining \lslig on input line 913.
 \MT@outer@space=\skip51
 )
 Package microtype Info: Loading configuration file microtype.cfg.
 
 (/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg
-File: microtype.cfg 2017/07/07 v2.7 microtype main configuration file (RS)
+File: microtype.cfg 2018/01/14 v2.7a microtype main configuration file (RS)
 ))
 (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2017/01/02 v2.4 e-TeX tools for LaTeX (JAW)
+Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count104
 )
 (/usr/share/texmf-dist/tex/latex/oberdiek/refcount.sty
@@ -195,7 +196,7 @@ LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count105
 )
 (/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2017/03/14 v6.85a Hypertext links for LaTeX
+Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
 
 (/usr/share/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
@@ -219,7 +220,7 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
-Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
+Package: pdftexcmds 2018/01/21 v0.26 Utility functions of pdfTeX for LuaTeX (HO
 )
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -254,56 +255,55 @@ Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 \Hy@pagecounter=\count107
 
 (/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2017/03/14 v6.85a Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
 )
 \Hy@SavedSpaceFactor=\count108
 
 (/usr/share/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 4374
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 4383
 .
-Package hyperref Info: Option `unicode' set `true' on input line 4374.
+Package hyperref Info: Option `unicode' set `true' on input line 4383.
 
 (/usr/share/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2017/03/14 v6.85a Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2018/02/06 v6.86b Hyperref: PDF Unicode definition (HO)
 )
-Package hyperref Info: Hyper figures OFF on input line 4498.
-Package hyperref Info: Link nesting OFF on input line 4503.
-Package hyperref Info: Hyper index ON on input line 4506.
-Package hyperref Info: Plain pages OFF on input line 4513.
-Package hyperref Info: Backreferencing OFF on input line 4518.
+Package hyperref Info: Hyper figures OFF on input line 4509.
+Package hyperref Info: Link nesting OFF on input line 4514.
+Package hyperref Info: Hyper index ON on input line 4517.
+Package hyperref Info: Plain pages OFF on input line 4524.
+Package hyperref Info: Backreferencing OFF on input line 4529.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4751.
+Package hyperref Info: Bookmarks ON on input line 4762.
 \c@Hy@tempcnt=\count109
 
 (/usr/share/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 5104.
+LaTeX Info: Redefining \url on input line 5115.
 \XeTeXLinkMargin=\dimen116
 \Fld@menulength=\count110
 \Field@Width=\dimen117
 \Fld@charsize=\dimen118
-Package hyperref Info: Hyper figures OFF on input line 6358.
-Package hyperref Info: Link nesting OFF on input line 6363.
-Package hyperref Info: Hyper index ON on input line 6366.
-Package hyperref Info: backreferencing OFF on input line 6373.
-Package hyperref Info: Link coloring OFF on input line 6378.
-Package hyperref Info: Link coloring with OCG OFF on input line 6383.
-Package hyperref Info: PDF/A mode OFF on input line 6388.
-LaTeX Info: Redefining \ref on input line 6428.
-LaTeX Info: Redefining \pageref on input line 6432.
+Package hyperref Info: Hyper figures OFF on input line 6369.
+Package hyperref Info: Link nesting OFF on input line 6374.
+Package hyperref Info: Hyper index ON on input line 6377.
+Package hyperref Info: backreferencing OFF on input line 6384.
+Package hyperref Info: Link coloring OFF on input line 6389.
+Package hyperref Info: Link coloring with OCG OFF on input line 6394.
+Package hyperref Info: PDF/A mode OFF on input line 6399.
+LaTeX Info: Redefining \ref on input line 6439.
+LaTeX Info: Redefining \pageref on input line 6443.
 \Hy@abspage=\count111
 \c@Item=\count112
 \c@Hfootnote=\count113
 )
-
-Package hyperref Message: Driver (autodetected): hpdftex.
+Package hyperref Info: Driver (autodetected): hpdftex.
 
 (/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2017/03/14 v6.85a Hyperref driver for pdfTeX
+File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
 \Fld@listcount=\count114
 \c@bookmark@seq@number=\count115
 
@@ -329,7 +329,7 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 Package graphics Info: Driver file: pdftex.def on input line 99.
 
 (/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2017/06/24 v1.0g Graphics/color driver for pdftex
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen119
 \Gin@req@width=\dimen120
@@ -388,7 +388,7 @@ and LuaTeX
 Package: cmap 2008/03/06 v1.0h CMap support: searchable PDF
 )
 (/usr/share/texmf-dist/tex/latex/libertine/libertine.sty
-Package: libertine 2017/03/22 (Bob Tennent) Supports Libertine and Biolinum fon
+Package: libertine 2018/01/03 (Bob Tennent) Supports Libertine and Biolinum fon
 ts for all LaTeX engines.
 
 (/usr/share/texmf-dist/tex/latex/base/textcomp.sty
@@ -492,7 +492,7 @@ LaTeX Info: Redefining \itshape on input line 31.
 LaTeX Info: Redefining \slshape on input line 33.
 LaTeX Info: Redefining \scshape on input line 37.
 )
-LaTeX Info: Redefining \oldstylenums on input line 481.
+LaTeX Info: Redefining \oldstylenums on input line 490.
 
 (/usr/share/texmf-dist/tex/latex/libertine/LinLibertine_I.tex))
 (/usr/share/texmf-dist/tex/latex/inconsolata/zi4.sty
@@ -502,127 +502,130 @@ Package: zi4 2017/01/04 v1.112
 \zifour@ocount=\count121
 )
 (/usr/share/texmf-dist/tex/latex/newtx/newtxmath.sty
-Package: newtxmath 2017/09/11 v1.527
+Package: newtxmath 2017/12/14 v1.53
 
-`newtxmath' v1.527, 2017/09/11 Math macros based on txfonts (msharpe)
+`newtxmath' v1.53, 2017/12/14 Math macros based on txfonts (msharpe)
+(/usr/share/texmf-dist/tex/latex/oberdiek/centernot.sty
+Package: centernot 2016/05/16 v1.4 Centers the not symbol horizontally (HO)
+)
 (/usr/share/texmf-dist/tex/generic/kastrup/binhex.tex)
 \tx@Isdigit=\count122
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 155.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 156.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/LinuxLibertineT-TLF/m/n on input li
-ne 155.
+ne 156.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/cmr/bx/n --> OT1/LinuxLibertineT-TLF/m/n on input l
-ine 155.
+ine 156.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/LinuxLibertineT-TLF/m/n --> OT1/LinuxLibertineT-TLF
-/sb/n on input line 156.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 162.
+/sb/n on input line 157.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 163.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
 (Font)                  OT1/cmss/m/n --> OT1/LinuxBiolinumT-TLF/m/n on input li
-ne 162.
+ne 163.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/cmss/bx/n --> OT1/LinuxBiolinumT-TLF/m/n on input l
-ine 162.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 163.
+ine 163.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 164.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
 (Font)                  OT1/cmr/m/it --> OT1/LinuxLibertineT-TLF/m/it on input 
-line 163.
+line 164.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/LinuxLibertineT-TLF/m/it on input
- line 163.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 164.
+ line 164.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 165.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/zi4/m/n on input line 164.
+(Font)                  OT1/cmtt/m/n --> OT1/zi4/m/n on input line 165.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/zi4/m/n on input line 164.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 166.
+(Font)                  OT1/cmtt/m/n --> OT1/zi4/m/n on input line 165.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 167.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
 (Font)                  OT1/cmr/bx/n --> OT1/LinuxLibertineT-TLF/sb/n on input 
-line 166.
+line 167.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
 (Font)                  OT1/cmr/bx/n --> OT1/LinuxLibertineT-TLF/sb/n on input 
-line 166.
+line 167.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/LinuxLibertineT-TLF/m/it --> OT1/LinuxLibertineT-TL
-F/sb/it on input line 167.
+F/sb/it on input line 168.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/LinuxBiolinumT-TLF/m/n --> OT1/LinuxBiolinumT-TLF/b
-/n on input line 168.
+/n on input line 169.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/zi4/m/n --> OT1/zi4/b/n on input line 169.
-LaTeX Font Info:    Redeclaring symbol font `letters' on input line 181.
+(Font)                  OT1/zi4/m/n --> OT1/zi4/b/n on input line 170.
+LaTeX Font Info:    Redeclaring symbol font `letters' on input line 182.
 LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
-(Font)                  OML/cmm/m/it --> OML/nxlmi/m/it on input line 181.
+(Font)                  OML/cmm/m/it --> OML/nxlmi/m/it on input line 182.
 LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
-(Font)                  OML/cmm/b/it --> OML/nxlmi/m/it on input line 181.
+(Font)                  OML/cmm/b/it --> OML/nxlmi/m/it on input line 182.
 LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
-(Font)                  OML/nxlmi/m/it --> OML/nxlmi/b/it on input line 182.
+(Font)                  OML/nxlmi/m/it --> OML/nxlmi/b/it on input line 183.
 \symlettersA=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `lettersA' in version `bold'
-(Font)                  U/ntxmia/m/it --> U/ntxmia/b/it on input line 237.
-LaTeX Font Info:    Redeclaring math alphabet \mathfrak on input line 239.
-LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 258.
+(Font)                  U/ntxmia/m/it --> U/ntxmia/b/it on input line 238.
+LaTeX Font Info:    Redeclaring math alphabet \mathfrak on input line 240.
+LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 259.
 LaTeX Font Info:    Encoding `OMS' has changed to `LMS' for symbol font
-(Font)              `symbols' in the math version `normal' on input line 258.
+(Font)              `symbols' in the math version `normal' on input line 259.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
-(Font)                  OMS/cmsy/m/n --> LMS/ntxsy/m/n on input line 258.
+(Font)                  OMS/cmsy/m/n --> LMS/ntxsy/m/n on input line 259.
 LaTeX Font Info:    Encoding `OMS' has changed to `LMS' for symbol font
-(Font)              `symbols' in the math version `bold' on input line 258.
+(Font)              `symbols' in the math version `bold' on input line 259.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
-(Font)                  OMS/cmsy/b/n --> LMS/ntxsy/m/n on input line 258.
+(Font)                  OMS/cmsy/b/n --> LMS/ntxsy/m/n on input line 259.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
-(Font)                  LMS/ntxsy/m/n --> LMS/ntxsy/b/n on input line 259.
+(Font)                  LMS/ntxsy/m/n --> LMS/ntxsy/b/n on input line 260.
 \symAMSm=\mathgroup7
 LaTeX Font Info:    Overwriting symbol font `AMSm' in version `bold'
-(Font)                  U/ntxsym/m/n --> U/ntxsym/b/n on input line 282.
+(Font)                  U/ntxsym/m/n --> U/ntxsym/b/n on input line 283.
 \symsymbolsC=\mathgroup8
 LaTeX Font Info:    Overwriting symbol font `symbolsC' in version `bold'
-(Font)                  U/ntxsyc/m/n --> U/ntxsyc/b/n on input line 303.
-LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 316.
+(Font)                  U/ntxsyc/m/n --> U/ntxsyc/b/n on input line 304.
+LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 317.
 LaTeX Font Info:    Encoding `OMX' has changed to `LMX' for symbol font
 (Font)              `largesymbols' in the math version `normal' on input line 3
-16.
+17.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
-(Font)                  OMX/cmex/m/n --> LMX/ntxexx/m/n on input line 316.
+(Font)                  OMX/cmex/m/n --> LMX/ntxexx/m/n on input line 317.
 LaTeX Font Info:    Encoding `OMX' has changed to `LMX' for symbol font
-(Font)              `largesymbols' in the math version `bold' on input line 316
+(Font)              `largesymbols' in the math version `bold' on input line 317
 .
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
-(Font)                  OMX/cmex/m/n --> LMX/ntxexx/m/n on input line 316.
+(Font)                  OMX/cmex/m/n --> LMX/ntxexx/m/n on input line 317.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
-(Font)                  LMX/ntxexx/m/n --> LMX/ntxexx/b/n on input line 317.
+(Font)                  LMX/ntxexx/m/n --> LMX/ntxexx/b/n on input line 318.
 \symlargesymbolsTXA=\mathgroup9
 LaTeX Font Info:    Overwriting symbol font `largesymbolsTXA' in version `bold'
 
-(Font)                  U/ntxexa/m/n --> U/ntxexa/b/n on input line 331.
-LaTeX Font Info:    Redeclaring math delimiter \lgroup on input line 502.
-LaTeX Font Info:    Redeclaring math delimiter \rgroup on input line 503.
-LaTeX Font Info:    Redeclaring math delimiter \lmoustache on input line 504.
-LaTeX Font Info:    Redeclaring math delimiter \rmoustache on input line 505.
-LaTeX Font Info:    Redeclaring math delimiter \lfloor on input line 511.
-LaTeX Font Info:    Redeclaring math delimiter \rfloor on input line 512.
-LaTeX Font Info:    Redeclaring math delimiter \lceil on input line 513.
-LaTeX Font Info:    Redeclaring math delimiter \rceil on input line 514.
-LaTeX Font Info:    Redeclaring math delimiter \lbrace on input line 515.
-LaTeX Font Info:    Redeclaring math delimiter \rbrace on input line 516.
-LaTeX Font Info:    Redeclaring math delimiter \langle on input line 517.
-LaTeX Font Info:    Redeclaring math delimiter \rangle on input line 519.
-LaTeX Font Info:    Redeclaring math symbol \mid on input line 521.
-LaTeX Font Info:    Redeclaring math delimiter \arrowvert on input line 523.
-LaTeX Font Info:    Redeclaring math delimiter \vert on input line 524.
-LaTeX Font Info:    Redeclaring math symbol \parallel on input line 525.
-LaTeX Font Info:    Redeclaring math delimiter \Arrowvert on input line 526.
-LaTeX Font Info:    Redeclaring math delimiter \Vert on input line 527.
-LaTeX Font Info:    Redeclaring math delimiter \updownarrow on input line 529.
-LaTeX Font Info:    Redeclaring math delimiter \Updownarrow on input line 530.
-LaTeX Font Info:    Redeclaring math delimiter \lvert on input line 535.
-LaTeX Font Info:    Redeclaring math delimiter \rvert on input line 536.
-LaTeX Font Info:    Redeclaring math delimiter \lVert on input line 537.
-LaTeX Font Info:    Redeclaring math delimiter \rVert on input line 538.
-LaTeX Info: Redefining \not on input line 2102.
-LaTeX Info: Redefining \textsquare on input line 2123.
-LaTeX Info: Redefining \openbox on input line 2125.
+(Font)                  U/ntxexa/m/n --> U/ntxexa/b/n on input line 332.
+LaTeX Font Info:    Redeclaring math delimiter \lgroup on input line 503.
+LaTeX Font Info:    Redeclaring math delimiter \rgroup on input line 504.
+LaTeX Font Info:    Redeclaring math delimiter \lmoustache on input line 505.
+LaTeX Font Info:    Redeclaring math delimiter \rmoustache on input line 506.
+LaTeX Font Info:    Redeclaring math delimiter \lfloor on input line 512.
+LaTeX Font Info:    Redeclaring math delimiter \rfloor on input line 513.
+LaTeX Font Info:    Redeclaring math delimiter \lceil on input line 514.
+LaTeX Font Info:    Redeclaring math delimiter \rceil on input line 515.
+LaTeX Font Info:    Redeclaring math delimiter \lbrace on input line 516.
+LaTeX Font Info:    Redeclaring math delimiter \rbrace on input line 517.
+LaTeX Font Info:    Redeclaring math delimiter \langle on input line 518.
+LaTeX Font Info:    Redeclaring math delimiter \rangle on input line 520.
+LaTeX Font Info:    Redeclaring math symbol \mid on input line 522.
+LaTeX Font Info:    Redeclaring math delimiter \arrowvert on input line 524.
+LaTeX Font Info:    Redeclaring math delimiter \vert on input line 525.
+LaTeX Font Info:    Redeclaring math symbol \parallel on input line 526.
+LaTeX Font Info:    Redeclaring math delimiter \Arrowvert on input line 527.
+LaTeX Font Info:    Redeclaring math delimiter \Vert on input line 528.
+LaTeX Font Info:    Redeclaring math delimiter \updownarrow on input line 530.
+LaTeX Font Info:    Redeclaring math delimiter \Updownarrow on input line 531.
+LaTeX Font Info:    Redeclaring math delimiter \lvert on input line 536.
+LaTeX Font Info:    Redeclaring math delimiter \rvert on input line 537.
+LaTeX Font Info:    Redeclaring math delimiter \lVert on input line 538.
+LaTeX Font Info:    Redeclaring math delimiter \rVert on input line 539.
+LaTeX Info: Redefining \not on input line 2146.
+LaTeX Info: Redefining \textsquare on input line 2176.
+LaTeX Info: Redefining \openbox on input line 2178.
 )
 (/usr/share/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
@@ -667,10 +670,10 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@ACM@badge@width=\skip56
 \@ACM@title@width=\skip57
 \@ACM@badge@skip=\skip58
-Class acmart Info: Printing CCS on input line 1252.
-Class acmart Info: Printing bibformat on input line 1252.
-Class acmart Info: Suppressing folios on input line 1259.
-Class acmart Info: Setting authorsperrow to 0 on input line 1262.
+Class acmart Info: Printing CCS on input line 1258.
+Class acmart Info: Printing bibformat on input line 1258.
+Class acmart Info: Suppressing folios on input line 1265.
+Class acmart Info: Setting authorsperrow to 0 on input line 1268.
 
 (/usr/share/texmf-dist/tex/latex/comment/comment.sty
 \CommentStream=\write4
@@ -700,14 +703,14 @@ s
 \@folio@voffset=\dimen142
  Special comment 'acks'
 LaTeX Font Info:    Try loading font information for T1+LinuxLibertineT-TLF on 
-input line 2541.
+input line 2558.
 
 (/usr/share/texmf-dist/tex/latex/libertine/T1LinuxLibertineT-TLF.fd
 File: T1LinuxLibertineT-TLF.fd 2017/03/20 (autoinst) Font definitions for T1/Li
 nuxLibertineT-TLF.
 )
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 2541.
+(Font)              scaled to size 9.0pt on input line 2558.
 )
 (/usr/share/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2016/04/27 v1.618033 publication quality tables
@@ -1026,7 +1029,7 @@ LaTeX Font Info:    Font shape `TS1/LinuxLibertineT-TLF/m/n' will be
 LaTeX Font Info:    Try loading font information for T1+zi4 on input line 129.
 
 (/usr/share/texmf-dist/tex/latex/inconsolata/t1zi4.fd
-File: t1zi4.fd 2016/12/29 T1/zi4 (Inconsolata)
+File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
 (Font)              scaled to size 7.0pt on input line 129.
@@ -1058,11 +1061,23 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
 (Font)              scaled to size 8.0pt on input line 129.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 (Font)              scaled to size 8.0pt on input line 129.
+
+
+LaTeX Warning: Reference `TotPages' on page 1 undefined on input line 129.
+
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 8.0pt on input line 129.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 6.2pt on input line 129.
- (./doc-body.tex
+
+Package hyperref Warning: Option `pdflang' has already been used,
+(hyperref)                setting the option has no effect on input line 129.
+
+
+Package hyperref Warning: Option `pdfdisplaydoctitle' has already been used,
+(hyperref)                setting the option has no effect on input line 129.
+
+(./doc-body.tex
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 9.0pt on input line 22.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
@@ -1092,89 +1107,197 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--46
 [1.1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 ]
-<sph_linux.png, id=89, 370.38374pt x 116.68594pt>
+<sph_linux.png, id=40, 370.38374pt x 116.68594pt>
 File: sph_linux.png Graphic file (type png)
 <use sph_linux.png>
-Package pdftex.def Info: sph_linux.png  used on input line 57. on input line 57
-.
-Package pdftex.def Info: Requested size: 253.14749pt x 79.7531pt on input line 
-57.
+Package pdftex.def Info: sph_linux.png  used on input line 57.
+(pdftex.def)             Requested size: 253.14749pt x 79.7531pt.
 
 Overfull \hbox (12.0pt too wide) in paragraph at lines 57--58
  [][] 
  []
 
-<water_win.png, id=90, 1443.14156pt x 733.99219pt>
+<water_win.png, id=41, 1443.14156pt x 733.99219pt>
 File: water_win.png Graphic file (type png)
 <use water_win.png>
-Package pdftex.def Info: water_win.png  used on input line 61. on input line 61
-.
-Package pdftex.def Info: Requested size: 253.14749pt x 128.75294pt on input lin
-e 61.
+Package pdftex.def Info: water_win.png  used on input line 61.
+(pdftex.def)             Requested size: 253.14749pt x 128.75294pt.
 
 Overfull \hbox (12.0pt too wide) in paragraph at lines 61--62
  [][] 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 72--72
-
- []
-
-<god_rays_on.png, id=91, 1443.14156pt x 655.69969pt>
+<god_rays_on.png, id=42, 1443.14156pt x 655.69969pt>
 File: god_rays_on.png Graphic file (type png)
 <use god_rays_on.png>
-Package pdftex.def Info: god_rays_on.png  used on input line 77. on input line 
-77.
-Package pdftex.def Info: Requested size: 253.14749pt x 115.0193pt on input line
- 77.
+Package pdftex.def Info: god_rays_on.png  used on input line 77.
+(pdftex.def)             Requested size: 253.14749pt x 115.0193pt.
 
 Overfull \hbox (12.0pt too wide) in paragraph at lines 77--78
  [][] 
  []
 
-<godrays_off.png, id=92, 1428.83812pt x 657.2053pt>
+<godrays_off.png, id=43, 1428.83812pt x 657.2053pt>
 File: godrays_off.png Graphic file (type png)
 <use godrays_off.png>
-Package pdftex.def Info: godrays_off.png  used on input line 81. on input line 
-81.
-Package pdftex.def Info: Requested size: 253.14749pt x 116.43665pt on input lin
-e 81.
+Package pdftex.def Info: godrays_off.png  used on input line 81.
+(pdftex.def)             Requested size: 253.14749pt x 116.43665pt.
 
 Overfull \hbox (12.0pt too wide) in paragraph at lines 81--82
  [][] 
  []
 
+<eric1.png, id=44, 319.1925pt x 166.221pt>
+File: eric1.png Graphic file (type png)
+<use eric1.png>
+Package pdftex.def Info: eric1.png  used on input line 94.
+(pdftex.def)             Requested size: 253.14749pt x 131.828pt.
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 94--95
+ [][] 
+ []
+
 [2.2 <./sph_linux.png (PNG copy)> <./water_win.png> <./god_rays_on.png>]
-Processing 'acks' comment.
-Overfull \hbox (157.80571pt too wide) in paragraph at lines 93--105
+<eric2.png, id=59, 897.3525pt x 90.93974pt>
+File: eric2.png Graphic file (type png)
+<use eric2.png>
+Package pdftex.def Info: eric2.png  used on input line 103.
+(pdftex.def)             Requested size: 253.14749pt x 25.65443pt.
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 103--104
+ [][] 
+ []
+
+<eric3.png, id=60, 385.44pt x 123.46124pt>
+File: eric3.png Graphic file (type png)
+<use eric3.png>
+Package pdftex.def Info: eric3.png  used on input line 126.
+(pdftex.def)             Requested size: 253.14749pt x 81.08528pt.
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 126--127
+ [][] 
+ []
+
+
+Overfull \hbox (157.80571pt too wide) in paragraph at lines 137--150
 []$\T1/LinuxLibertineT-TLF/m/n/9 (-20) http : / / www . miaumiau . cat / ?2011 
 / ?08 / ?^^^uid-[]simulation-[]with-[]sph-[]smoothed-[]particle-[]hydrodynamics
 -[]in-[]webgl/$[] 
  []
 
+
+Overfull \hbox (12.62245pt too wide) in paragraph at lines 137--150
+\T1/LinuxLibertineT-TLF/m/n/9 (-20) Twist: []$https : / / aerotwist . com / tut
+orials / creating-[]particles-[]with-[]three-[]js/$[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 137--150
+
+ []
+
+
+Overfull \hbox (1.90327pt too wide) in paragraph at lines 151--152
+[]\T1/LinuxLibertineT-TLF/m/n/9 (-20) Des Holmes: []$https : / / codepen . io /
+ desholmes / pen / KzRgEE ? editors =
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
+
+ []
+
+
+Underfull \vbox (badness 1014) has occurred while \output is active []
+
+ [3.3 <./godrays_off.png> <./eric1.png> <./eric2.png> <./eric3.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 153--154
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--156
+
+ []
+
+
+Overfull \hbox (71.70955pt too wide) in paragraph at lines 157--158
+[]\T1/LinuxLibertineT-TLF/m/n/9 (-20) Steve Jenk-ins: []$https : / / www . gadg
+etdaily . xyz / code-[]animated-[]^^[reworks-[]with-[]three-[]js/$[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 159--160
+
+ []
+
+
+Overfull \hbox (5.84552pt too wide) in paragraph at lines 161--162
+[]\T1/LinuxLibertineT-TLF/m/n/9 (-20) Seb Lee-Delisle: []$http : / / creativejs
+ . com / tutorials / creating-[]^^[reworks /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--162
+
+ []
+
+
+Overfull \hbox (33.97116pt too wide) in paragraph at lines 163--164
+[]\T1/LinuxLibertineT-TLF/m/n/9 (-20) Charlie Hoey: url-https://github.com/flim
+shaw/THREE.GPUParticleSystem 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 163--164
+
+ []
+
+Processing 'acks' comment.
+Underfull \hbox (badness 10000) in paragraph at lines 165--166
+
+ []
+
 \openout4 = `comment.cut'.
 
 Comment 'acks' writing to comment.cut. Straight input of comment.cut.
-(./comment.cut)) [3.3
+(./comment.cut)) [4.4
 
- <./godrays_off.png>]
+]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 133.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 133.
  (./doc-header.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 133.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 133.
-Package rerunfilecheck Info: File `doc-header.out' has not changed.
-(rerunfilecheck)             Checksum: D86B06BD52F1D711C2C04E21A3896CF8;2105.
+
+
+Package rerunfilecheck Warning: File `doc-header.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `doc-header.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  9E09878680B714155A40C92FC82A3701;2362.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 18130 strings out of 492985
- 272391 string characters out of 6138638
- 380322 words of memory out of 5000000
- 20892 multiletter control sequences out of 15000+600000
- 201988 words of font info for 357 fonts, out of 8000000 for 9000
+ 18170 strings out of 492982
+ 273161 string characters out of 6138579
+ 382210 words of memory out of 5000000
+ 20917 multiletter control sequences out of 15000+600000
+ 202534 words of font info for 361 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 60i,11n,94p,836b,415s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,12n,94p,836b,415s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/newtx/libertinealt.enc}{/usr/share/tex
 mf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/share/texmf-dist/fonts/
 enc/dvips/libertine/lbtn_oexx6f.enc}{/usr/share/texmf-dist/fonts/enc/dvips/base
@@ -1196,10 +1319,10 @@ mf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/share/texmf-dist/fonts/type1
 /public/txfonts/rtxr.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txexs.
 pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txsys.pfb></usr/share/texmf
 -dist/fonts/type1/public/newtx/zxlri.pfb>
-Output written on doc-header.pdf (3 pages, 6574694 bytes).
+Output written on doc-header.pdf (4 pages, 7132914 bytes).
 PDF statistics:
- 205 PDF objects out of 1000 (max. 8388607)
- 156 compressed objects within 2 object streams
- 22 named destinations out of 1000 (max. 500000)
- 56969 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 190 PDF objects out of 1000 (max. 8388607)
+ 135 compressed objects within 2 object streams
+ 28 named destinations out of 1000 (max. 500000)
+ 56880 words of extra memory for PDF output out of 61914 (max. 10000000)
 
