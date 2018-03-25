@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2018.1.12)  23 MAR 2018 18:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2018.1.12)  24 MAR 2018 18:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1063,366 +1063,143 @@ LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 6.2pt on input line 129.
  (./doc-body.tex
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/it' will be
-(Font)              scaled to size 10.95pt on input line 13.
-LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.0pt on input line 17.
-Package microtype Info: Character `textendash ' is missing
-(microtype)             in font `T1/zi4/m/n/9'.
-(microtype)             Ignoring protrusion settings for this character.
-Package microtype Info: Character `textemdash ' is missing
-(microtype)             in font `T1/zi4/m/n/9'.
-(microtype)             Ignoring protrusion settings for this character.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 9.0pt on input line 22.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.3pt on input line 22.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 7.3pt on input line 31.
-
-
-Package natbib Warning: Citation `Lamport:LaTeX' on page 1 undefined on input l
-ine 32.
-
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 40.
+(Font)              scaled to size 9.0pt on input line 34.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/it' will be
-(Font)              scaled to size 9.0pt on input line 40.
+(Font)              scaled to size 9.0pt on input line 34.
 
-Package natbib Warning: Citation `Lamport:LaTeX' on page 1 undefined on input l
-ine 47.
+Underfull \hbox (badness 10000) in paragraph at lines 34--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--46
+
+ []
 
 [1.1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 ]
-
-Package natbib Warning: Citation `bowman:reasoning' on page 2 undefined on inpu
-t line 83.
-
-
-Package natbib Warning: Citation `clark:pct' on page 2 undefined on input line 
-83.
-
-
-Package natbib Warning: Citation `braams:babel' on page 2 undefined on input li
-ne 83.
-
-
-Package natbib Warning: Citation `herlihy:methodology' on page 2 undefined on i
-nput line 83.
-
-
-Package natbib Warning: Citation `clark:pct' on page 2 undefined on input line 
-84.
-
-
-Package natbib Warning: Citation `Lamport:LaTeX' on page 2 undefined on input l
-ine 85.
-
-
-Package natbib Warning: Citation `salas:calculus' on page 2 undefined on input 
-line 85.
-
-
-Package natbib Warning: Citation `Lamport:LaTeX' on page 2 undefined on input l
-ine 91.
-
-
-Package natbib Warning: Citation `Lamport:LaTeX' on page 2 undefined on input l
-ine 102.
-
-
-Package natbib Warning: Citation `Abril07' on page 2 undefined on input line 10
-7.
-
-
-Package natbib Warning: Citation `Cohen07' on page 2 undefined on input line 10
-8.
-
-
-Package natbib Warning: Citation `JCohen96' on page 2 undefined on input line 1
-08.
-
-
-Package natbib Warning: Citation `Kosiur01' on page 2 undefined on input line 1
-09.
-
-
-Package natbib Warning: Citation `Harel79' on page 2 undefined on input line 11
-0.
-
-
-Package natbib Warning: Citation `Editor00' on page 2 undefined on input line 1
-10.
-
-
-Package natbib Warning: Citation `Editor00a' on page 2 undefined on input line 
-112.
-
-
-Package natbib Warning: Citation `Spector90' on page 2 undefined on input line 
-113.
-
-
-Package natbib Warning: Citation `Douglass98' on page 2 undefined on input line
- 114.
-
-
-Package natbib Warning: Citation `Knuth97' on page 2 undefined on input line 11
-4.
-
-
-Package natbib Warning: Citation `Andler79' on page 2 undefined on input line 1
-16.
-
-
-Package natbib Warning: Citation `Smith10' on page 2 undefined on input line 11
-7.
-
-
-Package natbib Warning: Citation `VanGundy07' on page 2 undefined on input line
- 118.
-
-
-Package natbib Warning: Citation `Harel78' on page 2 undefined on input line 11
-9.
-
-
-Package natbib Warning: Citation `Clarkson85' on page 2 undefined on input line
- 119.
-
-
-Package natbib Warning: Citation `anisi03' on page 2 undefined on input line 12
-0.
-
-
-Package natbib Warning: Citation `Thornburg01' on page 2 undefined on input lin
-e 121.
-
-
-Package natbib Warning: Citation `Ablamowicz07' on page 2 undefined on input li
-ne 121.
-
-
-Package natbib Warning: Citation `Poker06' on page 2 undefined on input line 12
-1.
-
-
-Package natbib Warning: Citation `Obama08' on page 2 undefined on input line 12
-1.
-
-
-Package natbib Warning: Citation `Novak03' on page 2 undefined on input line 12
-1.
-
-
-Package natbib Warning: Citation `Lee05' on page 2 undefined on input line 122.
-
-
-
-Package natbib Warning: Citation `JoeScientist001' on page 2 undefined on input
- line 122.
-
-
-Package natbib Warning: Citation `rous08' on page 2 undefined on input line 123
+<sph_linux.png, id=89, 370.38374pt x 116.68594pt>
+File: sph_linux.png Graphic file (type png)
+<use sph_linux.png>
+Package pdftex.def Info: sph_linux.png  used on input line 57. on input line 57
 .
+Package pdftex.def Info: Requested size: 253.14749pt x 79.7531pt on input line 
+57.
 
+Overfull \hbox (12.0pt too wide) in paragraph at lines 57--58
+ [][] 
+ []
 
-Package natbib Warning: Citation `SaeediMEJ10' on page 2 undefined on input lin
-e 124.
-
-
-Package natbib Warning: Citation `SaeediJETC10' on page 2 undefined on input li
-ne 124.
-
-
-Package natbib Warning: Citation `Kirschmer:2010:AEI:1958016.1958018' on page 2
- undefined on input line 125.
-
-
-Package natbib Warning: Citation `MR781536' on page 2 undefined on input line 1
-27.
-
-
-Package natbib Warning: Citation `MR781537' on page 2 undefined on input line 1
-27.
-
-
-Package natbib Warning: Citation `2004:ITE:1009386.1010128' on page 2 undefined
- on input line 130.
-
-
-Package natbib Warning: Citation `Kirschmer:2010:AEI:1958016.1958018' on page 2
- undefined on input line 130.
-
-
-Package natbib Warning: Citation `TUGInstmem' on page 2 undefined on input line
- 132.
-
-
-Package natbib Warning: Citation `Thornburg01' on page 2 undefined on input lin
-e 132.
-
-
-Package natbib Warning: Citation `CTANacmart' on page 2 undefined on input line
- 132.
-
-
-Package natbib Warning: Citation `Fear05' on page 2 undefined on input line 193
+<water_win.png, id=90, 1443.14156pt x 733.99219pt>
+File: water_win.png Graphic file (type png)
+<use water_win.png>
+Package pdftex.def Info: water_win.png  used on input line 61. on input line 61
 .
+Package pdftex.def Info: Requested size: 253.14749pt x 128.75294pt on input lin
+e 61.
 
-Package epstopdf Info: Source file: <fly.eps>
-(epstopdf)                    date: 2018-02-07 10:20:09
-(epstopdf)                    size: 155104 bytes
-(epstopdf)             Output file: <fly-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-02-07 10:20:09
-(epstopdf)                    size: 4222 bytes
-(epstopdf)             Command: <repstopdf --outfile=fly-eps-converted-to.pdf f
-ly.eps>
-(epstopdf)             \includegraphics on input line 217.
-Package epstopdf Info: Output file is already uptodate.
-<fly-eps-converted-to.pdf, id=108, pagebox=cropbox, 34.1275pt x 32.12pt>
-File: fly-eps-converted-to.pdf Graphic file (type pdf)
-<use fly-eps-converted-to.pdf>
-Package pdftex.def Info: fly-eps-converted-to.pdf  used on input line 217. on i
-nput line 217.
-Package pdftex.def Info: Requested size: 34.1274pt x 32.1199pt on input line 21
-7.
-Package epstopdf Info: Source file: <fly.eps>
-(epstopdf)                    date: 2018-02-07 10:20:09
-(epstopdf)                    size: 155104 bytes
-(epstopdf)             Output file: <fly-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-02-07 10:20:09
-(epstopdf)                    size: 4222 bytes
-(epstopdf)             Command: <repstopdf --outfile=fly-eps-converted-to.pdf f
-ly.eps>
-(epstopdf)             \includegraphics on input line 222.
-Package epstopdf Info: Output file is already uptodate.
-File: fly-eps-converted-to.pdf Graphic file (type pdf)
-<use fly-eps-converted-to.pdf>
-Package pdftex.def Info: fly-eps-converted-to.pdf  used on input line 222. on i
-nput line 222.
-Package pdftex.def Info: Requested size: 72.27492pt x 72.27565pt on input line 
-222.
-LaTeX Font Info:    Font shape `T1/zi4/bx/n' in size <9> not available
-(Font)              Font shape `T1/zi4/b/n' tried instead on input line 224.
-LaTeX Font Info:    Font shape `T1/zi4/b/n' will be
-(Font)              scaled to size 9.0pt on input line 224.
-Package microtype Info: Character `textendash ' is missing
-(microtype)             in font `T1/zi4/b/n/9'.
-(microtype)             Ignoring protrusion settings for this character.
-Package microtype Info: Character `textemdash ' is missing
-(microtype)             in font `T1/zi4/b/n/9'.
-(microtype)             Ignoring protrusion settings for this character.
-Package epstopdf Info: Source file: <flies.eps>
-(epstopdf)                    date: 2018-02-07 10:20:09
-(epstopdf)                    size: 343737 bytes
-(epstopdf)             Output file: <flies-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-02-07 10:20:09
-(epstopdf)                    size: 9687 bytes
-(epstopdf)             Command: <repstopdf --outfile=flies-eps-converted-to.pdf
- flies.eps>
-(epstopdf)             \includegraphics on input line 235.
-Package epstopdf Info: Output file is already uptodate.
-<flies-eps-converted-to.pdf, id=109, pagebox=cropbox, 307.1475pt x 114.4275pt>
-File: flies-eps-converted-to.pdf Graphic file (type pdf)
-<use flies-eps-converted-to.pdf>
-Package pdftex.def Info: flies-eps-converted-to.pdf  used on input line 235. on
- input line 235.
-Package pdftex.def Info: Requested size: 307.14674pt x 114.42722pt on input lin
-e 235.
-Package epstopdf Info: Source file: <rosette.eps>
-(epstopdf)                    date: 2018-02-07 10:20:09
-(epstopdf)                    size: 3502 bytes
-(epstopdf)             Output file: <rosette-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-02-07 10:20:09
-(epstopdf)                    size: 2932 bytes
-(epstopdf)             Command: <repstopdf --outfile=rosette-eps-converted-to.p
-df rosette.eps>
-(epstopdf)             \includegraphics on input line 242.
-Package epstopdf Info: Output file is already uptodate.
-<rosette-eps-converted-to.pdf, id=110, pagebox=cropbox, 364.59212pt x 364.59212
-pt>
-File: rosette-eps-converted-to.pdf Graphic file (type pdf)
-<use rosette-eps-converted-to.pdf>
-Package pdftex.def Info: rosette-eps-converted-to.pdf  used on input line 242. 
-on input line 242.
-Package pdftex.def Info: Requested size: 72.26622pt x 72.26622pt on input line 
-242.
-[2.2]
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
-(Font)              scaled to size 9.0pt on input line 256.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sl' in size <9> not av
-ailable
-(Font)              Font shape `T1/LinuxLibertineT-TLF/m/it' tried instead on i
-nput line 277.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 9.0pt on input line 277.
+Overfull \hbox (12.0pt too wide) in paragraph at lines 61--62
+ [][] 
+ []
 
 
-Package natbib Warning: Citation `Amsthm15' on page 3 undefined on input line 2
+Underfull \hbox (badness 10000) in paragraph at lines 72--72
+
+ []
+
+<god_rays_on.png, id=91, 1443.14156pt x 655.69969pt>
+File: god_rays_on.png Graphic file (type png)
+<use god_rays_on.png>
+Package pdftex.def Info: god_rays_on.png  used on input line 77. on input line 
 77.
+Package pdftex.def Info: Requested size: 253.14749pt x 115.0193pt on input line
+ 77.
 
+Overfull \hbox (12.0pt too wide) in paragraph at lines 77--78
+ [][] 
+ []
+
+<godrays_off.png, id=92, 1428.83812pt x 657.2053pt>
+File: godrays_off.png Graphic file (type png)
+<use godrays_off.png>
+Package pdftex.def Info: godrays_off.png  used on input line 81. on input line 
+81.
+Package pdftex.def Info: Requested size: 253.14749pt x 116.43665pt on input lin
+e 81.
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 81--82
+ [][] 
+ []
+
+[2.2 <./sph_linux.png (PNG copy)> <./water_win.png> <./god_rays_on.png>]
 Processing 'acks' comment.
+Overfull \hbox (157.80571pt too wide) in paragraph at lines 93--105
+[]$\T1/LinuxLibertineT-TLF/m/n/9 (-20) http : / / www . miaumiau . cat / ?2011 
+/ ?08 / ?^^^uid-[]simulation-[]with-[]sph-[]smoothed-[]particle-[]hydrodynamics
+-[]in-[]webgl/$[] 
+ []
+
 \openout4 = `comment.cut'.
 
- Comment 'acks' writing to comment.cut.
-Straight input of comment.cut. (./comment.cut [3.3 <./fly-eps-converted-to.pdf>
-]))
-No file doc-header.bbl.
+Comment 'acks' writing to comment.cut. Straight input of comment.cut.
+(./comment.cut)) [3.3
 
-Package natbib Warning: There were undefined citations.
-
-[4.4
-
- <./flies-eps-converted-to.pdf> <./rosette-eps-converted-to.pdf>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 136.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 136.
-
-(./doc-header.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 136.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 136.
+ <./godrays_off.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 133.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 133.
+ (./doc-header.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 133.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 133.
 Package rerunfilecheck Info: File `doc-header.out' has not changed.
-(rerunfilecheck)             Checksum: 637EADE520EED5F08FA69A6007B4ACF0;2587.
+(rerunfilecheck)             Checksum: D86B06BD52F1D711C2C04E21A3896CF8;2105.
  ) 
 Here is how much of TeX's memory you used:
- 18257 strings out of 492985
- 274807 string characters out of 6138638
- 382435 words of memory out of 5000000
- 20951 multiletter control sequences out of 15000+600000
- 229198 words of font info for 377 fonts, out of 8000000 for 9000
+ 18130 strings out of 492985
+ 272391 string characters out of 6138638
+ 380322 words of memory out of 5000000
+ 20892 multiletter control sequences out of 15000+600000
+ 201988 words of font info for 357 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 60i,12n,94p,801b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}{/usr/share/
-texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc}{/usr/share/texmf-dist/fonts
-/enc/dvips/newtx/libertinealt.enc}{/usr/share/texmf-dist/fonts/enc/dvips/base/8
-r.enc}{/usr/share/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}{/usr/sh
-are/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/share/texmf-dist
-/fonts/enc/dvips/libertine/lbtn_ki75ao.enc}{/usr/share/texmf-dist/fonts/enc/dvi
-ps/libertine/lbtn_7grukw.enc}{/usr/share/texmf-dist/fonts/enc/dvips/libertine/l
-btn_nh77jq.enc}{/usr/share/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc
-}{/usr/share/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}{/usr/share/t
-exmf-dist/fonts/enc/dvips/libertine/lbtn_afusau.enc}{/usr/share/texmf-dist/font
-s/enc/dvips/libertine/lbtn_mmutss.enc}</usr/share/texmf-dist/fonts/type1/public
-/inconsolata/Inconsolata-zi4b.pfb></usr/share/texmf-dist/fonts/type1/public/inc
-onsolata/Inconsolata-zi4r.pfb></usr/share/texmf-dist/fonts/type1/public/liberti
-ne/LinBiolinumT.pfb></usr/share/texmf-dist/fonts/type1/public/libertine/LinBiol
-inumTB.pfb></usr/share/texmf-dist/fonts/type1/public/libertine/LinBiolinumTI.pf
-b></usr/share/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/s
-hare/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/share/tex
-mf-dist/fonts/type1/public/libertine/LinLibertineTBI.pfb></usr/share/texmf-dist
-/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/share/texmf-dist/fonts/t
-ype1/public/newtx/fxlri-7letters.pfb></usr/share/texmf-dist/fonts/type1/public/
-txfonts/rtxmi.pfb></usr/share/texmf-dist/fonts/type1/public/txfonts/rtxr.pfb></
-usr/share/texmf-dist/fonts/type1/public/newtx/txexs.pfb></usr/share/texmf-dist/
-fonts/type1/public/txfonts/txsya.pfb></usr/share/texmf-dist/fonts/type1/public/
-txfonts/txsyc.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txsys.pfb></u
-sr/share/texmf-dist/fonts/type1/public/newtx/zxlr.pfb></usr/share/texmf-dist/fo
-nts/type1/public/newtx/zxlri.pfb>
-Output written on doc-header.pdf (4 pages, 649315 bytes).
+ 60i,11n,94p,836b,415s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/newtx/libertinealt.enc}{/usr/share/tex
+mf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/share/texmf-dist/fonts/
+enc/dvips/libertine/lbtn_oexx6f.enc}{/usr/share/texmf-dist/fonts/enc/dvips/base
+/8r.enc}{/usr/share/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc}{/usr/sh
+are/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/share/texmf-dist
+/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/share/texmf-dist/fonts/enc/dvi
+ps/libertine/lbtn_naooyc.enc}{/usr/share/texmf-dist/fonts/enc/dvips/libertine/l
+btn_76gpa5.enc}{/usr/share/texmf-dist/fonts/enc/dvips/libertine/lbtn_afusau.enc
+}{/usr/share/texmf-dist/fonts/enc/dvips/libertine/lbtn_mmutss.enc}</usr/share/t
+exmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/share/texmf
+-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/share/texmf-dist/font
+s/type1/public/libertine/LinBiolinumTB.pfb></usr/share/texmf-dist/fonts/type1/p
+ublic/libertine/LinBiolinumTI.pfb></usr/share/texmf-dist/fonts/type1/public/lib
+ertine/LinLibertineT.pfb></usr/share/texmf-dist/fonts/type1/public/libertine/Li
+nLibertineTB.pfb></usr/share/texmf-dist/fonts/type1/public/libertine/LinLiberti
+neTI.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/fxlri-5letters.pfb></u
+sr/share/texmf-dist/fonts/type1/public/newtx/fxlri-7letters.pfb></usr/share/tex
+mf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/share/texmf-dist/fonts/type1
+/public/txfonts/rtxr.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txexs.
+pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txsys.pfb></usr/share/texmf
+-dist/fonts/type1/public/newtx/zxlri.pfb>
+Output written on doc-header.pdf (3 pages, 6574694 bytes).
 PDF statistics:
- 276 PDF objects out of 1000 (max. 8388607)
- 217 compressed objects within 3 object streams
- 47 named destinations out of 1000 (max. 500000)
- 65700 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 205 PDF objects out of 1000 (max. 8388607)
+ 156 compressed objects within 2 object streams
+ 22 named destinations out of 1000 (max. 500000)
+ 56969 words of extra memory for PDF output out of 61914 (max. 10000000)
 

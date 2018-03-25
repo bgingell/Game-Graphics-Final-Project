@@ -1,7 +1,7 @@
 \section{Introduction}
 
 The following paper demonstrates a number of 3D graphics effects using shader-based rendering. 
-The goal for the project was to create a scene utilizing complex effects that blend together to create a visually interesting whole. The work was down utilizing the WebGL and Javascript library Three.js with the goal of emphasizing a seemless blend of the interactions of the GPU and CPU to produce high quality effects in real time. Discussed in the following paper will be the implementation details for the effects. First will be a discussion on Smoothed Particle Hydrodynamics, a meshless technique for estimating the motion of complex fluid. Then the details for the implementation of Crepuscular or God Rays. Finally, the design for a convincing firework effect. Also will be a discussion of integrating complex effect while maintaining a reasonable frame rate.
+The goal for the project was to create a scene utilizing complex effects that blend together to create a visually interesting whole. The work was done utilizing the WebGL and Javascript library Three.js with the goal of emphasizing a seemless blend of the interactions of the GPU and CPU to produce high quality effects in real time. Discussed in the following paper will be the implementation details for the effects. First will be a discussion on Smoothed Particle Hydrodynamics, a meshless technique for estimating the motion of complex fluid. Then the details for the implementation of Crepuscular or God Rays. Finally, the design for a convincing firework effect. Also will be a discussion of integrating complex effect while maintaining a reasonable frame rate.
 
 \section{Smoothed Particle Hydrodynamics}
 Smoothed Particle Hydrodynamics is a Langrangian approach to estimating the motion of fluids. 
@@ -10,357 +10,102 @@ traditional fluid simulation approaches because it maintains the conservation of
 
 
 
-\subsection{Type Changes and {\itshape Special} Characters}
+\subsection{Implementation of SPH}
 
-We have already seen several typeface changes in this sample.  You can
-indicate italicized words or phrases in your text with the command
-\texttt{{\char'134}textit}; emboldening with the command
-\texttt{{\char'134}textbf} and typewriter-style (for instance, for
-computer code) with \texttt{{\char'134}texttt}.  But remember, you do
-not have to indicate typestyle changes when such changes are part of
-the \textit{structural} elements of your article; for instance, the
-heading of this subsection will be in a sans serif\footnote{Another
-  footnote here.  Let's make this a rather long one to see how it
-  looks.} typeface, but that is handled by the document class file.
-Take care with the use of\footnote{Another footnote.}  the
-curly braces in typeface changes; they mark the beginning and end of
-the text that is to be in the different typeface.
-
-You can use whatever symbols, accented characters, or non-English
-characters you need anywhere in your document; you can find a complete
-list of what is available in the \textit{\LaTeX\ User's Guide}
-\cite{Lamport:LaTeX}.
-
-\subsection{Math Equations}
-You may want to display math equations in three distinct styles:
-inline, numbered or non-numbered display.  Each of
-the three are discussed in the next sections.
-
-\subsubsection{Inline (In-text) Equations}
-A formula that appears in the running text is called an
-inline or in-text formula.  It is produced by the
-\textbf{math} environment, which can be
-invoked with the usual \texttt{{\char'134}begin\,\ldots{\char'134}end}
-construction or with the short form \texttt{\$\,\ldots\$}. You
-can use any of the symbols and structures,
-from $\alpha$ to $\omega$, available in
-\LaTeX~\cite{Lamport:LaTeX}; this section will simply show a
-few examples of in-text equations in context. Notice how
-this equation:
-\begin{math}
-  \lim_{n\rightarrow \infty}x=0
-\end{math},
-set here in in-line math style, looks slightly different when
-set in display style.  (See next section).
-
-\subsubsection{Display Equations}
-A numbered display equation---one set off by vertical space from the
-text and centered horizontally---is produced by the \textbf{equation}
-environment. An unnumbered display equation is produced by the
-\textbf{displaymath} environment.
-
-Again, in either environment, you can use any of the symbols
-and structures available in \LaTeX\@; this section will just
-give a couple of examples of display equations in context.
-First, consider the equation, shown as an inline equation above:
-\begin{equation}
-  \lim_{n\rightarrow \infty}x=0
-\end{equation}
-Notice how it is formatted somewhat differently in
-the \textbf{displaymath}
-environment.  Now, we'll enter an unnumbered equation:
-\begin{displaymath}
-  \sum_{i=0}^{\infty} x + 1
-\end{displaymath}
-and follow it with another numbered equation:
-\begin{equation}
-  \sum_{i=0}^{\infty}x_i=\int_{0}^{\pi+2} f
-\end{equation}
-just to demonstrate \LaTeX's able handling of numbering.
-
-\subsection{Citations}
-Citations to articles~\cite{bowman:reasoning,
-clark:pct, braams:babel, herlihy:methodology},
-conference proceedings~\cite{clark:pct} or maybe
-books \cite{Lamport:LaTeX, salas:calculus} listed
-in the Bibliography section of your
-article will occur throughout the text of your article.
-You should use BibTeX to automatically produce this bibliography;
-you simply need to insert one of several citation commands with
-a key of the item cited in the proper location in
-the \texttt{.tex} file~\cite{Lamport:LaTeX}.
-The key is a short reference you invent to uniquely
-identify each work; in this sample document, the key is
-the first author's surname and a
-word from the title.  This identifying key is included
-with each item in the \texttt{.bib} file for your article.
-
-The details of the construction of the \texttt{.bib} file
-are beyond the scope of this sample document, but more
-information can be found in the \textit{Author's Guide},
-and exhaustive details in the \textit{\LaTeX\ User's
-Guide} by Lamport~\shortcite{Lamport:LaTeX}.
-
-This article shows only the plainest form
-of the citation command, using \texttt{{\char'134}cite}.
-
-Some examples.  A paginated journal article \cite{Abril07}, an enumerated
-journal article \cite{Cohen07}, a reference to an entire issue \cite{JCohen96},
-a monograph (whole book) \cite{Kosiur01}, a monograph/whole book in a series (see 2a in spec. document)
-\cite{Harel79}, a divisible-book such as an anthology or compilation \cite{Editor00}
-followed by the same example, however we only output the series if the volume number is given
-\cite{Editor00a} (so Editor00a's series should NOT be present since it has no vol. no.),
-a chapter in a divisible book \cite{Spector90}, a chapter in a divisible book
-in a series \cite{Douglass98}, a multi-volume work as book \cite{Knuth97},
-an article in a proceedings (of a conference, symposium, workshop for example)
-(paginated proceedings article) \cite{Andler79}, a proceedings article
-with all possible elements \cite{Smith10}, an example of an enumerated
-proceedings article \cite{VanGundy07},
-an informally published work \cite{Harel78}, a doctoral dissertation \cite{Clarkson85},
-a master's thesis: \cite{anisi03}, an online document / world wide web
-resource \cite{Thornburg01, Ablamowicz07, Poker06}, a video game (Case 1) \cite{Obama08} and (Case 2) \cite{Novak03}
-and \cite{Lee05} and (Case 3) a patent \cite{JoeScientist001},
-work accepted for publication \cite{rous08}, 'YYYYb'-test for prolific author
-\cite{SaeediMEJ10} and \cite{SaeediJETC10}. Other cites might contain
-'duplicate' DOI and URLs (some SIAM articles) \cite{Kirschmer:2010:AEI:1958016.1958018}.
-Boris / Barbara Beeton: multi-volume works as books
-\cite{MR781536} and \cite{MR781537}.
-
-A couple of citations with DOIs: \cite{2004:ITE:1009386.1010128,
-  Kirschmer:2010:AEI:1958016.1958018}.
-
-Online citations: \cite{TUGInstmem, Thornburg01, CTANacmart}.
+The design of the SPH effect capitilizes on the ability of the GPU to do a lot
+of computations in parallel. The foundation of the code relies on a sequence
+of four framebuffers that store the necessary calculations for each particle before 
+being combined into the the new position in the final stage. The first framebuffer
+calculates the neighborhood of the particle in relation to the grid at that state.
+At the beginning, a particle's neighbors are its sequential partners. Later in the simulation,
+it could be neighbors with any particle. This is a voxel style approach to resolving the neighbors 
+without calculating every particle in the simulation - avoiding an $O(n^2)$ bottleneck. The second 
+framebuffer calculates and stores the densiy of the particle. The third calculates and stores the 
+velocity of each particle. The fourth uses the density and velocity to calculate a new position.
+The result of this fourth framebuffer is then passed into the next rendering cycle.
 
 
-\subsection{Tables}
-Because tables cannot be split across pages, the best
-placement for them is typically the top of the page
-nearest their initial cite.  To
-ensure this proper ``floating'' placement of tables, use the
-environment \textbf{table} to enclose the table's contents and
-the table caption.  The contents of the table itself must go
-in the \textbf{tabular} environment, to
-be aligned properly in rows and columns, with the desired
-horizontal and vertical rules.  Again, detailed instructions
-on \textbf{tabular} material
-are found in the \textit{\LaTeX\ User's Guide}.
+\subsection{Mathematical Foundations}
+SPH is a meshless, Langrangian style that relies on the Navier-Stokes equations.
+The ability to discretize the fluid is key to creating a simulation that can be scaled
+to different sizes an speeds.
 
-Immediately following this sentence is the point at which
-Table~\ref{tab:freq} is included in the input file; compare the
-placement of the table here with the table in the printed
-output of this document.
+\subsubsection{Finding the Physics}
+To determine the necessary weighting of the neighbors on a particular particle: \\
+$\phi(x) = \sum_j m_j \frac{\phi_j}{p_j}W(x - x_j)$ \\ \\
+Note that W is a weighting function based on a cubic spline, and $m_j, p_j, x_j$ are the mass, density and position of particle j.
+Then you calculate the density: \\
+$p(x) = \sum_j m_j W(x - x_j)$ \\ \\
+Following this, you have to determine the pressure and viscosity forces on a particle: \\
+$F^{pressure}_i = -\sum_j m_j \frac{p_i + p_j}{2p_j}\nabla W_press(r_{ij})$ \\ \\
+$F^{viscosity}_i = v\sum_j m_j \frac{v_j - v_i}{p_j}\nabla W_vis(r_{ij})$ \\ \\
+Next is determining the internal forces: \\
+$F_i = \frac{F^{pressure}_i + viscosity_constant * F^{viscosity}_i}{2p_i}$ \\
+This adding in with a constant of -9.8 m/s for gravity is the new velocity. Adding this to the 
+previous position gives us the new position [Harada].
 
-\begin{table}
-  \caption{Frequency of Special Characters}
-  \label{tab:freq}
-  \begin{tabular}{ccl}
-    \toprule
-    Non-English or Math&Frequency&Comments\\
-    \midrule
-    \O & 1 in 1,000& For Swedish names\\
-    $\pi$ & 1 in 5& Common in math\\
-    \$ & 4 in 5 & Used in business\\
-    $\Psi^2_1$ & 1 in 40,000& Unexplained usage\\
-  \bottomrule
-\end{tabular}
-\end{table}
+\subsection{Trials, Tribulations, and Windows}
+Three.js is not perfectly fit to be a computational renderer. It has difficulty and idiosyncracies when
+it comes to getting textures from framebuffers, and a strange cycle of setting "needsUpdate" booleans.
+Most of this was solved by a rather slow function of reading the pixels out from the framebuffers.
+The speed of the computations and this reading was rather slower than hoped, and still remains a bottleneck
+on the overall program. 
 
-To set a wider table, which takes up the whole width of the page's
-live area, use the environment \textbf{table*} to enclose the table's
-contents and the table caption.  As with a single-column table, this
-wide table will ``float'' to a location deemed more desirable.
-Immediately following this sentence is the point at which
-Table~\ref{tab:commands} is included in the input file; again, it is
-instructive to compare the placement of the table here with the table
-in the printed output of this document.
+For whatever reason, the SPH implementation does not seem to render on Windows in the same manner as
+it renders on Linux or macOS. Though you would assume the sandboxing of the browser would eliminate problems like this, in this case it did not.  \\
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{sph_linux} 
+\caption{Working on Linux}
+\end{figure}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{water_win} 
+\caption{Thanks Microsoft}
+\end{figure}
+\section{Crepuscular Rays}
+The crepuscular rays were made through an object, in most cases the sun, emitting its light towards any certain direction. The light is processed through a shader which decays and blurs its light, in where the light emitted from the object will start to be create these streaks of light. The effect is very noticeably seen when an object is placed onto the scene. When the sun begins to shine its lights onto the object, the area behind the object will show more change in its lighting. The light rays will begin sampling after it has hit the object, and then on the 2nd pass start sampling another amount for its rays. The effect in the end show a certain object emitting more visible god rays from it, which was and currently will be taken from the source light object that was made in the beginning.
 
-
-\begin{table*}
-  \caption{Some Typical Commands}
-  \label{tab:commands}
-  \begin{tabular}{ccl}
-    \toprule
-    Command &A Number & Comments\\
-    \midrule
-    \texttt{{\char'134}author} & 100& Author \\
-    \texttt{{\char'134}table}& 300 & For tables\\
-    \texttt{{\char'134}table*}& 400& For wider tables\\
-    \bottomrule
-  \end{tabular}
-\end{table*}
-% end the environment with {table*}, NOTE not {table}!
-
-It is strongly recommended to use the package booktabs~\cite{Fear05}
-and follow its main principles of typography with respect to tables:
-\begin{enumerate}
-\item Never, ever use vertical rules.
-\item Never use double rules.
-\end{enumerate}
-It is also a good idea not to overuse horizontal rules.
+\subsection{The Creation of Light}
+To make the shader for these god rays, most of the shader work must be done in the fragment shader. It is started first by writing a simple vertex shader for the sun, and then having the sun emit light. Once the source object is finished, sampling of the god rays need to take place. This is where to start the work on the fragment shader. Each pixel of the light is taken into consideration from the light and is modified based on the distance/delta from the current sun position. Based on the input of the taps per pass of the light, the god rays will emit a certain strength and visibility onto the screen. The rays sample the area and checks how much light should be emitted and blurred. 
 
 
-\subsection{Figures}
 
-Like tables, figures cannot be split across pages; the best placement
-for them is typically the top or the bottom of the page nearest their
-initial cite.  To ensure this proper ``floating'' placement of
-figures, use the environment \textbf{figure} to enclose the figure and
-its caption.
+. Date accessed: \today. \\\subsection{After Creation, Post-Processing}
 
-This sample document contains examples of \texttt{.eps} files to be
-displayable with \LaTeX.  If you work with pdf\LaTeX, use files in the
-\texttt{.pdf} format.  Note that most modern \TeX\ systems will convert
-\texttt{.eps} to \texttt{.pdf} for you on the fly.  More details on
-each of these are found in the \textit{Author's Guide}.
+The effect is primarily a post processing effect in where the frame buffer takes the renders the objects on the screen separate from the render of the god rays. One render will be the light source and occluding objects without the shaders, and the other the objects altogether Thus, there are two sets of frame buffers which when combined and switched to orthogonal projection, create a visual and stunning combination. 
 
 \begin{figure}
-\includegraphics{fly}
-\caption{A sample black and white graphic.}
+\includegraphics[width=0.5\textwidth]{god_rays_on} 
+\caption{Beautiful}
 \end{figure}
-
 \begin{figure}
-\includegraphics[height=1in, width=1in]{fly}
-\caption{A sample black and white graphic
-that has been resized with the \texttt{includegraphics} command.}
+\includegraphics[width=0.5\textwidth]{godrays_off} 
+\caption{Meh}
 \end{figure}
-
-
-As was the case with tables, you may want a figure that spans two
-columns.  To do this, and still to ensure proper ``floating''
-placement of tables, use the environment \textbf{figure*} to enclose
-the figure and its caption.  And don't forget to end the environment
-with \textbf{figure*}, not \textbf{figure}!
-
-\begin{figure*}
-\includegraphics{flies}
-\caption{A sample black and white graphic
-that needs to span two columns of text.}
-\end{figure*}
-
-
-\begin{figure}
-\includegraphics[height=1in, width=1in]{rosette}
-\caption{A sample black and white graphic that has
-been resized with the \texttt{includegraphics} command.}
-\end{figure}
-
-\subsection{Theorem-like Constructs}
-
-Other common constructs that may occur in your article are the forms
-for logical constructs like theorems, axioms, corollaries and proofs.
-ACM uses two types of these constructs:  theorem-like and
-definition-like.
-
-Here is a theorem:
-\begin{theorem}
-  Let $f$ be continuous on $[a,b]$.  If $G$ is
-  an antiderivative for $f$ on $[a,b]$, then
-  \begin{displaymath}
-    \int^b_af(t)\,dt = G(b) - G(a).
-  \end{displaymath}
-\end{theorem}
-
-Here is a definition:
-\begin{definition}
-  If $z$ is irrational, then by $e^z$ we mean the
-  unique number that has
-  logarithm $z$:
-  \begin{displaymath}
-    \log e^z = z.
-  \end{displaymath}
-\end{definition}
-
-The pre-defined theorem-like constructs are \textbf{theorem},
-\textbf{conjecture}, \textbf{proposition}, \textbf{lemma} and
-\textbf{corollary}.  The pre-defined de\-fi\-ni\-ti\-on-like constructs are
-\textbf{example} and \textbf{definition}.  You can add your own
-constructs using the \textsl{amsthm} interface~\cite{Amsthm15}.  The
-styles used in the \verb|\theoremstyle| command are \textbf{acmplain}
-and \textbf{acmdefinition}.
-
-Another construct is \textbf{proof}, for example,
-
-\begin{proof}
-  Suppose on the contrary there exists a real number $L$ such that
-  \begin{displaymath}
-    \lim_{x\rightarrow\infty} \frac{f(x)}{g(x)} = L.
-  \end{displaymath}
-  Then
-  \begin{displaymath}
-    l=\lim_{x\rightarrow c} f(x)
-    = \lim_{x\rightarrow c}
-    \left[ g{x} \cdot \frac{f(x)}{g(x)} \right ]
-    = \lim_{x\rightarrow c} g(x) \cdot \lim_{x\rightarrow c}
-    \frac{f(x)}{g(x)} = 0\cdot L = 0,
-  \end{displaymath}
-  which contradicts our assumption that $l\neq 0$.
-\end{proof}
+\section{Fireworks}
 
 \section{Conclusions}
-This paragraph will end the body of this sample document.
-Remember that you might still have Acknowledgments or
-Appendices; brief samples of these
-follow.  There is still the Bibliography to deal with; and
-we will make a disclaimer about that here: with the exception
-of the reference to the \LaTeX\ book, the citations in
-this paper are to articles which have nothing to
-do with the present subject and are used as
-examples only.
-%\end{document}  % This is where a 'short' article might terminate
+In all, the plan for this project was ambitious, but much of it was fulfilled. 
+The effects blend together well, and much was learned from the process both in terms
+of graphics effects and the struggles of real time rendering, but also in the more practical concerns
+of the limitations of libraries, and the difficulties of working in a team even a small one. 
 
-
-
-\appendix
-%Appendix A
-\section{Headings in Appendices}
-The rules about hierarchical headings discussed above for
-the body of the article are different in the appendices.
-In the \textbf{appendix} environment, the command
-\textbf{section} is used to
-indicate the start of each Appendix, with alphabetic order
-designation (i.e., the first is A, the second B, etc.) and
-a title (if you include one).  So, if you need
-hierarchical structure
-\textit{within} an Appendix, start with \textbf{subsection} as the
-highest level. Here is an outline of the body of this
-document in Appendix-appropriate form:
-\subsection{Introduction}
-\subsection{The Body of the Paper}
-\subsubsection{Type Changes and  Special Characters}
-\subsubsection{Math Equations}
-\paragraph{Inline (In-text) Equations}
-\paragraph{Display Equations}
-\subsubsection{Citations}
-\subsubsection{Tables}
-\subsubsection{Figures}
-\subsubsection{Theorem-like Constructs}
-\subsubsection*{A Caveat for the \TeX\ Expert}
-\subsection{Conclusions}
 \subsection{References}
-Generated by bibtex from your \texttt{.bib} file.  Run latex,
-then bibtex, then latex twice (to resolve references)
-to create the \texttt{.bbl} file.  Insert that \texttt{.bbl}
-file into the \texttt{.tex} source file and comment out
-the command \texttt{{\char'134}thebibliography}.
-% This next section command marks the start of
-% Appendix B, and does not continue the present hierarchy
-\section{More Help for the Hardy}
-
-Of course, reading the source code is always useful.  The file
-\path{acmart.pdf} contains both the user guide and the commented
-code.
-
+Harada, Takahiro. Smoothed Particle Hydrodynamics on GPUs. 2007. \url{http://www.inf.ufrgs.br/cgi2007/cd_cgi/papers/harada.pdf}
+M. Muller, D. Charypar, and M. Gross ¨ . Particle-based fluid simulation
+for interactive applications, in Proceedings of Eurographics/SIGGRAPH
+Symposium on Computer Animation. \\
+J.J. Monaghan, Smoothed Particle Hydrodynamics, Annual Review of Astronomy and Astrophysics
+30 (1992) 543-574 \\
+\url{http://www.miaumiau.cat/?2011/?08/?fluid-simulation-with-sph-smoothed-particle-hydrodynamics-in-webgl/} \\
+GPU Gems 3: \url{https://developer.nvidia.com/gpugems/GPUGems3/gpugems3_pref01.html} \\
+Micky Kelager:Lagrangian Fluid Dynamics
+Using Smoothed Particle Hydrodynamics. \url{http://image.diku.dk/projects/media/kelager.06.pdf} \\
+Julien Moreau-Mathis: \url{https://medium.com/community-play-3d/god-rays-whats-that-5a67f26aeac2} \\
+Fabian Sanglard: \url{http://fabiensanglard.net/lightScattering/}
 \begin{acks}
-  The authors would like to thank Dr. Yuhua Li for providing the
-  MATLAB code of the \textit{BEPS} method.
-
-  The authors would also like to thank the anonymous referees for
-  their valuable comments and helpful suggestions. The work is
-  supported by the \grantsponsor{GS501100001809}{National Natural
-    Science Foundation of
-    China}{http://dx.doi.org/10.13039/501100001809} under Grant
-  No.:~\grantnum{GS501100001809}{61273304}
-  and~\grantnum[http://www.nnsf.cn/youngscientists]{GS501100001809}{Young
-    Scientists' Support Program}.
+ The authors would like to thank everyone who helped make this project almost a reality.
+We'd like to thank mr.doobs, the guy who made Three.js without whom all of this, while still possible,
+would have been a lot more work. Finally, we'd like to thank Angus Forbes and Lucas Ferreira for their
+excellent course and guidance throughout. Additionally, we'd like to continue to wonder why sph doesn't work on windows, and hope that that isn't too big a deal.
 
 \end{acks}

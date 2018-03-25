@@ -1,12 +1,5 @@
-  The authors would like to thank Dr. Yuhua Li for providing the
-  MATLAB code of the \textit{BEPS} method.
-
-  The authors would also like to thank the anonymous referees for
-  their valuable comments and helpful suggestions. The work is
-  supported by the \grantsponsor{GS501100001809}{National Natural
-    Science Foundation of
-    China}{http://dx.doi.org/10.13039/501100001809} under Grant
-  No.:~\grantnum{GS501100001809}{61273304}
-  and~\grantnum[http://www.nnsf.cn/youngscientists]{GS501100001809}{Young
-    Scientists' Support Program}.
+ The authors would like to thank everyone who helped make this project almost a reality.
+We'd like to thank mr.doobs, the guy who made Three.js without whom all of this, while still possible,
+would have been a lot more work. Finally, we'd like to thank Angus Forbes and Lucas Ferreira for their
+excellent course and guidance throughout. Additionally, we'd like to continue to wonder why sph doesn't work on windows, and hope that that isn't too big a deal.
 

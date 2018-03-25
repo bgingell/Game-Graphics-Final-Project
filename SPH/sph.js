@@ -21,7 +21,7 @@ let uni = [];
     scene = new THREE.Scene();
 
     renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor(0xFFFFFF);
+    renderer.setClearColor(0xFFFFFF)w;
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
 
