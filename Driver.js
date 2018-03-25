@@ -13,9 +13,9 @@ function main() {
     container = document.createElement( 'container' );
     document.body.appendChild( container );
 
-    camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 3000 );
+    camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, .1, 3000 );
     camera.position.z = 100;
-    camera.position.y = 10;
+    camera.position.y = 20;
 
     var controls = new THREE.OrbitControls( camera );
     controls.update();
@@ -29,13 +29,13 @@ function main() {
     timeout();
 	let num_fireworks = THREE.Math.randFloat(7, 15);
 	let fireworks = firework_main(scene, num_fireworks);
-	
+
 	function timeout(){
-		setTimeout(function(){ 
+		setTimeout(function(){
 			num_fireworks = THREE.Math.randFloat(7, 15);
 			fireworks = firework_main(scene, num_fireworks);
 			timeout();
-			}, 15000);	
+			}, 15000);
 	}
 
     initGodRayObjects( scene );
