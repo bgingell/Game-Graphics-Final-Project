@@ -35,7 +35,7 @@ function main() {
 			num_fireworks = THREE.Math.randFloat(7, 15);
 			fireworks = firework_main(scene, num_fireworks);
 			timeout();
-			}, 15000);
+			}, 22000);
 	}
 
     initGodRayObjects( scene );

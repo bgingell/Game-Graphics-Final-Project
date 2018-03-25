@@ -29,7 +29,7 @@ function firework_main(scene, num_fireworks) {
 function initFireworks(num_fireworks){
     let width = window.innerWidth/5;
     let inc = (width/num_fireworks);
-    let dest = THREE.Math.randFloat(-30, 20); 
+    let dest = THREE.Math.randFloat(5, 20); 
     let x  = -(width/2)+inc-30;
     let color = new THREE.Vector3();
     let fireworks = [];
