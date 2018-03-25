@@ -182,9 +182,11 @@ function initPoints(neigh_vs, neigh_fs){
             }
         }
     }
+
     for( let i = position.length; i < tex_size * tex_size * 4; i++){
         position.push(0.0);
         velocity.push(0.0);
+        start_neigh.push(0.0);
         index.push(++totalParticles);
     }
     let neighbors = [];
@@ -196,6 +198,7 @@ function initPoints(neigh_vs, neigh_fs){
 		}
 	}
     a = tex_size * tex_size * 4;
+    let neighneigh = new Float32Array(start_neigh)
     let points = new Float32Array(position);
     let vellies = new Float32Array(velocity);
    pos_tex = new THREE.DataTexture(points, tex_size, tex_size, THREE.RGBAFormat, THREE.FloatType);
@@ -204,7 +207,7 @@ function initPoints(neigh_vs, neigh_fs){
     vel_tex.needsUpdate = true;
     density_tex = new THREE.DataTexture(new Float32Array(a), tex_size, tex_size, THREE.RGBAFormat, THREE.FloatType);
     density_tex.needsUpdate = true;
-    neighbor_tex = new THREE.DataTexture(new Float32Array(a), tex_size, tex_size, THREE.RGBAFormat, THREE.FloatType);
+    neighbor_tex = new THREE.DataTexture(neighneigh, tex_size, tex_size, THREE.RGBAFormat, THREE.FloatType);
     neighbor_tex.needsUpdate = true;
 
     initUniforms(totalParticles, neighbors);
