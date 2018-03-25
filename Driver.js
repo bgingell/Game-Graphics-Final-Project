@@ -15,7 +15,7 @@ function main() {
 
     camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 3000 );
     camera.position.z = 100;
-    camera.position.y = 20;
+    camera.position.y = 10;
 
     var controls = new THREE.OrbitControls( camera );
     controls.update();

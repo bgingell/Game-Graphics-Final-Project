@@ -5,7 +5,7 @@ let boxOfPoints;
 let amount = 100;
 
 //width = window.innerwidth;
-///I DIVIDE WIDTH BY 10 TO BETTER REPRESENT THE XYZ COORDINATES FOR FIREWORK POSITION
+
 function firework_main(scene, num_fireworks) {
 	//launch
 	particleSystem = new THREE.GPUParticleSystem( {
@@ -17,7 +17,7 @@ function firework_main(scene, num_fireworks) {
     let fireworks = initFireworks(num_fireworks);
 
 	spawnerOptions = {
-		spawnRate: 5000,
+		spawnRate: 10000,
 		horizontalSpeed: 1.5,
 		verticalSpeed: 1.5,
 		timeScale: 1.5
@@ -28,20 +28,19 @@ function firework_main(scene, num_fireworks) {
 function initFireworks(num_fireworks){
     let width = window.innerWidth/5;
     let inc = (width/num_fireworks);
-    let dest = 35; //need to change this to appropiate y
+    let dest = THREE.Math.randFloat(-50, 30); 
     let x  = -(width/2)+inc-5;
     let color = new THREE.Vector3();
     let fireworks = [];
     for (let i = 0; i < num_fireworks; i++) {
         fireworks.push({
-            position: new THREE.Vector3(x, 2, -30), //need to set my y to just off screen
+            position: new THREE.Vector3(x, -100, -40),
             positionRandomness: .3,
             velocity: new THREE.Vector3(),
             turbulence: .1,
             lifetime: 1,
             size: 4,
             color,
-            //num_fireworks: num_fireworks,
             num_sparks: num_fireworks*amount,
             dest: dest,
             bool: true,
@@ -64,7 +63,7 @@ function renderFireworks(scene, fireworks) {
 	if ( tick < 0 ) tick = 0;
 	if ( delta > 0 ) {
 
-		if(fireworks[fireworks.length-1].position.y <= 35 ){ //15 IS WHERE FIREWORK WILL EXPLODE
+		if(fireworks[fireworks.length-1].position.y <= fireworks[fireworks.length-1].dest ){ 
 			for(let i = 0; i < fireworks.length; i++){
 				fireworks[i].position.y = fireworks[i].position.y +0.3;
 				fireworks[i].position.z = fireworks[i].position.z +0.003;
@@ -77,7 +76,7 @@ function renderFireworks(scene, fireworks) {
 				}
 			}
 
-		} else if(fireworks[fireworks.length-1].position.y >= 40 && fireworks[fireworks.length-1].position.y < 300) { //15 is y explosion prob gonna make this a let later
+		} else if(fireworks[fireworks.length-1].position.y >= fireworks[fireworks.length-1].dest && fireworks[fireworks.length-1].position.y < 300) { 
 
 			let group_start = fireworks[prev_total].group_start;
 			//console.log(group_start);
@@ -86,7 +85,7 @@ function renderFireworks(scene, fireworks) {
 			//console.log('hit');
 			//console.log(group_end);
 			for(let i = group_start; i < group_end; i++){
-				fireworks[i].position.y = fireworks[i].position.y + 300;
+				fireworks[i].position.y = fireworks[i].position.y + 500;
 			}
 
 		}
@@ -132,7 +131,7 @@ function explode(scene, fireworks){
 
 		for ( let i = start_position/3; i <= attributes.size.array.length; i++ ) {
 			//only want this to run once...but it's pretty either way
-			if(attributes.size.array[ i ] >= -100){
+			if(attributes.size.array[ i ] >= -500){
 				attributes.size.array[ i ] += 1.5 * Math.sin(i + time );
 			}else{
 				//attributes.size.array[ i ] = -1000;
@@ -148,7 +147,7 @@ function explode(scene, fireworks){
 
 		//this leaves tiny tiny tiny little dots still
 		for ( let i = 0; i <= attributes.size.array.length; i++ ) {
-				attributes.size.array[ i ] -= .2;
+				attributes.size.array[ i ] -= .15;
 		}
 }
 function initExplode(fireworks){

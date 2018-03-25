@@ -63,7 +63,7 @@ function renderFireworks(scene, fireworks) {
 	if ( tick < 0 ) tick = 0;
 	if ( delta > 0 ) {
 
-		if(fireworks[fireworks.length-1].position.y <= 15 ){ //15 IS WHERE FIREWORK WILL EXPLODE
+		if(fireworks[fireworks.length-1].position.y <= 15 ){ 
 			for(let i = 0; i < fireworks.length; i++){
 				fireworks[i].position.y = fireworks[i].position.y +0.3;
 				fireworks[i].position.z = fireworks[i].position.y +0.003;
@@ -76,7 +76,7 @@ function renderFireworks(scene, fireworks) {
 				}
 			}
 
-		} else if(fireworks[fireworks.length-1].position.y >= 15 && fireworks[fireworks.length-1].position.y < 300) { //15 is y explosion prob gonna make this a let later
+		} else if(fireworks[fireworks.length-1].position.y >= 15 && fireworks[fireworks.length-1].position.y < 300) { 
 
 			let group_start = fireworks[prev_total].group_start;
 			//console.log(group_start);
@@ -89,17 +89,12 @@ function renderFireworks(scene, fireworks) {
 			}
 
 		}
-		//this if statement checks the position of the lowest fireworks NOT RIGHT
 		if(fireworks[fireworks.length-1].position.y >= fireworks[1].dest){
-			//spawnerOptions.spawnRate = 0;
-			//move spark trail origin off screen
-
-
 			if(fireworks[prev_total].bool == true){
 				boxOfPoints = initExplode(fireworks);
 				fireworks[prev_total].bool = false;
 			}
-			//for(let i = fireworks[prev_total-1].group; i < fireworks[prev_total-1].group_end; i++ )
+			
 			explode(scene, fireworks);
 		}
 			//console.log(fireworks[fireworks.length-1].position.y);
