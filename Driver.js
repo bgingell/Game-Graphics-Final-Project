@@ -26,9 +26,17 @@ function main() {
     scene.add(sph_points);
     let sph_buffers = initSPHBuffers();
 
-    let num_fireworks = 10;
-    let fireworks = firework_main(scene, num_fireworks);
-	//fireworks = firework_main(scene, 20);
+    timeout();
+	let num_fireworks = THREE.Math.randFloat(7, 15);
+	let fireworks = firework_main(scene, num_fireworks);
+	
+	function timeout(){
+		setTimeout(function(){ 
+			num_fireworks = THREE.Math.randFloat(7, 15);
+			fireworks = firework_main(scene, num_fireworks);
+			timeout();
+			}, 15000);	
+	}
 
     initGodRayObjects( scene );
 
@@ -67,5 +75,6 @@ function main() {
 
      initPostprocessing( postprocessing, camera, scene, renderer, bgColor, sunColor );
      animate();
+
 
 }

@@ -28,8 +28,8 @@ function firework_main(scene, num_fireworks) {
 function initFireworks(num_fireworks){
     let width = window.innerWidth/5;
     let inc = (width/num_fireworks);
-    let dest = THREE.Math.randFloat(-50, 30); 
-    let x  = -(width/2)+inc-5;
+    let dest = THREE.Math.randFloat(-30, 30); 
+    let x  = -(width/2)+inc-30;
     let color = new THREE.Vector3();
     let fireworks = [];
     for (let i = 0; i < num_fireworks; i++) {
@@ -66,7 +66,7 @@ function renderFireworks(scene, fireworks) {
 		if(fireworks[fireworks.length-1].position.y <= fireworks[fireworks.length-1].dest ){ 
 			for(let i = 0; i < fireworks.length; i++){
 				fireworks[i].position.y = fireworks[i].position.y +0.3;
-				fireworks[i].position.z = fireworks[i].position.z +0.003;
+				fireworks[i].position.z = fireworks[i].position.y +0.003;
 			}
 
 			for ( let x = 0; x < spawnerOptions.spawnRate * delta; x++ ) {
@@ -130,7 +130,6 @@ function explode(scene, fireworks){
 		//console.log(fireworks[prev_total-1]);
 
 		for ( let i = start_position/3; i <= attributes.size.array.length; i++ ) {
-			//only want this to run once...but it's pretty either way
 			if(attributes.size.array[ i ] >= -500){
 				attributes.size.array[ i ] += 1.5 * Math.sin(i + time );
 			}else{
@@ -145,7 +144,7 @@ function explode(scene, fireworks){
 
 		}
 
-		//this leaves tiny tiny tiny little dots still
+		
 		for ( let i = 0; i <= attributes.size.array.length; i++ ) {
 				attributes.size.array[ i ] -= .15;
 		}
