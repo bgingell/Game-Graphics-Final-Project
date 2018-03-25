@@ -162,11 +162,11 @@ function initUniforms(totalParticles, neighbors){
 
 
 function initPoints(neigh_vs, neigh_fs){
-    let totalParticles = 0;
+    let totalParticles = 0.0;
     let velocity = [];
     let position = [];
     let index = [];
-
+    let start_neigh = [];
 
     let center = 0.5;
 
@@ -176,6 +176,7 @@ function initPoints(neigh_vs, neigh_fs){
             //    position.push((k+center)/grid_vol,(j+center)/grid_vol, (i+center)/grid_vol );
                 position.push((k+center),(j+center), (i+center),1.0 );
                 velocity.push(0.0, 0.0, 0.0,1.0);
+                start_neigh.push(totalParticles, totalParticles, totalParticles, totalParticles);
                 totalParticles++;
                 index.push(totalParticles);
             }
